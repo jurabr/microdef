@@ -1,0 +1,11 @@
+The Microdef is a very simple structural analysis tool. Ic can be used
+for a linear static analysis of 2D frames.
+
+The software is designed to be used in POSIX-compliant operating
+environment with the X Window System. It used the Gtk+ library.
+It is tested under the IRIX 6.5 (with Gtk+ and GD from freeware.sgi.com), 
+the Linux (OpenSUSE 10.0/x86-64, Slackware 9.0/i386 and Maemo 1.1/ARM)
+and the Solaris 9 (SPARC platforms only).
+
+This preliminary version features several bugs and (grid drawing
+and snapping problems, ancidental ignoring of forces etc.).

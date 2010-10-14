@@ -1,0 +1,19 @@
+Requirements:
+
+- C compiler
+- Gtk+ version 2.0 or higher [http://www.gtk.org]
+- GD verison 2.0 (optional, for PNG output) [http://www.boutell.com/gd]
+
+
+Installation:
+
+1. tar xzvf microdef-xyz.tar.gz
+2. cd microdef
+3. make
+4. cp microdef /any/place/you/want
+
+
+Problems:
+
+If you don't have the GD library, please remove the "-DGDGUI" and "-lgd"
+statements in the file called Makefile.

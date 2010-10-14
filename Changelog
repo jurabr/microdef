@@ -1,0 +1,47 @@
+### Sun May 23 17:49:16 CEST 2010
+  + version 0.0.11
+  + "Solve" function removed (space saving on PDA)
+
+
+### Tue Oct 13 21:35:49 CEST 2009
+  + every second grid point is bigger
+  + 7796 lines of code (including mmint)
+
+
+### Sun Apr 19 22:53:51 CEST 2009
+  + version 0.0.10
+  + partial Maemo 4 port (can be compiled)
+  + partial OpenMoko port (_OMAKO_)
+  + shortcuts for more things
+  + 7098 lines of code
+  - segfault when used without default filename
+
+
+### Sat Jul 12 23:51:33 CEST 2008
+  + version 0.0.9
+  + new file dialogs
+  + coordinates of nodes are reduced to start from [0,0]
+  - grid drawing
+  - dropped Familiar Linux support (no device to test on)
+
+
+### Sun May 18 12:45:28 CEST 2008
+  + version 0.0.8
+  + LaTeX ouput modified (better use of A4 paper)
+  + 7108 lines of code
+  - fixed segfault during empty start
+
+
+### Sat May 17 19:05:18 CEST 2008
+  + version 0.0.7
+  + loaded file is shown in titlebar
+  + 7098 lines of code
+  + port (Gtk+-2.0): Maemo (ARM), Familiar Linux (ARM)
+
+
+### Thu May 25 23:54:57 CEST 2006:
+  + version 0.0.1
+  + first "stable" version (all main features are included)
+  + 6794 lines of code
+  + ports (Gtk+-2.0): IRIX 6.5, Linux (SUSE 10, Slackware 9), Mac OS 10.3
+  - fixed bugs in load vector computation

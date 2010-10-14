@@ -1,0 +1,77 @@
+TO DO:
+
+- kernel:
+
+- gfx:
+  incorrect grid after change (probably faulty computation of pixels)
+  symbols for nonzero displacements
+  deformed structure
+  load is sometimes auto-deleted
+  indication of type of shown results
+
+- terminals:
+  wxWidgets?
+  ...
+
+- gui:
+  menu for result sizes
+  kind of status bar
+
+- outputs:
+
+- cli:
+  command-line solver/postprocessor
+
+- documentation
+
+- fix usage of terminals (file handling etc.)
+
+
+
+FIXED:
+
+- outputs:
+  text, LaTeX
+- gui: 
+  file name is shown in titlebar
+- gfx:	
+  invert symbols for tranverse load (or do changes in kernel?)
+- kernel:  
+  incorrect normal forces?!
+  incorrect non-rectangle loads?!
+- gfx:
+  deformed ends of structure
+- terminals:
+  postscript
+  gd
+- outputs:
+  images (PS, PNG)
+- edit:
+  nodes
+  elements
+- fix crazy resizing code
+- size info for N,V,M results
+- fix LC_NUMERIC problem for Gtk+
+- create:
+  boundary conditions
+  forces
+  loads on elements (2x)
+- gfx:
+  symbols of o--| and |--o elements
+  symbols for forces
+  symbols for element loads
+- gui:
+  menu system
+- delete:
+  nodes
+  elements
+  boundary conditions
+  forces
+  loads on elements
+- I/O - test for empty file
+- solver: test and fix it
+- gfx
+  symbols for forces
+  symbols for element loads
+- gui:
+  dialog after solution
