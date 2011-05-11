@@ -1327,7 +1327,7 @@ void plot_elem_def(int e_num, double mult)
       GET_ELEM_VB(e_num), 
       x) / EI )) ;
 
-/*printf("y,y0=[%e, %e\n]", y, y0);*/
+   y0 = y ;
 
     if (i > 0)
     {

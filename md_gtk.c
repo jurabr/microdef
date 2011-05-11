@@ -21,33 +21,6 @@
    02139, USA.
 */
 
-#ifdef USE_HILDON
-#include <hildon/hildon-program.h>
-#include <hildon/hildon-window.h>
-#include <gtk/gtkmain.h>
-/*#include <libosso.h>  ### */
-
-/* Application UI data struct */
-#if 0 
-###
-typedef struct _AppData AppData;
-struct _AppData
-{
-  HildonProgram *program;
-  HildonWindow *window;
-  osso_context_t *osso_context;
-};
-#endif 
-
-/* osso_context_t *osso_context; ### */
-
-#define OSSO_EXAMPLE_NAME    "microdef"
-#define OSSO_EXAMPLE_SERVICE "org."OSSO_EXAMPLE_NAME
-#define OSSO_EXAMPLE_OBJECT  "/org/"OSSO_EXAMPLE_NAME
-#define OSSO_EXAMPLE_IFACE   "org."OSSO_EXAMPLE_NAME
-#define OSSO_EXAMPLE_MESSAGE "MicroDef"
-#endif
-
 #define CNV_SIZE_X 800
 #define CNV_SIZE_Y 600
 
@@ -85,13 +58,7 @@ char *mdgui_set_title(char *fname);
 gint screen_state     = 0 ;
 char *data_file = NULL ;
 
-#ifdef USE_HILDON
-HildonProgram *program;
-HildonWindow  *windowMain;
-/*osso_context_t *osso_context;*/
-#else
 GtkWidget *windowMain = NULL ;
-#endif
 GtkWidget *vbox       = NULL ;
 GtkWidget *hbox       = NULL ;
 GtkWidget *label1     = NULL ;
@@ -461,9 +428,6 @@ void menu_ops(gpointer    data,
 			  write_data(data_file) ;
       }
       gfxAction = 60 ;
-#ifdef USE_HILDON
-      mdgui_msg("Solution done!", 1);
-#endif
 		}
 	}
 
@@ -751,11 +715,6 @@ void make_menus(void)
 
   accelg = gtk_accel_group_new ();
   menu   = gtk_item_factory_new (GTK_TYPE_MENU_BAR, "<main>",accelg);
-#ifdef USE_HILDON
-	/*
-	hildon_program_set_common_menu (program, &menu);
-	*/
-#endif
   gtk_item_factory_create_items (menu, nmenu_items, menu_items, NULL);
   gtk_window_add_accel_group (GTK_WINDOW (windowMain), accelg);
   menubar = gtk_item_factory_get_widget (menu, "<main>");
@@ -764,102 +723,35 @@ void make_menus(void)
 /* end of MENU SYSTEM ---------------------------------------- */
 
 /* Key presses */
-#ifdef USE_HILDON
-gboolean key_press_cb (GtkWidget * widget, GdkEventKey * event, HildonWindow * window)
-#else
 gboolean key_press_cb (GtkWidget * widget, GdkEventKey * event, GtkWindow * window)
-#endif
 {
   switch (event->keyval)
-    {
+  {
     case GDK_Up:
-      /*hildon_banner_show_information (GTK_WIDGET (window), NULL,
-				      "Navigation Key Up");*/
       return TRUE;
 
     case GDK_Down:
-      /*hildon_banner_show_information (GTK_WIDGET (window), NULL,
-				      "Navigation Key Down");*/
       return TRUE;
 
     case GDK_Left:
-      /*hildon_banner_show_information (GTK_WIDGET (window), NULL,
-				      "Navigation Key Left");*/
       return TRUE;
 
     case GDK_Right:
-      /*hildon_banner_show_information (GTK_WIDGET (window), NULL,
-				      "Navigation Key Right");*/
       return TRUE;
 
-    case GDK_Return: return TRUE ;
+    case GDK_Return:
+      return TRUE ;
 
-#ifdef USE_HILDON
-    case GDK_F6: /* fullscreen */
-			if (screen_state != TRUE) {
-				    gtk_window_fullscreen(GTK_WINDOW(window));
-			} else {
-				    gtk_window_unfullscreen(GTK_WINDOW(window));
-			} 
+    case GDK_Escape: 
       return TRUE;
-
-    case GDK_F7: /* zoom + */
-			if (screen_state != TRUE) {
-				    gtk_window_fullscreen(GTK_WINDOW(window));
-			}
-      return TRUE;
-
-    case GDK_F8: /* zoom - */
-			if (screen_state == TRUE) {
-				    gtk_window_unfullscreen(GTK_WINDOW(window));
-			}
-      return TRUE;
-#endif
-
-    case GDK_Escape: return TRUE;
-    }
+  }
 
   return FALSE;
 }
 			
-#ifdef USE_HILDON
-#if 0
-###
-/* Callback for normal D-BUS messages */
-gint dbus_req_handler(const gchar * interface, const gchar * method,
-		                      GArray * arguments, gpointer data,
-													                      osso_rpc_t * retval)
-{
-	AppData *appdata;
-  appdata = (AppData *) data;
-
-  osso_system_note_infoprint (osso_context, method, retval);
-  osso_rpc_free_val (retval);
-
-  return OSSO_OK;
-}
-#endif
-#endif
-
 gboolean window_state_cb (GtkWidget * widget, GdkEventWindowState * event,
 		gpointer user_data)
 {
-#ifdef USE_HILDON
-  if (event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
-  {
-    if (event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN)
-		{
-	  	/* maximized */
-			screen_state = TRUE ;
-		}
-      else
-		{
-	  	/* unmaximized */
-			screen_state = FALSE ;
-		}
-  }
-  
-#endif
   return FALSE;
 }
 
@@ -885,30 +777,15 @@ void error_dialog(char *string)
 int gui_main(int argc, char *argv[])
 {
   int rv = OK ;
-#ifdef USE_HILDON
-	/* osso_return_t result; ### */
-	/* AppData *data ; */
-#endif
 	gboolean   homogenous = FALSE;
 	gboolean   expand = FALSE;
 	gint       spacing = 3 ;
 	gint       padding = 0 ;
 
-#ifdef USE_HILDON
-	/* main window: */
-	program = HILDON_PROGRAM(hildon_program_get_instance());
-  g_set_application_name("Microdef");
-
-	/* Create HildonWindow and set it to HildonProgram */
-  windowMain = HILDON_WINDOW(hildon_window_new());
-  hildon_program_add_window(program, windowMain);
-	hildon_program_set_can_hibernate (program, True);
-#else
 	/* main window: */
 	windowMain = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(windowMain),
       "MicroDef 0.0.10");
-#endif
   gtk_container_set_border_width (GTK_CONTAINER (windowMain), 1);
 
 	vbox = gtk_vbox_new(homogenous, spacing);
@@ -920,13 +797,6 @@ int gui_main(int argc, char *argv[])
     
   g_signal_connect (G_OBJECT (windowMain), "destroy",
                       G_CALLBACK (destroy), NULL);
-
-#ifdef USE_HILDON
-#if 0
-###
-	g_signal_connect(windowMain, "window-state-event", window_state_cb, NULL);
-#endif
-#endif
 
   make_menus();
 	gtk_box_pack_start(GTK_BOX(vbox),menubar,FALSE, TRUE, padding);
@@ -989,12 +859,8 @@ int gui_main(int argc, char *argv[])
 	g_signal_connect(G_OBJECT(windowMain), 
 			        "key_press_event", G_CALLBACK(key_press_cb), windowMain);
 	
-#ifndef USE_HILDON
   gtk_widget_show (windowMain);
 	gtk_widget_hide(frame);
-#else
-	gtk_widget_show_all(GTK_WIDGET(windowMain));
-#endif
 
   /* disable bottom frame by default: */
   gtk_widget_hide(frame) ;
@@ -1019,53 +885,7 @@ int gui_main(int argc, char *argv[])
   mdgui_set_title("untitled");
 #endif /* ndef _OMAKO_ */
 
-#ifdef USE_HILDON
-#if 0
-###
-	data = g_new0(AppData, 1);
-	data->program = program ;
-	data->window = windowMain ;
-	data->osso_context = osso_context ;
-
-	/* Initialize maemo application */
-	osso_context = osso_initialize(
-			    "microdef", "0.0.6", TRUE, NULL);
-	       
-	/* Check that initialization was ok */
-	if (osso_context == NULL)
-	{
-		    return OSSO_ERROR;
-	}
-###
-#endif
-
-#if 0
-	/* Add handler for session bus D-BUS messages */
-	result = osso_rpc_set_cb_f (osso_context,
-			    OSSO_EXAMPLE_SERVICE,
-			    OSSO_EXAMPLE_OBJECT,
-			    OSSO_EXAMPLE_IFACE, dbus_req_handler, data);
-
-	if (result != OSSO_OK)
-  {
-		error_dialog("Unable to start D-BUS communication, sorry!");
-    return OSSO_ERROR;
-  }
-#endif
-	
-#endif
-
-
   gtk_main();
-
-#ifdef USE_HILDON
-#if 0
-###
-	/* Deinitialize OSSO */
-	osso_deinitialize(osso_context); 
-###
-#endif
-#endif
 
   return(rv);
 }
@@ -1077,7 +897,7 @@ char *mdgui_set_title(char *fname)
   static char str[2049];
 
   for (i=0; i<2049; i++) { str[i] = '\0' ; }
-  snprintf(str,2048,"MicroDef 0.0.11: %s", fname);
+  snprintf(str,2048,"MicroDef 0.0.12: %s", fname);
 
   return(str);
 }
@@ -1345,11 +1165,7 @@ void mdgui_get_fname (GtkFileSelection *file_selector0, gpointer file_selector)
   int rv ;
   int len,i ;
 
-#ifndef USE_HILDON
   gtk_widget_show(windowMain) ;
-#else
-	gtk_widget_show_all(GTK_WIDGET(windowMain));
-#endif
 
   free(data_file) ; data_file = NULL ;
 
@@ -1414,11 +1230,7 @@ void mdgui_get_fname (GtkFileSelection *file_selector0, gpointer file_selector)
 void mdgui_cancel_fname (GtkFileSelection *file_selector0, gpointer file_selector)
 {    
 
-#ifndef USE_HILDON
   gtk_widget_show(windowMain) ;
-#else
-	gtk_widget_show_all(GTK_WIDGET(windowMain));
-#endif
 
   if (data_file == NULL)
   {
