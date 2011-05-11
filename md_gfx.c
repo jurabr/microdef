@@ -1057,21 +1057,21 @@ void plot_elem_load_n(int x1,
   L = sqrt ((y2-y1)*(y2-y1) + (x2-x1)*(x2-x1)) ;
 
 
-  md_draw_line(
+  md_draw_line_blue(
       md_rot_x(x1,pho,0,0),
       md_rot_y(y1, pho,0,0),
       md_rot_x(x1, pho,0,na),
       md_rot_y(y1, pho,0,na),
       1) ;
 
-  md_draw_line(
+  md_draw_line_blue(
       md_rot_x(x1,pho,0,na),
       md_rot_y(y1, pho,0,na),
       md_rot_x(x1, pho,(int)L,nb),
       md_rot_y(y1, pho,(int)L,nb),
       1) ;
 
-  md_draw_line(
+  md_draw_line_blue(
       md_rot_x(x1,pho,(int)L,0),
       md_rot_y(y1, pho,(int)L,0),
       md_rot_x(x1, pho,(int)L,nb),
@@ -1081,13 +1081,13 @@ void plot_elem_load_n(int x1,
     /* some arrows to show direction */
     if (n1 > 0)
     {
-    md_draw_line(
+    md_draw_line_blue(
           md_rot_x(x1,pho,0,0),
           md_rot_y(y1,pho,0,0),
           md_rot_x(x1,pho,+MDGFX_BLEN,(int)(+ na/2)),
           md_rot_y(y1,pho,+MDGFX_BLEN,(int)(+ na/2)),
           1) ;
-    md_draw_line(
+    md_draw_line_blue(
           md_rot_x(x1,pho,0,0),
           md_rot_y(y1,pho,0,0),
           md_rot_x(x1,pho,+MDGFX_BLEN,(int)(- na/2)),
@@ -1096,13 +1096,13 @@ void plot_elem_load_n(int x1,
     }
     else
     {
-    md_draw_line(
+    md_draw_line_blue(
           md_rot_x(x1,pho,MDGFX_BLEN,0),
           md_rot_y(y1,pho,MDGFX_BLEN,0),
           md_rot_x(x1,pho,0,(int)(+ na/2)),
           md_rot_y(y1,pho,0,(int)(+ na/2)),
           1) ;
-    md_draw_line(
+    md_draw_line_blue(
           md_rot_x(x1,pho,MDGFX_BLEN,0),
           md_rot_y(y1,pho,MDGFX_BLEN,0),
           md_rot_x(x1,pho,0,(int)(- na/2)),
@@ -1112,13 +1112,13 @@ void plot_elem_load_n(int x1,
 
     if (n2 > 0)
     {
-    md_draw_line(
+    md_draw_line_blue(
           md_rot_x(x1,pho,L-MDGFX_BLEN,0),
           md_rot_y(y1,pho,L-MDGFX_BLEN,0),
           md_rot_x(x1,pho,+L,(int)(+ nb/2)),
           md_rot_y(y1,pho,+L,(int)(+ nb/2)),
           1) ;
-    md_draw_line(
+    md_draw_line_blue(
           md_rot_x(x1,pho,L-MDGFX_BLEN,0),
           md_rot_y(y1,pho,L-MDGFX_BLEN,0),
           md_rot_x(x1,pho,+L,(int)(- nb/2)),
@@ -1127,13 +1127,13 @@ void plot_elem_load_n(int x1,
     }
     else
     {
-    md_draw_line(
+    md_draw_line_blue(
           md_rot_x(x1,pho,L,0),
           md_rot_y(y1,pho,L,0),
           md_rot_x(x1,pho,L-MDGFX_BLEN,(int)(+ nb/2)),
           md_rot_y(y1,pho,L-MDGFX_BLEN,(int)(+ nb/2)),
           1) ;
-    md_draw_line(
+    md_draw_line_blue(
           md_rot_x(x1,pho,L,0),
           md_rot_y(y1,pho,L,0),
           md_rot_x(x1,pho,L-MDGFX_BLEN,(int)(- nb/2)),
@@ -1206,21 +1206,21 @@ void plot_elem_load_v(int x1,
   L = sqrt ((y2-y1)*(y2-y1) + (x2-x1)*(x2-x1)) ;
 
 
-  md_draw_line(
+  md_draw_line_red(
       md_rot_x(x1,pho,0,0),
       md_rot_y(y1, pho,0,0),
       md_rot_x(x1, pho,0,na),
       md_rot_y(y1, pho,0,na),
       1) ;
 
-  md_draw_line(
+  md_draw_line_red(
       md_rot_x(x1,pho,0,na),
       md_rot_y(y1, pho,0,na),
       md_rot_x(x1, pho,(int)L,nb),
       md_rot_y(y1, pho,(int)L,nb),
       1) ;
 
-  md_draw_line(
+  md_draw_line_red(
       md_rot_x(x1,pho,(int)L,0),
       md_rot_y(y1, pho,(int)L,0),
       md_rot_x(x1, pho,(int)L,nb),
@@ -1228,26 +1228,26 @@ void plot_elem_load_v(int x1,
       1) ;
 
     /* some arrows to show direction */
-    md_draw_line(
+    md_draw_line_red(
           md_rot_x(x1,pho,0,0),
           md_rot_y(y1,pho,0,0),
           md_rot_x(x1,pho,-MDGFX_LEN,+(int)(0.5*na)), 
           md_rot_y(y1,pho,-MDGFX_LEN,+(int)(0.5*na)), 
           1) ;
-    md_draw_line(
+    md_draw_line_red(
           md_rot_x(x1,pho,0,0),
           md_rot_y(y1,pho,0,0), 
           md_rot_x(x1,pho,+MDGFX_LEN,+(int)(0.5*na)), 
           md_rot_y(y1,pho,+MDGFX_LEN,+(int)(0.5*na)), 
           1) ;
 
-    md_draw_line(
+    md_draw_line_red(
           md_rot_x(x1,pho,L,0),
           md_rot_y(y1,pho,L,0),
           md_rot_x(x1,pho,L-MDGFX_LEN,+(int)(0.5*nb)), 
           md_rot_y(y1,pho,L-MDGFX_LEN,+(int)(0.5*nb)), 
           1) ;
-    md_draw_line(
+    md_draw_line_red(
           md_rot_x(x1,pho,L,0),
           md_rot_y(y1,pho,L,0), 
           md_rot_x(x1,pho,L+MDGFX_LEN,+(int)(0.5*nb)), 
@@ -1363,7 +1363,7 @@ void plot_elem_def(int e_num, double mult)
 
     if (i > 0)
     {
-      md_draw_line(
+      md_draw_line_blue(
         md_rot_x(dx1, pho,dL*(i-1)/num_div,y0),
         md_rot_y(dy1, pho,dL*(i-1)/num_div,y0),
         md_rot_x(dx1, pho,dL*i/num_div,y),
