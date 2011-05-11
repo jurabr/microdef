@@ -513,6 +513,39 @@ void md_draw_string(int x, int y, char *str)
 #endif
   }
 }
+
+void md_draw_string_red(int x, int y, char *str)
+{
+  switch (get_mdterm())
+  {
+#ifdef GTKGUI
+    case MDTERM_GTK: mdgtk_draw_string_red(x, y, str); break;
+#endif
+#ifdef GDGUI
+    case MDTERM_GD: mdgd_draw_string(x, y, str); break;
+#endif
+#ifdef PSGUI
+    case MDTERM_PS: mdps_draw_string(x, y, str); break;
+#endif
+  }
+}
+
+void md_draw_string_blue(int x, int y, char *str)
+{
+  switch (get_mdterm())
+  {
+#ifdef GTKGUI
+    case MDTERM_GTK: mdgtk_draw_string_blue(x, y, str); break;
+#endif
+#ifdef GDGUI
+    case MDTERM_GD: mdgd_draw_string(x, y, str); break;
+#endif
+#ifdef PSGUI
+    case MDTERM_PS: mdps_draw_string(x, y, str); break;
+#endif
+  }
+}
+
 /* end of "universal drawing functions" ########################### */
 
 /* ------------------------------------------ */
@@ -925,22 +958,22 @@ void plot_fx(int x, int y, double size)
   if (size > 0.0)
   {
     /* --> */
-    md_draw_line_red(x,y, x-MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
-    md_draw_line_red(x,y, x-MDGFX_BLEN2, y+MDGFX_BLEN2, 3) ;
+    md_draw_line_blue(x,y, x-MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
+    md_draw_line_blue(x,y, x-MDGFX_BLEN2, y+MDGFX_BLEN2, 3) ;
 
-    md_draw_line_red(x,y, x-maxFMi, y, 3) ;
+    md_draw_line_blue(x,y, x-maxFMi, y, 3) ;
 
-    md_draw_string(x-maxFMi,y-MDGFX_LEN, md_double2string01(fabs(size)) ) ;
+    md_draw_string_blue(x-maxFMi,y-MDGFX_LEN, md_double2string01(fabs(size)) ) ;
   }
   else
   {
     /* <-- */
-    md_draw_line_red(x,y, x+MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
-    md_draw_line_red(x,y, x+MDGFX_BLEN2, y+MDGFX_BLEN2, 3) ;
+    md_draw_line_blue(x,y, x+MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
+    md_draw_line_blue(x,y, x+MDGFX_BLEN2, y+MDGFX_BLEN2, 3) ;
 
-    md_draw_line_red(x,y, x+maxFMi, y, 3) ;
+    md_draw_line_blue(x,y, x+maxFMi, y, 3) ;
 
-    md_draw_string(x+maxFMi,y-MDGFX_LEN, md_double2string01(fabs(size)) ) ;
+    md_draw_string_blue(x+maxFMi,y-MDGFX_LEN, md_double2string01(fabs(size)) ) ;
   }
 }
 
@@ -967,7 +1000,7 @@ void plot_fy(int x, int y, double size)
 
     md_draw_line_red(x,y, x, y-maxFMi, 3) ;
 
-    md_draw_string(x+MDGFX_LEN,y-maxFMi, md_double2string01(fabs(size)) ) ;
+    md_draw_string_red(x+MDGFX_LEN,y-maxFMi, md_double2string01(fabs(size)) ) ;
   }
 }
 
@@ -1001,7 +1034,7 @@ void plot_mz(int x, int y, double size)
     md_draw_line_red(x-(int)(0.5*maxFMi),y, x-(int)(0.5*maxFMi)-MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
     md_draw_line_red(x-(int)(0.5*maxFMi),y, x-(int)(0.5*maxFMi)+MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
   }
-    md_draw_string(x+MDGFX_LEN,y-(int)(0.5*maxFMi), md_double2string01(fabs(size)) ) ;
+    md_draw_string_red(x+MDGFX_LEN,y-(int)(0.5*maxFMi), md_double2string01(fabs(size)) ) ;
 }
 
 void plot_forces(void)
@@ -1143,7 +1176,7 @@ void plot_elem_load_n(int x1,
 
     if (n1 == n2)
     {
-      md_draw_string(
+      md_draw_string_blue(
           md_rot_x(x1,pho,+(int)(0.5*L),+(int)(1.5*nb)),
           md_rot_y(y1,pho,+(int)(0.5*L),+(int)(1.5*nb)), 
           md_double2string01(fabs(n1)) ) ;
@@ -1152,14 +1185,14 @@ void plot_elem_load_n(int x1,
     {
       if (n1 != 0)
       {
-      md_draw_string(
+      md_draw_string_blue(
           md_rot_x(x1,pho,0,+(int)(1.5*na)),
           md_rot_y(y1,pho,0,+(int)(1.5*na)), 
           md_double2string01(fabs(n1)) ) ;
       }
       if (n2 != 0)
       {
-      md_draw_string(
+      md_draw_string_blue(
           md_rot_x(x1,pho,L,+(int)(1.5*nb)),
           md_rot_y(y1,pho,L,+(int)(1.5*nb)), 
           md_double2string01(fabs(n2)) ) ;
@@ -1257,7 +1290,7 @@ void plot_elem_load_v(int x1,
 
     if (n1 == n2)
     {
-      md_draw_string(
+      md_draw_string_red(
           md_rot_x(x1,pho,+(int)(0.5*L),+(int)(1.5*nb)),
           md_rot_y(y1,pho,+(int)(0.5*L),+(int)(1.5*nb)), 
           md_double2string01(fabs(n1)) ) ;
@@ -1266,14 +1299,14 @@ void plot_elem_load_v(int x1,
     {
       if (n1 != 0)
       {
-      md_draw_string(
+      md_draw_string_red(
           md_rot_x(x1,pho,0,+(int)(1.5*na)),
           md_rot_y(y1,pho,0,+(int)(1.5*na)), 
           md_double2string01(fabs(n1)) ) ;
       }
       if (n2 != 0)
       {
-      md_draw_string(
+      md_draw_string_red(
           md_rot_x(x1,pho,L,+(int)(1.5*nb)),
           md_rot_y(y1,pho,L,+(int)(1.5*nb)), 
           md_double2string01(fabs(n2)) ) ;

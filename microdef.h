@@ -224,6 +224,8 @@ extern void mdgtk_draw_line_red(int x1, int y1, int x2, int y2, int width);
 extern void mdgtk_draw_line_blue(int x1, int y1, int x2, int y2, int width);
 extern void get_draw_size(int *x0, int *y0, int *width, int *height);
 extern void mdgtk_draw_string(int x, int y, char *str);
+extern void mdgtk_draw_string_red(int x, int y, char *str);
+extern void mdgtk_draw_string_blue(int x, int y, char *str);
 #endif
 
 #ifdef GDGUI /* GD library*/

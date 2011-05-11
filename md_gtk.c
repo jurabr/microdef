@@ -169,6 +169,25 @@ void mdgtk_draw_string(int x, int y, char *str)
   gdk_draw_string(pixmap, font, area->style->black_gc, x,y, str);
 }
 
+void mdgtk_draw_string_red(int x, int y, char *str)
+{
+  if (font == NULL) { font = gdk_font_load ("fixed"); }
+  if (font == NULL) { return; }
+  gdk_gc_set_foreground(area->style->black_gc, &color_red);
+  gdk_draw_string(pixmap, font, area->style->black_gc, x,y, str);
+  gdk_gc_set_foreground(area->style->black_gc, &color_black);
+}
+void mdgtk_draw_string_blue(int x, int y, char *str)
+{
+  if (font == NULL) { font = gdk_font_load ("fixed"); }
+  if (font == NULL) { return; }
+  gdk_gc_set_foreground(area->style->black_gc, &color_blue);
+  gdk_draw_string(pixmap, font, area->style->black_gc, x,y, str);
+  gdk_gc_set_foreground(area->style->black_gc, &color_black);
+}
+
+
+
 void get_draw_size(int *x0, int *y0, int *width, int *height)
 {
   *x0 = 0 ;
