@@ -29,6 +29,7 @@
 #include "gtk/gtk.h"
 #include "gdk/gdk.h"
 #include <gdk/gdkkeysyms.h>
+#include <gdk/gdkcolor.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -79,6 +80,11 @@ GdkPixmap *pixmap     = NULL ; /* off-screen pixmap */
 GdkGC     *gc         = NULL ;
 GdkPoint   point ;
 GdkFont   *font = NULL ;
+GdkColor     color_white;
+GdkColor     color_black;
+GdkColor     color_red;
+GdkColor     color_blue;
+GdkColormap *cmap = NULL ;
 
 int label1_active = 0 ;
 int label2_active = 0 ;
@@ -137,6 +143,24 @@ void mdgtk_draw_line(int x1, int y1, int x2, int y2, int width)
   gdk_gc_set_line_attributes(area->style->black_gc, width, GDK_LINE_SOLID,GDK_CAP_BUTT,GDK_JOIN_MITER);
   gdk_draw_line(pixmap, area->style->black_gc,x1,y1,x2,y2);
 }
+
+
+void mdgtk_draw_line_red(int x1, int y1, int x2, int y2, int width)
+{
+  gdk_gc_set_foreground(area->style->black_gc, &color_red);
+  gdk_gc_set_line_attributes(area->style->black_gc, width, GDK_LINE_SOLID,GDK_CAP_BUTT,GDK_JOIN_MITER);
+  gdk_draw_line(pixmap, area->style->black_gc,x1,y1,x2,y2);
+  gdk_gc_set_foreground(area->style->black_gc, &color_black);
+}
+
+void mdgtk_draw_line_blue(int x1, int y1, int x2, int y2, int width)
+{
+  gdk_gc_set_foreground(area->style->black_gc, &color_blue);
+  gdk_gc_set_line_attributes(area->style->black_gc, width, GDK_LINE_SOLID,GDK_CAP_BUTT,GDK_JOIN_MITER);
+  gdk_draw_line(pixmap, area->style->black_gc,x1,y1,x2,y2);
+  gdk_gc_set_foreground(area->style->black_gc, &color_black);
+}
+
 
 void mdgtk_draw_string(int x, int y, char *str)
 {
@@ -785,7 +809,7 @@ int gui_main(int argc, char *argv[])
 	/* main window: */
 	windowMain = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(windowMain),
-      "MicroDef 0.0.10");
+      "MicroDef 0.0.12");
   gtk_container_set_border_width (GTK_CONTAINER (windowMain), 1);
 
 	vbox = gtk_vbox_new(homogenous, spacing);
@@ -968,91 +992,6 @@ void fem_dlg_file_react(char *outfile, gpointer data, int open)
   }
 }
 
-#if 0 /* old (broken?) one */
-void mdgui_select_file_io(char *title, int open)
-{
-  GtkWidget *dialog = NULL ;
-  GtkFileFilter* lakmus = NULL ;
-  char      *filename = NULL;
-  char       cmd[2049] ;
-  int        i;
-
-  for (i=0; i<=2049; i++) 
-  {
-    cmd  [i]='\0';
-  }
-
-  /* TODO: determine action type and filename */
-
-  if (title == NULL)
-  {
-    return ;
-  }
-
-  lakmus = gtk_file_filter_new() ;
-  gtk_file_filter_add_pattern(lakmus,"*.dfr") ;
-  gtk_file_filter_set_name(lakmus,("MicroDef data file")) ;
-
-
-
-  if (open == 1)
-  {
-    sprintf(title,"%s: ", "Open data file");
-    dialog = gtk_file_chooser_dialog_new (title,
-				      (GtkWindow *)windowMain,
-				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
-				      NULL);
-  }
-  else
-  {
-    sprintf(title,"%s: ", "Save data to file");
-    dialog = gtk_file_chooser_dialog_new (title,
-				      (GtkWindow *)windowMain,
-				      GTK_FILE_CHOOSER_ACTION_SAVE,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
-				      NULL);
-
-    gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
-  }
-
-  if (lakmus != NULL)
-  {
-    gtk_file_chooser_add_filter((GtkFileChooser *)dialog, lakmus) ;
-    gtk_file_chooser_set_filter((GtkFileChooser *)dialog, lakmus) ;
-  }
-
-#if 0
-  gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), femDataDir);
-#endif
-
-  if (data_file != NULL) 
-  {
-    if (data_file[0] != '\0') 
-    { 
-      gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog), data_file); 
-    }
-  }
-
-  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
-  {
-
-    filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
-
-    /* TODO: do somenthing here: */
-    fem_dlg_file_react(filename, title, open); /* run command */
-
-    g_free (filename);
-    filename = NULL ; /* for sure */
-  }
-
-  gtk_object_destroy((GtkObject *)lakmus);
-
-  gtk_widget_destroy (dialog);
-}
-#else /* better one */
 void mdgui_select_file_io(char *title, int open)
 {
   GtkWidget *dialog = NULL ;
@@ -1132,9 +1071,6 @@ void mdgui_select_file_io(char *title, int open)
   gtk_widget_destroy (dialog);
 }
 
-
-#endif
-
 void mdgui_select_file(char *title)
 {
   mdgui_select_file_io(title, 1) ;
@@ -1171,19 +1107,17 @@ void mdgui_get_fname (GtkFileSelection *file_selector0, gpointer file_selector)
 
   if (gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_selector))!=NULL)
   {
-  len = strlen((char *) gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_selector)));
+    len = strlen((char *) gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_selector)));
 
-  if ((data_file = (char *)malloc(sizeof(char)*(len+1))) != NULL)
-  {
-    for (i=0; i<=len; i++) {data_file[i] = '\0';}
+    if ((data_file = (char *)malloc(sizeof(char)*(len+1))) != NULL)
+    {
+      for (i=0; i<=len; i++) {data_file[i] = '\0';}
 
-    strcat(data_file,
-      (char *)gtk_file_selection_get_filename(GTK_FILE_SELECTION(file_selector))
-        );
+      strcat(data_file,
+        (char *)gtk_file_selection_get_filename(GTK_FILE_SELECTION(file_selector))
+          );
+    }
   }
-
-  }
-
   
   if (data_file != NULL) 
   {
@@ -1225,7 +1159,6 @@ void mdgui_get_fname (GtkFileSelection *file_selector0, gpointer file_selector)
   }
 
 }
-
 
 void mdgui_cancel_fname (GtkFileSelection *file_selector0, gpointer file_selector)
 {    
@@ -1342,7 +1275,6 @@ void mdgui_select_file_save(char *title)
 }
 #endif
 
-
 /* main program loop */
 int main(int argc, char *argv[]) 
 { 
@@ -1394,6 +1326,21 @@ int main(int argc, char *argv[])
 	setlocale(LC_NUMERIC,"C") ;
 	gtk_init (&argc, &argv);
 	setlocale(LC_NUMERIC,"C") ;
+
+
+  cmap = gdk_colormap_get_system(  );
+
+  gdk_color_parse("White", &color_white);
+  gdk_colormap_alloc_color(cmap, &color_white, FALSE, TRUE);
+
+  gdk_color_parse("Black", &color_black);
+  gdk_colormap_alloc_color(cmap, &color_black, FALSE, TRUE);
+
+  gdk_color_parse("Red", &color_red);
+  gdk_colormap_alloc_color(cmap, &color_red, FALSE, TRUE);
+
+  gdk_color_parse("Blue", &color_blue);
+  gdk_colormap_alloc_color(cmap, &color_blue, FALSE, TRUE);
 	
 	gui_main(argc, argv);
 

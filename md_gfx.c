@@ -448,8 +448,6 @@ void md_draw_big_point(int x, int y)
 }
 
 
-
-
 void md_draw_line(int x1, int y1, int x2, int y2, int width)
 {
   switch (get_mdterm())
@@ -465,6 +463,40 @@ void md_draw_line(int x1, int y1, int x2, int y2, int width)
 #endif
   }
 }
+
+void md_draw_line_red(int x1, int y1, int x2, int y2, int width)
+{
+  switch (get_mdterm())
+  {
+#ifdef GTKGUI
+    case MDTERM_GTK: mdgtk_draw_line_red(x1, y1, x2, y2, width); break;
+#endif
+#ifdef GDGUI
+    case MDTERM_GD: mdgd_draw_line(x1, y1, x2, y2, width); break;
+#endif
+#ifdef PSGUI
+    case MDTERM_PS: mdps_draw_line(x1, y1, x2, y2, width); break;
+#endif
+  }
+}
+
+void md_draw_line_blue(int x1, int y1, int x2, int y2, int width)
+{
+  switch (get_mdterm())
+  {
+#ifdef GTKGUI
+    case MDTERM_GTK: mdgtk_draw_line_blue(x1, y1, x2, y2, width); break;
+#endif
+#ifdef GDGUI
+    case MDTERM_GD: mdgd_draw_line(x1, y1, x2, y2, width); break;
+#endif
+#ifdef PSGUI
+    case MDTERM_PS: mdps_draw_line(x1, y1, x2, y2, width); break;
+#endif
+  }
+}
+
+
 
 void md_draw_string(int x, int y, char *str)
 {
@@ -600,15 +632,15 @@ void md_plot_grid(void)
 
 void plot_active_point(int x, int y)
 {
-  md_draw_line(x,y, x-MDGFX_LEN, y-MDGFX_LEN,1) ;
-  md_draw_line(x,y, x-MDGFX_LEN, y+MDGFX_LEN,1) ;
-  md_draw_line(x,y, x+MDGFX_LEN, y-MDGFX_LEN,1) ;
-  md_draw_line(x,y, x+MDGFX_LEN, y+MDGFX_LEN,1) ;
+  md_draw_line_red(x,y, x-MDGFX_LEN, y-MDGFX_LEN,1) ;
+  md_draw_line_red(x,y, x-MDGFX_LEN, y+MDGFX_LEN,1) ;
+  md_draw_line_red(x,y, x+MDGFX_LEN, y-MDGFX_LEN,1) ;
+  md_draw_line_red(x,y, x+MDGFX_LEN, y+MDGFX_LEN,1) ;
 
-  md_draw_line(x-MDGFX_LEN,y-MDGFX_LEN, x-MDGFX_LEN, y+MDGFX_LEN,1) ;
-  md_draw_line(x-MDGFX_LEN,y+MDGFX_LEN, x+MDGFX_LEN, y+MDGFX_LEN,1) ;
-  md_draw_line(x+MDGFX_LEN,y+MDGFX_LEN, x+MDGFX_LEN, y-MDGFX_LEN,1) ;
-  md_draw_line(x+MDGFX_LEN,y-MDGFX_LEN, x-MDGFX_LEN, y-MDGFX_LEN,1) ;
+  md_draw_line_red(x-MDGFX_LEN,y-MDGFX_LEN, x-MDGFX_LEN, y+MDGFX_LEN,2) ;
+  md_draw_line_red(x-MDGFX_LEN,y+MDGFX_LEN, x+MDGFX_LEN, y+MDGFX_LEN,2) ;
+  md_draw_line_red(x+MDGFX_LEN,y+MDGFX_LEN, x+MDGFX_LEN, y-MDGFX_LEN,2) ;
+  md_draw_line_red(x+MDGFX_LEN,y-MDGFX_LEN, x-MDGFX_LEN, y-MDGFX_LEN,2) ;
 }
 
 void plot_node(int x, int y)
@@ -838,34 +870,34 @@ void plot_elems(int active)
 
 void plot_disp_ux(int x, int y)
 {
-  md_draw_line(x,y, x-MDGFX_BLEN, y+MDGFX_BLEN2, 1) ;
-  md_draw_line(x,y, x-MDGFX_BLEN, y-MDGFX_BLEN2, 1) ;
-  md_draw_line(x-MDGFX_BLEN,y+MDGFX_BLEN2, x-MDGFX_BLEN, y-MDGFX_BLEN2, 1) ;
-  md_draw_line(x-MDGFX_BLENB,y+MDGFX_BLEN2, x-MDGFX_BLENB, y-MDGFX_BLEN2, 1) ;
+  md_draw_line_blue(x,y, x-MDGFX_BLEN, y+MDGFX_BLEN2, 1) ;
+  md_draw_line_blue(x,y, x-MDGFX_BLEN, y-MDGFX_BLEN2, 1) ;
+  md_draw_line_blue(x-MDGFX_BLEN,y+MDGFX_BLEN2, x-MDGFX_BLEN, y-MDGFX_BLEN2, 1) ;
+  md_draw_line_blue(x-MDGFX_BLENB,y+MDGFX_BLEN2, x-MDGFX_BLENB, y-MDGFX_BLEN2, 1) ;
 }
 
 void plot_disp_uy(int x, int y)
 {
-  md_draw_line(x,y, x-MDGFX_BLEN2, y+MDGFX_BLEN, 1) ;
-  md_draw_line(x,y, x+MDGFX_BLEN2, y+MDGFX_BLEN, 1) ;
-  md_draw_line(x-MDGFX_BLEN2,y+MDGFX_BLEN, x+MDGFX_BLEN2, y+MDGFX_BLEN, 1) ;
-  md_draw_line(x-MDGFX_BLEN2,y+MDGFX_BLENB, x+MDGFX_BLEN2, y+MDGFX_BLENB, 1) ;
+  md_draw_line_blue(x,y, x-MDGFX_BLEN2, y+MDGFX_BLEN, 1) ;
+  md_draw_line_blue(x,y, x+MDGFX_BLEN2, y+MDGFX_BLEN, 1) ;
+  md_draw_line_blue(x-MDGFX_BLEN2,y+MDGFX_BLEN, x+MDGFX_BLEN2, y+MDGFX_BLEN, 1) ;
+  md_draw_line_blue(x-MDGFX_BLEN2,y+MDGFX_BLENB, x+MDGFX_BLEN2, y+MDGFX_BLENB, 1) ;
 }
 
 void plot_disp_uxuy(int x, int y)
 {
-  md_draw_line(x,y, x-MDGFX_BLEN2, y+MDGFX_BLEN, 1) ;
-  md_draw_line(x,y, x+MDGFX_BLEN2, y+MDGFX_BLEN, 1) ;
-  md_draw_line(x-MDGFX_BLEN2,y+MDGFX_BLEN, x+MDGFX_BLEN2, y+MDGFX_BLEN, 1) ;
+  md_draw_line_blue(x,y, x-MDGFX_BLEN2, y+MDGFX_BLEN, 1) ;
+  md_draw_line_blue(x,y, x+MDGFX_BLEN2, y+MDGFX_BLEN, 1) ;
+  md_draw_line_blue(x-MDGFX_BLEN2,y+MDGFX_BLEN, x+MDGFX_BLEN2, y+MDGFX_BLEN, 1) ;
 }
 
 void plot_disp_uxuyrotz(int x, int y)
 {
-  md_draw_line(x-MDGFX_BLEN2,y-MDGFX_BLEN2, x+MDGFX_BLEN2, y-MDGFX_BLEN2, 1) ;
-  md_draw_line(x-MDGFX_BLEN2,y+MDGFX_BLEN2, x+MDGFX_BLEN2, y+MDGFX_BLEN2, 1) ;
+  md_draw_line_blue(x-MDGFX_BLEN2,y-MDGFX_BLEN2, x+MDGFX_BLEN2, y-MDGFX_BLEN2, 1) ;
+  md_draw_line_blue(x-MDGFX_BLEN2,y+MDGFX_BLEN2, x+MDGFX_BLEN2, y+MDGFX_BLEN2, 1) ;
 
-  md_draw_line(x-MDGFX_BLEN2,y-MDGFX_BLEN2, x-MDGFX_BLEN2, y+MDGFX_BLEN2, 1) ;
-  md_draw_line(x+MDGFX_BLEN2,y-MDGFX_BLEN2, x+MDGFX_BLEN2, y+MDGFX_BLEN2, 1) ;
+  md_draw_line_blue(x-MDGFX_BLEN2,y-MDGFX_BLEN2, x-MDGFX_BLEN2, y+MDGFX_BLEN2, 1) ;
+  md_draw_line_blue(x+MDGFX_BLEN2,y-MDGFX_BLEN2, x+MDGFX_BLEN2, y+MDGFX_BLEN2, 1) ;
 }
 
 
@@ -893,20 +925,20 @@ void plot_fx(int x, int y, double size)
   if (size > 0.0)
   {
     /* --> */
-    md_draw_line(x,y, x-MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
-    md_draw_line(x,y, x-MDGFX_BLEN2, y+MDGFX_BLEN2, 3) ;
+    md_draw_line_red(x,y, x-MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
+    md_draw_line_red(x,y, x-MDGFX_BLEN2, y+MDGFX_BLEN2, 3) ;
 
-    md_draw_line(x,y, x-maxFMi, y, 3) ;
+    md_draw_line_red(x,y, x-maxFMi, y, 3) ;
 
     md_draw_string(x-maxFMi,y-MDGFX_LEN, md_double2string01(fabs(size)) ) ;
   }
   else
   {
     /* <-- */
-    md_draw_line(x,y, x+MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
-    md_draw_line(x,y, x+MDGFX_BLEN2, y+MDGFX_BLEN2, 3) ;
+    md_draw_line_red(x,y, x+MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
+    md_draw_line_red(x,y, x+MDGFX_BLEN2, y+MDGFX_BLEN2, 3) ;
 
-    md_draw_line(x,y, x+maxFMi, y, 3) ;
+    md_draw_line_red(x,y, x+maxFMi, y, 3) ;
 
     md_draw_string(x+maxFMi,y-MDGFX_LEN, md_double2string01(fabs(size)) ) ;
   }
@@ -920,20 +952,20 @@ void plot_fy(int x, int y, double size)
   if (size > 0.0)
   {
     /* /|\ */
-    md_draw_line(x,y, x-MDGFX_BLEN2, y+MDGFX_BLEN2, 3) ;
-    md_draw_line(x,y, x+MDGFX_BLEN2, y+MDGFX_BLEN2, 3) ;
+    md_draw_line_red(x,y, x-MDGFX_BLEN2, y+MDGFX_BLEN2, 3) ;
+    md_draw_line_red(x,y, x+MDGFX_BLEN2, y+MDGFX_BLEN2, 3) ;
 
-    md_draw_line(x,y, x, y+maxFMi, 3) ;
+    md_draw_line_red(x,y, x, y+maxFMi, 3) ;
 
     md_draw_string(x+MDGFX_LEN,y+maxFMi, md_double2string01(fabs(size)) ) ;
   }
   else
   {
     /* \|/ */
-    md_draw_line(x,y, x-MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
-    md_draw_line(x,y, x+MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
+    md_draw_line_red(x,y, x-MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
+    md_draw_line_red(x,y, x+MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
 
-    md_draw_line(x,y, x, y-maxFMi, 3) ;
+    md_draw_line_red(x,y, x, y-maxFMi, 3) ;
 
     md_draw_string(x+MDGFX_LEN,y-maxFMi, md_double2string01(fabs(size)) ) ;
   }
@@ -961,13 +993,13 @@ void plot_mz(int x, int y, double size)
 
   if (size > 0.0)
   {
-    md_draw_line(x+(int)(0.5*maxFMi),y, x+(int)(0.5*maxFMi)+MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
-    md_draw_line(x+(int)(0.5*maxFMi),y, x+(int)(0.5*maxFMi)-MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
+    md_draw_line_red(x+(int)(0.5*maxFMi),y, x+(int)(0.5*maxFMi)+MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
+    md_draw_line_red(x+(int)(0.5*maxFMi),y, x+(int)(0.5*maxFMi)-MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
   }
   else
   {
-    md_draw_line(x-(int)(0.5*maxFMi),y, x-(int)(0.5*maxFMi)-MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
-    md_draw_line(x-(int)(0.5*maxFMi),y, x-(int)(0.5*maxFMi)+MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
+    md_draw_line_red(x-(int)(0.5*maxFMi),y, x-(int)(0.5*maxFMi)-MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
+    md_draw_line_red(x-(int)(0.5*maxFMi),y, x-(int)(0.5*maxFMi)+MDGFX_BLEN2, y-MDGFX_BLEN2, 3) ;
   }
     md_draw_string(x+MDGFX_LEN,y-(int)(0.5*maxFMi), md_double2string01(fabs(size)) ) ;
 }
@@ -1494,7 +1526,7 @@ void plot_elem_result(int type, int epos)
   pho = md_get_pho(x1, y1, x2, y2);
   L = sqrt ((y2-y1)*(y2-y1) + (x2-x1)*(x2-x1)) ;
 
-  md_draw_line(
+  md_draw_line_blue(
       md_rot_x(x1, pho,0,0),
       md_rot_y(y1, pho,0,0),
       md_rot_x(x1, pho,L,0),
@@ -1511,7 +1543,7 @@ void plot_elem_result(int type, int epos)
 
     if (i == 0)
     {
-      md_draw_line(
+      md_draw_line_blue(
         md_rot_x(x1,pho,last_x,0),
         md_rot_y(y1, pho,last_x,0),
         md_rot_x(x1, pho,last_x,last_y),
@@ -1519,7 +1551,7 @@ void plot_elem_result(int type, int epos)
       2) ;
     }
     
-    md_draw_line(
+    md_draw_line_blue(
       md_rot_x(x1,pho,last_x,last_y),
       md_rot_y(y1, pho,last_x,last_y),
       md_rot_x(x1, pho,act_x,act_y),
@@ -1528,7 +1560,7 @@ void plot_elem_result(int type, int epos)
 
     if (i == num_div)
     {
-      md_draw_line(
+      md_draw_line_blue(
         md_rot_x(x1,pho,act_x,0),
         md_rot_y(y1, pho,act_x,0),
         md_rot_x(x1, pho,act_x,act_y),
@@ -1537,7 +1569,7 @@ void plot_elem_result(int type, int epos)
     }
     else
     {
-      md_draw_line(
+      md_draw_line_blue(
         md_rot_x(x1,pho,act_x,0),
         md_rot_y(y1, pho,act_x,0),
         md_rot_x(x1, pho,act_x,act_y),
