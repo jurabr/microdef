@@ -21,8 +21,13 @@
    02139, USA.
 */
 
+#ifndef _OMAKO_
 #define CNV_SIZE_X 800
 #define CNV_SIZE_Y 600
+#else
+#define CNV_SIZE_X 320
+#define CNV_SIZE_Y 240
+#endif
 
 
 #include "microdef.h"
@@ -850,7 +855,11 @@ int gui_main(int argc, char *argv[])
 	gtk_box_pack_start(GTK_BOX(vbox),area,TRUE, TRUE, padding);
 	gtk_widget_show(area);
 
+#ifndef  _OMAKO_
 	gtk_widget_set_size_request (area, 760, 520);
+#else
+	gtk_widget_set_size_request (area, 320, 240);
+#endif
 
 
 	frame = gtk_frame_new("Input");
