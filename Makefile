@@ -10,14 +10,6 @@ CFLAGS=$(DEBUG) -DPOSIX -DGTKGUI -DPSGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI
 #CFLAGS=$(DEBUG) -DPOSIX -DGTKGUI -DPSGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
 LIBS=`pkg-config --libs gtk+-2.0` -lm -L/usr/freeware/lib32 -lgd #-lefence
 
-# old Hildon (IT2006, Maemo 2):
-#CFLAGS=$(DEBUG) -DUSE_HILDON -DPOSIX -DGTKGUI -DPSGUI `pkg-config --cflags hildon-libs gtk+-2.0` # -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
-#LIBS=`pkg-config --libs hildon-libs gtk+-2.0`
-
-# new Hildon (IT2008, Maemo 4):
-#CFLAGS=$(DEBUG) -DUSE_HILDON -D_OMAKO_ -DPOSIX -DGTKGUI `pkg-config --cflags hildon-1 gtk+-2.0`
-#LIBS=`pkg-config --libs hildon-1 gtk+-2.0` -lm #-L/usr/freeware/lib32 -lgd #-lefence
-
 MMLIBS=-lm
 
 OBJECTS=mdunxio.o mdkernel.o md_gfx.o md_gtk.o md_gd.o md_ps.o
