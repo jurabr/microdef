@@ -1,6 +1,7 @@
 TO DO:
 
 - kernel:
+  incorrect stiffness matrix of element o--| (don't see any mistake in code...)
 
 - gfx:
   incorrect grid after change (probably faulty computation of pixels)
