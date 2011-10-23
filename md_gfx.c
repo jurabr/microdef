@@ -42,8 +42,8 @@ int mdWidth    =    0 ;
 int mdHeight   =    0 ;
 
 static int mdTerm     =    1 ; /* graphics terminal            */
-#ifdef _OMAKO_
-int gridSpace  =   64 ; /* space between grid point     */
+#ifdef _NANONOTE_
+int gridSpace  =   16 ; /* space between grid point     */
 #else
 int gridSpace  =   32 ; /* space between grid point     */
 #endif
@@ -1804,9 +1804,16 @@ void md_from_user_action(void)
              mdgfx_set_input(0, 0, 0, 0, 0, 0, 0, 0);
              break ;
     case 1 : /* add node */
+#ifdef _NANONOTE_
+             /* TODO */
+             mdgfx_set_input(" Node coordinates ",
+                 " x = ",0.0," y = ",0.0,0,0,2);
+
+#else
              mdgfx_set_input(" Pick a Grid Point ",
                  0, 0, 0, 0, 0, 0, 0);
              pickMode = 1 ;
+#endif
              break ;
     case 2 : /* add |--| element */
              pickMode = 2 ;
@@ -1976,7 +1983,9 @@ void md_input_action(int x, int y, double val1, double val2, double val3)
   static int enode = 0 ;
   static int nnum  = 0 ;
   int   pos ;
+#ifndef _NANONOTE_
   double xg, yg ;
+#endif
 
   switch (gfxAction)
   {
@@ -1987,8 +1996,15 @@ void md_input_action(int x, int y, double val1, double val2, double val3)
              mdgfx_set_input(0, 0, 0, 0, 0, 0, 0, 0);
              break ;
     case 1 : /* add node */
+#ifdef _NANONOTE_
+             if ((val1 >=0) && (val2 >=0))
+             {
+               md_add_node(val1, val2);
+             }
+#else
              md_grid_find_clicked(x, y, &xg, &yg);
              md_add_node(xg, yg);
+#endif
              break ;
     case 2 : /* add |--| element */
     case 3 : /* add o--| element */

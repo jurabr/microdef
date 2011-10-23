@@ -6,7 +6,8 @@ DEBUG=-O3 -Wall -pedantic -ansi
 # desktop system (Gtk+):
 #CFLAGS=$(DEBUG) -DFEM_NEW_FILE_DLG -DPOSIX -DGTKGUI -DPSGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd -I/usr/freeware/include/ #-I/sw/include
 CFLAGS=$(DEBUG) -DPOSIX -DGTKGUI -DPSGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd -I/usr/freeware/include/ #-I/sw/include
-#CFLAGS=$(DEBUG) -D_OMAKO_ -DPOSIX -DGTKGUI -DPSGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
+CFLAGS=$(DEBUG) -D_OMAKO_ -DPOSIX -DGTKGUI -DPSGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
+#CFLAGS=$(DEBUG) -D_NANONOTE_ -D_OMAKO_ -DPOSIX -DGTKGUI -DPSGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
 #CFLAGS=$(DEBUG) -DPOSIX -DGTKGUI -DPSGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
 LIBS=`pkg-config --libs gtk+-2.0` -lm -L/usr/freeware/lib32 -lgd #-lefence
 

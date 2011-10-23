@@ -21,7 +21,7 @@
    02139, USA.
 */
 
-#ifndef _OMAKO_
+#ifndef _NANONOTE_
 #define CNV_SIZE_X 800
 #define CNV_SIZE_Y 600
 #else
@@ -75,6 +75,7 @@ GtkWidget *text2      = NULL ;
 GtkWidget *text3      = NULL ;
 GtkWidget *frame      = NULL ;
 GtkWidget *button     = NULL ;
+GtkWidget *button2    = NULL ;
 GtkWidget *area       = NULL ;
 
 GtkWidget *menubar    = NULL ;
@@ -219,8 +220,25 @@ int mdgfx_set_input(char *framestr, char *l1, double val1, char *l2, double val2
 
   gtk_frame_set_label(GTK_FRAME(frame), framestr);
 
-  if (butt == 1) { gtk_widget_show(button) ; }
-  else           { gtk_widget_hide(button) ; }
+  switch (butt)
+  {
+    case 0 : 
+      gtk_widget_hide(button) ; 
+      gtk_widget_hide(button2) ; 
+      break ;
+    case 1 : 
+      gtk_widget_show(button) ; 
+      gtk_widget_hide(button2) ; 
+      break ;
+    case 2 : 
+      gtk_widget_show(button) ; 
+      gtk_widget_show(button2) ; 
+      break ;
+    default:
+      gtk_widget_hide(button) ; 
+      gtk_widget_hide(button2) ; 
+      break ;
+  }
 
   if (l1 != NULL)
   {
@@ -414,6 +432,18 @@ gint button_click_action (GtkWidget* widget, GdkEventButton *event, gpointer dat
   gtk_widget_draw (area, NULL);
   return(OK);
 }
+
+gint button2_click_action (GtkWidget* widget, GdkEventButton *event, gpointer data)
+{
+  gfxAction = 0 ;
+  md_input_action(0, 0, 0, 0, 0);
+
+  md_draw();
+  gtk_widget_draw (area, NULL);
+  return(OK);
+}
+
+
 
 
 /* MENU SYSTEM ----------------------------------------------- */
@@ -898,6 +928,10 @@ int gui_main(int argc, char *argv[])
 	gtk_box_pack_start(GTK_BOX(hbox),button, TRUE, TRUE, padding);
 	gtk_widget_show(button);
 
+	button2 = gtk_button_new_with_label("Stop") ;
+	gtk_box_pack_start(GTK_BOX(hbox),button2, TRUE, TRUE, padding);
+	gtk_widget_show(button2);
+
 	g_signal_connect (G_OBJECT (area), "expose_event", G_CALLBACK (expose_event), NULL);
   g_signal_connect(G_OBJECT(area), "button_press_event", G_CALLBACK(area_button_press), NULL);
 
@@ -906,6 +940,9 @@ int gui_main(int argc, char *argv[])
 
   g_signal_connect(G_OBJECT(button), "clicked",
       G_CALLBACK(button_click_action), NULL);
+
+  g_signal_connect(G_OBJECT(button2), "clicked",
+      G_CALLBACK(button2_click_action), NULL);
 
 	/* key presses: */
 	g_signal_connect(G_OBJECT(windowMain), 
