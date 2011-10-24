@@ -117,6 +117,8 @@ double defaultNB   = 0 ;
 double defaultVA   = 0 ;
 double defaultVB   = 0 ;
 
+int    defaultET   = 2 ;
+
 int   maxFMi      = 0 ;   /* max. plottted size of load   */
 int   maxDRi      = 0 ;   /* max. plottted size of disp.  */
 
@@ -128,8 +130,13 @@ int    elemEdit   = -1 ;   /* number of elem to me edited */
 int    nodeOK     =  0 ;
 int    elemOK     =  0 ;
 
+#ifdef _NANONOTE_
+int    nodeNumbers = 1 ;
+int    elemNumbers = 1 ;
+#else
 int    nodeNumbers = 0 ;
 int    elemNumbers = 0 ;
+#endif
 
 void set_mdterm(int term) { mdTerm = term ; }
 
@@ -708,7 +715,7 @@ void plot_nodes(int active)
         md_draw_string(  
           gfx_pos_x(GET_NODE_X(i)),
           gfx_pos_y(GET_NODE_Y(i)),
-          md_intstring(GET_ELEM_ID(i)) ) ;
+          md_intstring(GET_NODE_ID(i)) ) ;
       }
     }
     else
@@ -1989,6 +1996,16 @@ void md_from_user_action(void)
              mdgfx_set_input(" Pick an Element! ",
              0, 0, 0, 0, 0, 0, 0);
              break ;
+    /* Text input functions: ----------------- */
+    case 51: /* add element */
+             pickMode = 1 ;
+             mdgfx_set_input(" Element nodes ",
+               " N1 = ", 1,
+               " N2 = ", 2,
+               0, 0,
+               2);
+             break ;
+
   }
   nodeEdit = -1 ;
   elemEdit = -1 ;
@@ -2002,9 +2019,7 @@ void md_input_action(int x, int y, double val1, double val2, double val3)
   static int enode = 0 ;
   static int nnum  = 0 ;
   int   pos ;
-#ifndef _NANONOTE_
   double xg, yg ;
-#endif
 
   switch (gfxAction)
   {
@@ -2015,20 +2030,25 @@ void md_input_action(int x, int y, double val1, double val2, double val3)
              mdgfx_set_input(0, 0, 0, 0, 0, 0, 0, 0);
              break ;
     case 1 : /* add node */
-#ifdef _NANONOTE_
-             if ((val1 >=0) && (val2 >=0))
+             if (mdText == 1)
              {
-               md_add_node(val1, val2);
+               if ((val1 >=0) && (val2 >=0))
+               {
+                 md_add_node(val1, val2);
+               }
              }
-#else
-             md_grid_find_clicked(x, y, &xg, &yg);
-             md_add_node(xg, yg);
-#endif
+             else
+             {
+               md_grid_find_clicked(x, y, &xg, &yg);
+               md_add_node(xg, yg);
+             }
              break ;
     case 2 : /* add |--| element */
     case 3 : /* add o--| element */
     case 4 : /* add |--o element */
     case 29: /* add o--o element */
+             if (mdText == 0)
+             {
              if (n_len < 2) {return;}
              defaultE = val1 ;
              defaultA = val2 ;
@@ -2070,6 +2090,20 @@ void md_input_action(int x, int y, double val1, double val2, double val3)
                {
                 enode = 1 ;
                }
+             }
+             }
+             else /* keyboard-only input */
+             {
+               /* TODO */
+              defaultE = val1 ;
+              defaultA = val2 ;
+              defaultI = val3 ;
+              defaultET= gfxAction ;
+
+              nodeNumbers = 1 ;
+              gfxAction = 51 ;
+              pickMode = 1 ;
+              md_from_user_action();
              }
              break ;
     case 5 : /* add ux b.c */
@@ -2287,6 +2321,27 @@ void md_input_action(int x, int y, double val1, double val2, double val3)
                elemEdit = -1 ;
              }
              break ;
+    case 51: /* add element from keyboard */
+    if (defaultET < 10)
+                   {
+                     md_add_elem(defaultET-2,  /* type */
+                               (int)val1-1,
+                               (int)val2-1,
+                               defaultE,
+                               defaultA,
+                               defaultI);
+                   }
+                   else
+                   {
+                      md_add_elem(3,  /* type */
+                               (int)val1-1,
+                               (int)val2-1,
+                               defaultE,
+                               defaultA,
+                               defaultI);
+                   }
+                   break;
+
   }
 }
 
