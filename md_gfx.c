@@ -41,6 +41,12 @@ int mdY0       =    0 ;
 int mdWidth    =    0 ;
 int mdHeight   =    0 ;
 
+#ifdef _NANONOTE_
+int mdText     =    1 ;
+#else
+int mdText     =    0 ;
+#endif
+
 static int mdTerm     =    1 ; /* graphics terminal            */
 #ifdef _NANONOTE_
 int gridSpace  =   16 ; /* space between grid point     */
@@ -1804,24 +1810,37 @@ void md_from_user_action(void)
              mdgfx_set_input(0, 0, 0, 0, 0, 0, 0, 0);
              break ;
     case 1 : /* add node */
-#ifdef _NANONOTE_
-             /* TODO */
-             mdgfx_set_input(" Node coordinates ",
+             if (mdText == 1)
+             {
+              mdgfx_set_input(" Node coordinates ",
                  " x = ",0.0," y = ",0.0,0,0,2);
-
-#else
-             mdgfx_set_input(" Pick a Grid Point ",
+             }
+             else
+             {
+              mdgfx_set_input(" Pick a Grid Point ",
                  0, 0, 0, 0, 0, 0, 0);
-             pickMode = 1 ;
-#endif
+              pickMode = 1 ;
+             }
              break ;
     case 2 : /* add |--| element */
-             pickMode = 2 ;
-             mdgfx_set_input(" Element |--| properties ",
-             " E = ", defaultE,
-             " A = ", defaultA,
-             " I = ", defaultI,
-             0);
+             if (mdText == 0)
+             {
+               pickMode = 2 ;
+               mdgfx_set_input(" Element |--| properties ",
+               " E = ", defaultE,
+               " A = ", defaultA,
+               " I = ", defaultI,
+               0);
+             }
+             else
+             {
+               pickMode = 2 ;
+               mdgfx_set_input(" Element |--| properties ",
+               " E = ", defaultE,
+               " A = ", defaultA,
+               " I = ", defaultI,
+               1);
+             }
              break ;
     case 3 : /* add o--| element */
              pickMode = 2 ;

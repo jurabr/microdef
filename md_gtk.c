@@ -21,12 +21,12 @@
    02139, USA.
 */
 
-#ifndef _NANONOTE_
+#ifdef _NANONOTE_
+#define CNV_SIZE_X 320
+#define CNV_SIZE_Y 220
+#else
 #define CNV_SIZE_X 800
 #define CNV_SIZE_Y 600
-#else
-#define CNV_SIZE_X 320
-#define CNV_SIZE_Y 240
 #endif
 
 
@@ -885,12 +885,7 @@ int gui_main(int argc, char *argv[])
 	gtk_box_pack_start(GTK_BOX(vbox),area,TRUE, TRUE, padding);
 	gtk_widget_show(area);
 
-#ifndef  _OMAKO_
-	gtk_widget_set_size_request (area, 760, 520);
-#else
-	gtk_widget_set_size_request (area, 320, 240);
-#endif
-
+	gtk_widget_set_size_request (area, CNV_SIZE_X, CNV_SIZE_Y);
 
 	frame = gtk_frame_new("Input");
 	gtk_box_pack_end(GTK_BOX(vbox),frame, expand, TRUE, padding);
@@ -906,6 +901,7 @@ int gui_main(int argc, char *argv[])
 
 	text1 = gtk_entry_new() ;
 	gtk_box_pack_start(GTK_BOX(hbox),text1, TRUE, TRUE, padding);
+	gtk_widget_set_size_request (text1, 8, -1);
 	gtk_widget_show(text1);
 
 	label2 = gtk_label_new("  ----: ") ;
@@ -914,6 +910,7 @@ int gui_main(int argc, char *argv[])
 
 	text2 = gtk_entry_new() ;
 	gtk_box_pack_start(GTK_BOX(hbox),text2, TRUE, TRUE, padding);
+	gtk_widget_set_size_request (text2, 8, -1);
 	gtk_widget_show(text2);
 	
 	label3 = gtk_label_new("  ----: ") ;
@@ -922,6 +919,7 @@ int gui_main(int argc, char *argv[])
 
 	text3 = gtk_entry_new() ;
 	gtk_box_pack_start(GTK_BOX(hbox),text3, TRUE, TRUE, padding);
+	gtk_widget_set_size_request (text3, 8, -1);
 	gtk_widget_show(text3);
 
 	button = gtk_button_new_with_label("OK") ;
@@ -1124,7 +1122,7 @@ void mdgui_select_file_io(char *title, int open)
 
     filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 
-    /* TODO: do somenthing here: */
+    /* TODO: do something here: */
     fem_dlg_file_react(filename, tiitle, open); /* run command */
 
     g_free (filename);
