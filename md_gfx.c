@@ -27,8 +27,7 @@
 
 #define PI 3.141592653589793238462643383279502884
 
-extern int mdgfx_set_input(char *framestr, char *l1, double val1, char *l2, double val2, char *l3, double val3, int butt);
-extern void mdgui_scan_data(double *val1, double *val2, double *val3);
+extern int mdgfx_set_input(char *framestr, char *l1, double val1, char *l2, double val2, char *l3, double val3, char *l4, double val4, int butt);
 extern char *md_intstring(int number);
 extern char *md_double2string01(double number);
 extern char *md_double2string04(double number);
@@ -1809,23 +1808,23 @@ int md_draw(void)
 /* action from user (menu etc.) */
 void md_from_user_action(void)
 {
-  mdgfx_set_input(0, 0, 0, 0, 0, 0, 0, 0);
+  mdgfx_set_input(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
   switch (gfxAction)
   {
     case 0 : pickMode = 0 ;
-             mdgfx_set_input(0, 0, 0, 0, 0, 0, 0, 0);
+             mdgfx_set_input(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
              break ;
     case 1 : /* add node */
              if (mdText == 1)
              {
               mdgfx_set_input(" Node coordinates ",
-                 " x = ",0.0," y = ",0.0,0,0,2);
+                 " x = ",0.0," y = ",0.0,0,0, 0, 0,2);
              }
              else
              {
               mdgfx_set_input(" Pick a Grid Point ",
-                 0, 0, 0, 0, 0, 0, 0);
+                 0, 0, 0, 0, 0, 0, 0, 0, 0);
               pickMode = 1 ;
              }
              break ;
@@ -1836,7 +1835,7 @@ void md_from_user_action(void)
                mdgfx_set_input(" Element |--| properties ",
                " E = ", defaultE,
                " A = ", defaultA,
-               " I = ", defaultI,
+               " I = ", defaultI, 0, 0,
                0);
              }
              else
@@ -1845,7 +1844,7 @@ void md_from_user_action(void)
                mdgfx_set_input(" Element |--| properties ",
                " E = ", defaultE,
                " A = ", defaultA,
-               " I = ", defaultI,
+               " I = ", defaultI, 0, 0,
                1);
              }
              break ;
@@ -1854,7 +1853,7 @@ void md_from_user_action(void)
              mdgfx_set_input(" Element o--| properties ",
              " E = ", defaultE,
              " A = ", defaultA,
-             " I = ", defaultI,
+             " I = ", defaultI, 0, 0,
              0);
              break ;
     case 4 : /* add |--o element */
@@ -1862,84 +1861,84 @@ void md_from_user_action(void)
              mdgfx_set_input(" Element |--o properties ",
              " E = ", defaultE,
              " A = ", defaultA,
-             " I = ", defaultI,
+             " I = ", defaultI, 0, 0,
              0);
              break ;
     case 5 : /* add ux b.c */
              pickMode = 2 ;
              mdgfx_set_input(" UX Support ",
-                 " UX = ", defaultPosX, 0, 0, 0, 0, 0);
+                 " UX = ", defaultPosX, 0, 0, 0, 0, 0, 0, 0);
              break ;
     case 6 : /* add uy b.c */
              pickMode = 2 ;
              mdgfx_set_input(" UY Support ",
-                 0,0, " UY = ", defaultPosY, 0, 0, 0);
+                 0,0, " UY = ", defaultPosY, 0, 0, 0, 0, 0);
              break ;
     case 7 : /* add ux+uy b.c */
              pickMode = 2 ;
              mdgfx_set_input(" UX+UY Support ",
-                 " UX = ",defaultPosX," UY = ",defaultPosY,0,0,0);
+                 " UX = ",defaultPosX," UY = ",defaultPosY,0,0,0, 0, 0);
              break ;
     case 8 : /* add ux+rotz b.c */
              pickMode = 2 ;
              mdgfx_set_input(" UX+ROTZ Support ",
-                 " UX = ",defaultPosX,0,0," ROTZ = ",defaultRotZ,0);
+                 " UX = ",defaultPosX,0,0," ROTZ = ",defaultRotZ,0, 0, 0);
              break ;
     case 9 : /* add uy+rotz b.c */
              pickMode = 2 ;
              mdgfx_set_input(" UY+ROTZ Support ",
-                 0,0," UY = ",defaultPosY," ROTZ = ",defaultRotZ,0);
+                 0,0," UY = ",defaultPosY," ROTZ = ",defaultRotZ,0, 0, 0);
              break ;
     case 10 : /* add ux+uy+rotz b.c */
              pickMode = 2 ;
              mdgfx_set_input(" UX+UY+ROTZ Support ",
-                 " UX = ",defaultPosX," UY = ",defaultPosY," ROTZ = ",defaultRotZ,0);
+                 " UX = ",defaultPosX," UY = ",defaultPosY," ROTZ = ",defaultRotZ,0, 0, 0);
              break ;
     case 11 : /* add force/moment */
              pickMode = 2 ;
              mdgfx_set_input(" Force/Moment ",
-                 " FX = ",defaultFx," FY = ",defaultFy," MZ = ",defaultMz,0);
+                 " FX = ",defaultFx," FY = ",defaultFy," MZ = ",defaultMz,0, 0, 0);
              break ;
     case 13 : /* add na,nb  */
              pickMode = 3 ;
              mdgfx_set_input(" Load in normal dir. ",
-                 " na = ",defaultNA," nb = ",defaultNB,0,0,0);
+                 " na = ",defaultNA," nb = ",defaultNB,0,0,0, 0, 0);
              break ;
     case 14 : /* add na,nb  */
              pickMode = 3 ;
              mdgfx_set_input(" Load in transverse dir. ",
-                 " va = ",defaultVA," vb = ",defaultVB,0,0,0);
+                 " va = ",defaultVA," vb = ",defaultVB,0,0,0, 0, 0);
              break ;
 
     case 21 : /* delete node  */
              pickMode = 2 ;
-             mdgfx_set_input(0, 0,0,0,0,0,0,0);
+             mdgfx_set_input(0, 0,0,0,0,0,0,0, 0, 0);
              break ;
     case 22 : /* delete element  */
              pickMode = 3 ;
-             mdgfx_set_input(0, 0,0,0,0,0,0,0);
+             mdgfx_set_input(0, 0,0,0,0,0,0,0, 0, 0);
              break ;
     case 23 : /* delete support  */
              pickMode = 2 ;
-             mdgfx_set_input(0, 0,0,0,0,0,0,0);
+             mdgfx_set_input(0, 0,0,0,0,0,0,0, 0, 0);
              break ;
     case 24 : /* delete force  */
              pickMode = 2 ;
-             mdgfx_set_input(0, 0,0,0,0,0,0,0);
+             mdgfx_set_input(0, 0,0,0,0,0,0,0, 0, 0);
              break ;
     case 25 : /* delete na,nb  */
              pickMode = 3 ;
-             mdgfx_set_input(0, 0,0,0,0,0,0,0);
+             mdgfx_set_input(0, 0,0,0,0,0,0,0, 0, 0);
              break ;
     case 26 : /* delete va,vb  */
              pickMode = 3 ;
-             mdgfx_set_input(0, 0,0,0,0,0,0,0);
+             mdgfx_set_input(0, 0,0,0,0,0,0,0, 0, 0);
              break ;
 
     case 27 : /* grid real size */
              pickMode = 0 ;
              mdgfx_set_input(" Grid size ",
-                 " dx = ",gridReal," pixels = ",gridSpace,0,0,1);
+                 " dx = ",gridReal," pixels = ",gridSpace,0,0, 0, 0,1);
              break ;
     case 28 : /* underlined elements */
              if (mdSimpleE == 1) { mdSimpleE = 0 ; }
@@ -1963,24 +1962,24 @@ void md_from_user_action(void)
              mdgfx_set_input(" Element o--o properties ",
              " E = ", defaultE,
              " A = ", defaultA,
-             " I = ", defaultI,
+             " I = ", defaultI, 0, 0,
              0);
              break ;
     case 30 : /* change element type */
              pickMode = 3 ;
-             mdgfx_set_input("Change Element to |--|", 0,0,0,0,0,0,0);
+             mdgfx_set_input("Change Element to |--|", 0,0,0,0,0,0,0, 0, 0);
              break ;
     case 31 :
              pickMode = 3 ;
-             mdgfx_set_input("Change Element to o--|", 0,0,0,0,0,0,0);
+             mdgfx_set_input("Change Element to o--|", 0,0,0,0,0,0,0, 0, 0);
              break ;
     case 32 :
              pickMode = 3 ;
-             mdgfx_set_input("Change Element to |--o", 0,0,0,0,0,0,0);
+             mdgfx_set_input("Change Element to |--o", 0,0,0,0,0,0,0, 0, 0);
              break ;
     case 33 :
              pickMode = 3 ;
-             mdgfx_set_input("Change Element to o--o", 0,0,0,0,0,0,0);
+             mdgfx_set_input("Change Element to o--o", 0,0,0,0,0,0,0, 0, 0);
              break ;
 
     /* Editing functions: ----------------- */
@@ -1988,13 +1987,13 @@ void md_from_user_action(void)
              pickMode = 2 ;
              nodeEdit = -1 ;
              mdgfx_set_input(" Pick a Node! ",
-             0, 0, 0, 0, 0, 0, 0);
+             0, 0, 0, 0, 0, 0, 0, 0, 0);
              break ;
     case 16: /* edit element */
              pickMode = 3 ;
              elemEdit = -1 ;
              mdgfx_set_input(" Pick an Element! ",
-             0, 0, 0, 0, 0, 0, 0);
+             0, 0, 0, 0, 0, 0, 0, 0, 0);
              break ;
     /* Text input functions: ----------------- */
     case 51: /* add element */
@@ -2002,7 +2001,7 @@ void md_from_user_action(void)
              mdgfx_set_input(" Element nodes ",
                " N1 = ", 1,
                " N2 = ", 2,
-               0, 0,
+               0, 0, 0, 0,
                2);
              break ;
 
@@ -2014,7 +2013,7 @@ void md_from_user_action(void)
 }
 
 /* action on input (mouse click, button press,...): */
-void md_input_action(int x, int y, double val1, double val2, double val3)
+void md_input_action(int x, int y, double val1, double val2, double val3, double val4)
 {
   static int enode = 0 ;
   static int nnum  = 0 ;
@@ -2027,7 +2026,7 @@ void md_input_action(int x, int y, double val1, double val2, double val3)
     case 555:
     case 666:
              pickMode = 0 ;
-             mdgfx_set_input(0, 0, 0, 0, 0, 0, 0, 0);
+             mdgfx_set_input(0, 0, 0, 0, 0, 0, 0, 0,0,0);
              break ;
     case 1 : /* add node */
              if (mdText == 1)
@@ -2230,7 +2229,7 @@ void md_input_action(int x, int y, double val1, double val2, double val3)
                gridSpace = (int)val2 ;
                if (gridSpace <=0) {gridSpace = 32 ;}
              }
-             mdgfx_set_input(0, 0,0,0,0,0,0,0);
+             mdgfx_set_input(0, 0,0,0,0,0,0,0,0,0);
 /*printf("gridReal = %e\n", gridReal);*/
              break ;
     /* see "case 2" for "case 29" !*/
@@ -2255,7 +2254,7 @@ void md_input_action(int x, int y, double val1, double val2, double val3)
                  mdgfx_set_input(" Node position ",
                  " X = ", GET_NODE_X(nodeEdit),
                  " Y = ", GET_NODE_Y(nodeEdit),
-                 0, 0,
+                 0, 0,0,0,
                  1);
                  nodeOK = 1 ;
                }
@@ -2278,7 +2277,7 @@ void md_input_action(int x, int y, double val1, double val2, double val3)
                pickMode = 2 ;
                nodeEdit = -1 ;
                mdgfx_set_input(" Pick a Node! ",
-               0, 0, 0, 0, 0, 0, 0);
+               0, 0, 0, 0, 0, 0, 0,0,0);
 
                nodeEdit = -1 ;
              }
@@ -2292,7 +2291,7 @@ void md_input_action(int x, int y, double val1, double val2, double val3)
                  mdgfx_set_input(" Element properties ",
                  " E = ", GET_ELEM_E(elemEdit),
                  " A = ", GET_ELEM_A(elemEdit),
-                 " I = ", GET_ELEM_I(elemEdit),
+                 " I = ", GET_ELEM_I(elemEdit),0,0,
                  1);
                  elemOK = 1 ;
                }
@@ -2316,7 +2315,7 @@ void md_input_action(int x, int y, double val1, double val2, double val3)
                pickMode = 3 ;
                elemEdit = -1 ;
                mdgfx_set_input(" Pick an Element! ",
-               0, 0, 0, 0, 0, 0, 0);
+               0, 0, 0, 0, 0, 0, 0,0,0);
 
                elemEdit = -1 ;
              }

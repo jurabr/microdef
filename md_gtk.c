@@ -44,7 +44,7 @@ extern int pickMode ;
 extern int gfxAction;
 
 extern int md_draw(void);
-extern void md_input_action(int x, int y, double val1, double val2, double val3);
+extern void md_input_action(int x, int y, double val1, double val2, double val3, double val4);
 extern void md_from_user_action(void);
 extern int solve(void);
 
@@ -54,8 +54,8 @@ extern int md_write_report( char *fname, int term, int print_input, int print_ke
 extern int md_write_maxwell( char *fname ) ;
 
 /* prototypes: */
-int mdgfx_set_input(char *framestr, char *l1, double val1, char *l2, double val2, char *l3, double val3, int butt);
-void mdgui_scan_data(double *val1, double *val2, double *val3);
+int mdgfx_set_input(char *framestr, char *l1, double val1, char *l2, double val2, char *l3, double val3, char *l4, double val4, int butt);
+void mdgui_scan_data(double *val1, double *val2, double *val3, double *val4);
 void mdgui_select_file(char *title);
 void mdgui_select_file_save(char *title);
 
@@ -70,9 +70,11 @@ GtkWidget *hbox       = NULL ;
 GtkWidget *label1     = NULL ;
 GtkWidget *label2     = NULL ;
 GtkWidget *label3     = NULL ;
+GtkWidget *label4     = NULL ;
 GtkWidget *text1      = NULL ;
 GtkWidget *text2      = NULL ;
 GtkWidget *text3      = NULL ;
+GtkWidget *text4      = NULL ;
 GtkWidget *frame      = NULL ;
 GtkWidget *button     = NULL ;
 GtkWidget *button2    = NULL ;
@@ -95,6 +97,7 @@ GdkColormap *cmap = NULL ;
 int label1_active = 0 ;
 int label2_active = 0 ;
 int label3_active = 0 ;
+int label4_active = 0 ;
 
 /* GFX cooperation --------------------------- */
 
@@ -203,7 +206,7 @@ void get_draw_size(int *x0, int *y0, int *width, int *height)
 }
 
 /* sets properties of the input line */
-int mdgfx_set_input(char *framestr, char *l1, double val1, char *l2, double val2, char *l3, double val3, int butt)
+int mdgfx_set_input(char *framestr, char *l1, double val1, char *l2, double val2, char *l3, double val3, char *l4, double val4, int butt)
 {
   char str[2049] ;
   int  i ;
@@ -300,19 +303,42 @@ int mdgfx_set_input(char *framestr, char *l1, double val1, char *l2, double val2
     gtk_widget_hide(text3) ;
   }
 
+  if (l4 != NULL)
+  {
+    label3_active = 1 ;
+    gtk_widget_show(label4) ;
+    gtk_widget_show(text4) ;
+
+    gtk_label_set_text(GTK_LABEL(label4), l4);
+    for (i=0; i<2048; i++) {str[i] = '\0' ;}
+		if (val4 == 0) { sprintf(str,"0"); }
+		else { if (fabs(val4) < 1.0) { sprintf(str,"%f", val4); }
+			else { sprintf(str,"%2.0f", val4); } }
+    gtk_entry_set_text(GTK_ENTRY(text4), str) ;
+  }
+  else
+  {
+    label4_active = 0 ;
+    gtk_widget_hide(label4) ;
+    gtk_widget_hide(text4) ;
+  }
+
+
   gtk_widget_show(frame) ;
   return(OK);
 }
 
-void mdgui_scan_data(double *val1, double *val2, double *val3)
+void mdgui_scan_data(double *val1, double *val2, double *val3, double *val4)
 {
   *val1 = 0 ;
   *val2 = 0 ;
   *val3 = 0 ;
+  *val4 = 0 ;
 
   if (label1_active == 1) { *val1 = atof(gtk_entry_get_text(GTK_ENTRY(text1))); }
   if (label2_active == 1) { *val2 = atof(gtk_entry_get_text(GTK_ENTRY(text2))); }
   if (label3_active == 1) { *val3 = atof(gtk_entry_get_text(GTK_ENTRY(text3))); }
+  if (label4_active == 1) { *val4 = atof(gtk_entry_get_text(GTK_ENTRY(text4))); }
 }
 /* end of GFX cooperation --------------------------- */
 
@@ -403,14 +429,14 @@ gint area_button_press (GtkWidget* widget, GdkEventButton *event, gpointer data)
 {
   int x = event->x;
   int y = event->y;
-  double val1, val2, val3 ;
+  double val1, val2, val3, val4 ;
 
   if (event->button == 1)
   {
     if (pickMode > 0)
     {
-      mdgui_scan_data(&val1, &val2, &val3);
-      md_input_action(x, y, val1, val2, val3);
+      mdgui_scan_data(&val1, &val2, &val3, &val4);
+      md_input_action(x, y, val1, val2, val3, val4);
     
       md_draw();
       gtk_widget_draw (area, NULL);
@@ -423,10 +449,10 @@ gint area_button_press (GtkWidget* widget, GdkEventButton *event, gpointer data)
 /* the "OK" button in bottom right corner was pressed */
 gint button_click_action (GtkWidget* widget, GdkEventButton *event, gpointer data)
 {
-  double val1, val2, val3 ;
+  double val1, val2, val3, val4 ;
 
-  mdgui_scan_data(&val1, &val2, &val3);
-  md_input_action(0, 0, val1, val2, val3);
+  mdgui_scan_data(&val1, &val2, &val3, &val4);
+  md_input_action(0, 0, val1, val2, val3, val4);
 
   md_draw();
   gtk_widget_draw (area, NULL);
@@ -436,7 +462,7 @@ gint button_click_action (GtkWidget* widget, GdkEventButton *event, gpointer dat
 gint button2_click_action (GtkWidget* widget, GdkEventButton *event, gpointer data)
 {
   gfxAction = 0 ;
-  md_input_action(0, 0, 0, 0, 0);
+  md_input_action(0, 0, 0, 0, 0,0);
 
   md_draw();
   gtk_widget_draw (area, NULL);
@@ -488,7 +514,7 @@ void menu_ops(gpointer    data,
   if (gfxAction == 555) 
 	{ 
     pickMode = 0 ;
-    mdgfx_set_input(0, 0,0,0,0,0,0,0);
+    mdgfx_set_input(0, 0,0,0,0,0,0,0, 0,0);
 
 		/* run solver here */
 		if (solve()!= OK)
@@ -894,6 +920,16 @@ int gui_main(int argc, char *argv[])
 	hbox = gtk_hbox_new(homogenous, spacing);
 	gtk_container_add(GTK_CONTAINER(frame),hbox);
 	gtk_widget_show(hbox);
+
+	label4 = gtk_label_new("  ----: ") ;
+	gtk_box_pack_start(GTK_BOX(hbox),label4,expand, TRUE, padding);
+	gtk_widget_show(label4);
+
+	text4 = gtk_entry_new() ;
+	gtk_box_pack_start(GTK_BOX(hbox),text4, TRUE, TRUE, padding);
+	gtk_widget_set_size_request (text4, 8, -1);
+	gtk_widget_show(text4);
+
 
 	label1 = gtk_label_new("  ----: ") ;
 	gtk_box_pack_start(GTK_BOX(hbox),label1,expand, TRUE, padding);
