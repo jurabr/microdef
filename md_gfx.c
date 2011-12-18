@@ -1865,19 +1865,46 @@ void md_from_user_action(void)
              0);
              break ;
     case 5 : /* add ux b.c */
-             pickMode = 2 ;
-             mdgfx_set_input(" UX Support ",
+             if (mdText == 0)
+             {
+               pickMode = 2 ;
+               mdgfx_set_input(" UX Support ",
                  " UX = ", defaultPosX, 0, 0, 0, 0, 0, 0, 0);
+             }
+             else
+             {
+               pickMode = 1 ;
+               mdgfx_set_input(" UX Support ",
+                 " UX = ", defaultPosX, 0, 0, 0, 0, "Node: ",1, 2);
+             }
              break ;
     case 6 : /* add uy b.c */
+             if (mdText == 0)
+             {
              pickMode = 2 ;
              mdgfx_set_input(" UY Support ",
                  0,0, " UY = ", defaultPosY, 0, 0, 0, 0, 0);
+             }
+             else
+             {
+               pickMode = 1 ;
+               mdgfx_set_input(" UY Support ",
+                 0,0, " UY = ", defaultPosY, 0, 0, "Node: ", 1, 2);
+             }
              break ;
     case 7 : /* add ux+uy b.c */
+             if (mdText == 0)
+             {
              pickMode = 2 ;
              mdgfx_set_input(" UX+UY Support ",
                  " UX = ",defaultPosX," UY = ",defaultPosY,0,0,0, 0, 0);
+             }
+             else
+             {
+               pickMode = 1 ;
+               mdgfx_set_input(" UX+UY Support ",
+                 " UX = ",defaultPosX," UY = ",defaultPosY,0,0,"Node: ", 1, 2);
+             }
              break ;
     case 8 : /* add ux+rotz b.c */
              pickMode = 2 ;
@@ -1890,24 +1917,61 @@ void md_from_user_action(void)
                  0,0," UY = ",defaultPosY," ROTZ = ",defaultRotZ,0, 0, 0);
              break ;
     case 10 : /* add ux+uy+rotz b.c */
+             if (mdText == 0)
+             {
              pickMode = 2 ;
              mdgfx_set_input(" UX+UY+ROTZ Support ",
                  " UX = ",defaultPosX," UY = ",defaultPosY," ROTZ = ",defaultRotZ,0, 0, 0);
+             }
+             else
+             {
+               pickMode = 1 ;
+               mdgfx_set_input(" UX+UY+ROTZ Support ",
+                 " UX = ",defaultPosX," UY = ",defaultPosY," ROTZ = ",defaultRotZ,"Node: ", 1, 2);
+             }
              break ;
     case 11 : /* add force/moment */
+             if (mdText == 0)
+             {
              pickMode = 2 ;
              mdgfx_set_input(" Force/Moment ",
                  " FX = ",defaultFx," FY = ",defaultFy," MZ = ",defaultMz,0, 0, 0);
+             }
+             else
+             {
+               pickMode = 1 ;
+               mdgfx_set_input(" Force/Moment ",
+                 "FX=",defaultFx,"FY=",defaultFy,"M=",defaultMz,"Nd:", 1, 2);
+             }
+
              break ;
     case 13 : /* add na,nb  */
+             if (mdText == 0)
+             {
              pickMode = 3 ;
              mdgfx_set_input(" Load in normal dir. ",
                  " na = ",defaultNA," nb = ",defaultNB,0,0,0, 0, 0);
+             }
+             else
+             {
+             pickMode = 3 ;
+             mdgfx_set_input(" Load in normal dir. ",
+                 " na = ",defaultNA," nb = ",defaultNB,0,0,"E:", 1, 2);
+             }
              break ;
     case 14 : /* add na,nb  */
+             if (mdText == 0)
+             {
              pickMode = 3 ;
              mdgfx_set_input(" Load in transverse dir. ",
                  " va = ",defaultVA," vb = ",defaultVB,0,0,0, 0, 0);
+             }
+             else
+             {
+             pickMode = 3 ;
+             mdgfx_set_input(" Load in transverse dir. ",
+                 " va = ",defaultVA," vb = ",defaultVB,0,0,"E", 1, 2);
+             }
              break ;
 
     case 21 : /* delete node  */
@@ -2106,6 +2170,8 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
              }
              break ;
     case 5 : /* add ux b.c */
+             if (mdText == 0)
+             {
              if ((pos=gfx_node_find_clicked(x,y)) >= 0)
              {
                defaultPosX = val1 ;
@@ -2113,8 +2179,19 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
                defaultRotZ = 0 ;
                md_add_disp(pos, gfxAction-4, defaultPosX, defaultPosY, defaultRotZ);
              }
+             }
+             else
+             {
+               defaultPosX = val1 ;
+               defaultPosY = 0 ;
+               defaultRotZ = 0 ;
+               pos = (int)val4-1 ;
+               md_add_disp(pos, gfxAction-4, defaultPosX, defaultPosY, defaultRotZ);
+             }
              break ;
     case 6 : /* add uy b.c */
+             if (mdText == 0)
+             {
              if ((pos=gfx_node_find_clicked(x,y)) >= 0)
              {
                defaultPosX = 0 ;
@@ -2122,13 +2199,33 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
                defaultRotZ = 0 ;
                md_add_disp(pos, gfxAction-4, defaultPosX, defaultPosY, defaultRotZ);
              }
+             }
+             else
+             {
+               defaultPosX = 0 ;
+               defaultPosY = val2 ;
+               defaultRotZ = 0 ;
+               pos = (int)val4-1 ;
+               md_add_disp(pos, gfxAction-4, defaultPosX, defaultPosY, defaultRotZ);
+             }
              break ;
     case 7 : /* add ux+uy b.c */
+             if (mdText == 0)
+             {
              if ((pos=gfx_node_find_clicked(x,y)) >= 0)
              {
                defaultPosX = val1 ;
                defaultPosY = val2 ;
                defaultRotZ = 0 ;
+               md_add_disp(pos, gfxAction-4, defaultPosX, defaultPosY, defaultRotZ);
+             }
+             }
+             else
+             {
+               defaultPosX = val1 ;
+               defaultPosY = val2 ;
+               defaultRotZ = 0 ;
+               pos = (int)val4-1 ;
                md_add_disp(pos, gfxAction-4, defaultPosX, defaultPosY, defaultRotZ);
              }
              break ;
@@ -2151,6 +2248,8 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
              }
              break ;
     case 10 : /* add ux+uy+rotz b.c */
+             if (mdText == 0)
+             {
              if ((pos=gfx_node_find_clicked(x,y)) >= 0)
              {
                defaultPosX = val1 ;
@@ -2158,8 +2257,19 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
                defaultRotZ = val3 ;
                md_add_disp(pos, gfxAction-4, defaultPosX, defaultPosY, defaultRotZ);
              }
+             }
+             else
+             {
+               defaultPosX = val1 ;
+               defaultPosY = val2 ;
+               defaultRotZ = val3 ;
+               pos = (int)val4-1 ;
+               md_add_disp(pos, gfxAction-4, defaultPosX, defaultPosY, defaultRotZ);
+             }
              break ;
     case 11 : /* add force/moment */
+             if (mdText == 0)
+             {
              if ((pos=gfx_node_find_clicked(x,y)) >= 0)
              {
                defaultFx = val1 ;
@@ -2167,20 +2277,49 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
                defaultMz = val3 ;
                md_add_force(pos, defaultFx, defaultFy, defaultMz);
              }
+             }
+             else
+             {
+               defaultFx = val1 ;
+               defaultFy = val2 ;
+               defaultMz = val3 ;
+               pos = (int)val4-1 ;
+               md_add_force(pos, defaultFx, defaultFy, defaultMz);
+             }
              break ;
     case 13 : /* add na,nb  */
+             if (mdText == 0)
+             {
              if ((pos=gfx_elem_find_clicked(x,y)) >= 0)
              {
                defaultNA = val1 ;
                defaultNB = val2 ;
                md_add_n_eload(pos, defaultNA, defaultNB);
              }
+             }
+             else
+             {
+               defaultNA = val1 ;
+               defaultNB = val2 ;
+               pos = (int)val4-1 ; /* TODO */
+               md_add_n_eload(pos, defaultNA, defaultNB);
+             }
              break ;
     case 14 : /* add na,nb  */
+             if (mdText == 0)
+             {
              if ((pos=gfx_elem_find_clicked(x,y)) >= 0)
              {
                defaultVA = val1 ;
                defaultVB = val2 ;
+               md_add_v_eload(pos, defaultVA, defaultVB);
+             }
+             }
+             else
+             {
+               defaultVA = val1 ;
+               defaultVB = val2 ;
+               pos = (int)val4-1 ; /* TODO */
                md_add_v_eload(pos, defaultVA, defaultVB);
              }
              break ;

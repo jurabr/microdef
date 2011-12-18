@@ -733,6 +733,7 @@ int md_del_force(int node_pos)
 int md_add_n_eload(int elem_pos, double na, double nb)
 {
   if ((e_len) <= elem_pos) {return(ERR_VAL);}
+  if (0 > elem_pos) {return(ERR_VAL);}
 
   e_na[ elem_pos ] = na ;
   e_nb[ elem_pos ] = nb ;

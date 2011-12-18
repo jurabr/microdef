@@ -305,7 +305,7 @@ int mdgfx_set_input(char *framestr, char *l1, double val1, char *l2, double val2
 
   if (l4 != NULL)
   {
-    label3_active = 1 ;
+    label4_active = 1 ;
     gtk_widget_show(label4) ;
     gtk_widget_show(text4) ;
 
