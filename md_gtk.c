@@ -748,7 +748,9 @@ void make_menus(void)
 #ifndef _OMAKO_
     { "/Edit/tear6",    NULL,      NULL,         0, "<Tearoff>" },
 #endif
+#ifndef _NANONOTE_
     { "/Edit/Node",     NULL, menu_ops,     15, "<Item>" },
+#endif
     { "/Edit/Element", NULL, menu_ops,    16, "<Item>" },
 
     { "/Edit/sep1",     NULL,      NULL,         0, "<Separator>" },

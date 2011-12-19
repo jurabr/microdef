@@ -1975,28 +1975,76 @@ void md_from_user_action(void)
              break ;
 
     case 21 : /* delete node  */
-             pickMode = 2 ;
-             mdgfx_set_input(0, 0,0,0,0,0,0,0, 0, 0);
+             if (mdText == 0)
+             {
+              pickMode = 2 ;
+              mdgfx_set_input(0, 0,0,0,0,0,0,0, 0, 0);
+             }
+             else
+             {
+              pickMode = 1 ;
+              mdgfx_set_input("Node to delete", 0,0,0,0,0,0,"Node: ", 1, 2);
+             }
              break ;
     case 22 : /* delete element  */
-             pickMode = 3 ;
-             mdgfx_set_input(0, 0,0,0,0,0,0,0, 0, 0);
+             if (mdText == 0)
+             {
+              pickMode = 3 ;
+              mdgfx_set_input(0, 0,0,0,0,0,0,0, 0, 0);
+             }
+             else
+             {
+              pickMode = 3 ;
+              mdgfx_set_input("Element to delete", 0,0,0,0,0,0,"Elem: ", 1, 2);
+             }
              break ;
     case 23 : /* delete support  */
+             if (mdText == 0)
+             {
              pickMode = 2 ;
              mdgfx_set_input(0, 0,0,0,0,0,0,0, 0, 0);
+             }
+             else
+             {
+             pickMode = 1 ;
+             mdgfx_set_input("Support to delete", 0,0,0,0,0,0,"Node: ", 1, 2);
+             }
              break ;
     case 24 : /* delete force  */
+             if (mdText == 0)
+             {
              pickMode = 2 ;
              mdgfx_set_input(0, 0,0,0,0,0,0,0, 0, 0);
+             }
+             else
+             {
+             pickMode = 1 ;
+             mdgfx_set_input("Force to delete", 0,0,0,0,0,0,"Node: ", 1, 2);
+             }
              break ;
     case 25 : /* delete na,nb  */
+             if (mdText == 0)
+             {
              pickMode = 3 ;
              mdgfx_set_input(0, 0,0,0,0,0,0,0, 0, 0);
+             }
+             else
+             {
+              pickMode = 2 ;
+              mdgfx_set_input("Axial load to delete", 0,0,0,0,0,0,"Elem: ", 1, 2);
+             }
              break ;
     case 26 : /* delete va,vb  */
+             if (mdText == 0)
+             {
              pickMode = 3 ;
              mdgfx_set_input(0, 0,0,0,0,0,0,0, 0, 0);
+             }
+             else
+             {
+              pickMode = 2 ;
+              mdgfx_set_input("Transverse load to delete", 0,0,0,0,0,0,"Elem: ", 1, 2);
+             }
              break ;
 
     case 27 : /* grid real size */
@@ -2030,34 +2078,77 @@ void md_from_user_action(void)
              0);
              break ;
     case 30 : /* change element type */
+             if (mdText == 0)
+             {
              pickMode = 3 ;
              mdgfx_set_input("Change Element to |--|", 0,0,0,0,0,0,0, 0, 0);
+             }
+             else
+             {
+             pickMode = 2 ;
+             mdgfx_set_input("Change Element to |--|", 0,0,0,0,0,0,"Elem: ", 1, 2);
+             }
              break ;
     case 31 :
+             if (mdText == 0)
+             {
              pickMode = 3 ;
              mdgfx_set_input("Change Element to o--|", 0,0,0,0,0,0,0, 0, 0);
+             }
+             else
+             {
+             pickMode = 2 ;
+             mdgfx_set_input("Change Element to o--|", 0,0,0,0,0,0,"Elem: ", 1, 2);
+             }
              break ;
     case 32 :
+             if (mdText == 0)
+             {
              pickMode = 3 ;
              mdgfx_set_input("Change Element to |--o", 0,0,0,0,0,0,0, 0, 0);
+             }
+             else
+             {
+             pickMode = 2 ;
+             mdgfx_set_input("Change Element to |--o", 0,0,0,0,0,0,"Elem: ", 1, 2);
+             }
              break ;
     case 33 :
+             if (mdText == 0)
+             {
              pickMode = 3 ;
              mdgfx_set_input("Change Element to o--o", 0,0,0,0,0,0,0, 0, 0);
+             }
+             else
+             {
+             pickMode = 2 ;
+             mdgfx_set_input("Change Element to 0--0", 0,0,0,0,0,0,"Elem: ", 1, 2);
+             }
              break ;
 
     /* Editing functions: ----------------- */
-    case 15: /* edit element */
+    case 15: /* edit node */
              pickMode = 2 ;
              nodeEdit = -1 ;
              mdgfx_set_input(" Pick a Node! ",
              0, 0, 0, 0, 0, 0, 0, 0, 0);
              break ;
     case 16: /* edit element */
+             if (mdText == 0)
+             {
              pickMode = 3 ;
              elemEdit = -1 ;
              mdgfx_set_input(" Pick an Element! ",
              0, 0, 0, 0, 0, 0, 0, 0, 0);
+             }
+             else
+             {
+             pickMode = 2 ;
+             elemEdit = -1 ;
+             mdgfx_set_input(" Element to edit ",
+             0, 0, 0, 0, 0, 0, "Elem: ", 1, 2);
+
+             }
              break ;
     /* Text input functions: ----------------- */
     case 51: /* add element */
@@ -2157,7 +2248,6 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
              }
              else /* keyboard-only input */
              {
-               /* TODO */
               defaultE = val1 ;
               defaultA = val2 ;
               defaultI = val3 ;
@@ -2182,11 +2272,13 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
              }
              else
              {
-               defaultPosX = val1 ;
-               defaultPosY = 0 ;
-               defaultRotZ = 0 ;
-               pos = (int)val4-1 ;
-               md_add_disp(pos, gfxAction-4, defaultPosX, defaultPosY, defaultRotZ);
+              if ((pos=md_node_find_by_number((int)val4)) != -1)
+              {
+                defaultPosX = val1 ;
+                defaultPosY = 0 ;
+                defaultRotZ = 0 ;
+                md_add_disp(pos, gfxAction-4, defaultPosX, defaultPosY, defaultRotZ);
+              }
              }
              break ;
     case 6 : /* add uy b.c */
@@ -2202,11 +2294,13 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
              }
              else
              {
+              if ((pos=md_node_find_by_number((int)val4)) != -1)
+              {
                defaultPosX = 0 ;
                defaultPosY = val2 ;
                defaultRotZ = 0 ;
-               pos = (int)val4-1 ;
                md_add_disp(pos, gfxAction-4, defaultPosX, defaultPosY, defaultRotZ);
+              }
              }
              break ;
     case 7 : /* add ux+uy b.c */
@@ -2222,11 +2316,13 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
              }
              else
              {
+              if ((pos=md_node_find_by_number((int)val4)) != -1)
+              {
                defaultPosX = val1 ;
                defaultPosY = val2 ;
                defaultRotZ = 0 ;
-               pos = (int)val4-1 ;
                md_add_disp(pos, gfxAction-4, defaultPosX, defaultPosY, defaultRotZ);
+              }
              }
              break ;
     case 8 : /* add ux+rotz b.c */
@@ -2260,11 +2356,13 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
              }
              else
              {
+              if ((pos=md_node_find_by_number((int)val4)) != -1)
+              {
                defaultPosX = val1 ;
                defaultPosY = val2 ;
                defaultRotZ = val3 ;
-               pos = (int)val4-1 ;
                md_add_disp(pos, gfxAction-4, defaultPosX, defaultPosY, defaultRotZ);
+              }
              }
              break ;
     case 11 : /* add force/moment */
@@ -2280,11 +2378,13 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
              }
              else
              {
+              if ((pos=md_node_find_by_number((int)val4)) != -1)
+              {
                defaultFx = val1 ;
                defaultFy = val2 ;
                defaultMz = val3 ;
-               pos = (int)val4-1 ;
                md_add_force(pos, defaultFx, defaultFy, defaultMz);
+              }
              }
              break ;
     case 13 : /* add na,nb  */
@@ -2299,10 +2399,12 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
              }
              else
              {
+              if ((pos=md_elem_find_by_number((int)val4)) != -1)
+              {
                defaultNA = val1 ;
                defaultNB = val2 ;
-               pos = (int)val4-1 ; /* TODO */
                md_add_n_eload(pos, defaultNA, defaultNB);
+              }
              }
              break ;
     case 14 : /* add na,nb  */
@@ -2317,47 +2419,109 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
              }
              else
              {
+              if ((pos=md_elem_find_by_number((int)val4)) != -1)
+              {
                defaultVA = val1 ;
                defaultVB = val2 ;
-               pos = (int)val4-1 ; /* TODO */
                md_add_v_eload(pos, defaultVA, defaultVB);
+              }
              }
              break ;
 
     case 21 : /* delete node */
+             if (mdText == 0)
+             {
              if ((pos=gfx_node_find_clicked(x,y)) >= 0)
              {
                md_del_node(pos);
              }
+             }
+             else
+             {
+              if ((pos=md_node_find_by_number((int)val4)) != -1)
+              {
+                md_del_node(pos);
+              }
+             }
              break ;
     case 22 : /* delete element */
+             if (mdText == 0)
+             {
              if ((pos=gfx_elem_find_clicked(x,y)) >= 0)
              {
                md_del_elem(pos);
              }
+             }
+             else
+             {
+              if ((pos=md_elem_find_by_number((int)val4)) != -1)
+              {
+                md_del_elem(pos);
+              }
+             }
              break ;
     case 23 : /* delete support */
+             if (mdText == 0)
+             {
              if ((pos=gfx_node_find_clicked(x,y)) >= 0)
              {
                md_del_disp(pos);
              }
+             }
+             else
+             {
+              if ((pos=md_node_find_by_number((int)val4)) != -1)
+              {
+               md_del_disp(pos);
+              }
+             }
              break ;
     case 24 : /* delete force */
+             if (mdText == 0)
+             {
              if ((pos=gfx_node_find_clicked(x,y)) >= 0)
              {
                md_del_force(pos);
              }
+             }
+             else
+             {
+              if ((pos=md_node_find_by_number((int)val4)) != -1)
+              {
+               md_del_force(pos);
+              }
+             }
              break ;
     case 25 : /* delete na,nb */
+             if (mdText == 0)
+             {
              if ((pos=gfx_elem_find_clicked(x,y)) >= 0)
              {
                md_del_n_eload(pos);
              }
+             }
+             else
+             {
+              if ((pos=md_elem_find_by_number((int)val4)) != -1)
+              {
+               md_del_n_eload(pos);
+              }
+             }
              break ;
     case 26 : /* delete va,vb */
+             if (mdText == 0)
+             {
              if ((pos=gfx_elem_find_clicked(x,y)) >= 0)
              {
                md_del_v_eload(pos);
+             }
+             }
+             else
+             {
+              if ((pos=md_elem_find_by_number((int)val4)) != -1)
+              {
+               md_del_v_eload(pos);
+              }
              }
              break ;
 
@@ -2376,9 +2540,19 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
     case 31 :
     case 32 :
     case 33 :
+             if (mdText == 0)
+             {
              if ((pos=gfx_elem_find_clicked(x,y)) >= 0)
              {
                SET_ELEM_TYPE(pos,gfxAction-30) ;
+             }
+             }
+             else
+             {
+              if ((pos=md_elem_find_by_number((int)val4)) != -1)
+              {
+                SET_ELEM_TYPE(pos,gfxAction-30) ;
+              }
              }
              break ;
 
@@ -2422,6 +2596,8 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
              }
              break ;
     case 16: /* edit element */
+             if (mdText == 0)
+             {
              if (elemEdit == -1)
              {
                if ((elemEdit=gfx_elem_find_clicked(x,y)) >= 0)
@@ -2457,6 +2633,46 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
                0, 0, 0, 0, 0, 0, 0,0,0);
 
                elemEdit = -1 ;
+             }
+             }
+             else
+             {
+             if (elemEdit == -1)
+             {
+               if ((elemEdit=md_elem_find_by_number((int)val4)) >= 0)
+               {
+                 pickMode = 0 ;
+                 mdgfx_set_input(" Element properties ",
+                 " E = ", GET_ELEM_E(elemEdit),
+                 " A = ", GET_ELEM_A(elemEdit),
+                 " I = ", GET_ELEM_I(elemEdit),0,0,
+                 1);
+                 elemOK = 1 ;
+               }
+               else
+               {
+                 elemOK = 0 ;
+               }
+             }
+             else
+             {
+               if (elemOK == 1)
+               {
+                 SET_ELEM_E(elemEdit,val1) ;
+                 SET_ELEM_A(elemEdit,val2) ;
+                 SET_ELEM_I(elemEdit,val3) ;
+               }
+
+               elemOK = 0 ;
+               
+               /* another element */
+               pickMode = 3 ;
+               elemEdit = -1 ;
+               mdgfx_set_input(" Element to edit ",
+               0, 0, 0, 0, 0, 0, "Elem: ",1,2);
+
+               elemEdit = -1 ;
+             }
              }
              break ;
     case 51: /* add element from keyboard */

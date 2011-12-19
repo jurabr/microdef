@@ -78,6 +78,9 @@ extern int md_del_v_eload(int elem_pos);
 
 extern void md_reduce_coords(void);
 
+extern int md_node_find_by_number(int id);
+extern int md_elem_find_by_number(int id);
+
 #ifdef POSIX
 
 #include <math.h>

@@ -1373,4 +1373,42 @@ void md_reduce_coords(void)
   }
 }
 
+/* returnes position of node numbered "id" */
+int md_node_find_by_number(int id)
+{
+  static int pos ;
+  int i ;
+
+  for (i=0; i<n_len; i++)
+  {
+    if (GET_NODE_ID(i) == id)
+    {
+      pos = i ;
+      return(pos);
+    }
+  }
+
+  return(-1);
+}
+
+/* returnes position of node numbered "id" */
+int md_elem_find_by_number(int id)
+{
+  static int pos ;
+  int i ;
+
+  for (i=0; i<e_len; i++)
+  {
+    if (GET_ELEM_ID(i) == id)
+    {
+      pos = i ;
+      return(pos);
+    }
+  }
+
+  return(-1);
+}
+
+
+
 /* end of mdkernel.c */
