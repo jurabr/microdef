@@ -13,7 +13,18 @@ Installation:
 4. cp microdef /any/place/you/want
 
 
+Installation using configure script:
+
+1. tar xzvf microdef-xyz.tar.gz
+2. cd microdef
+3. autoreconf --install
+4. ./configure --prefix=/any/place/you/want
+5. make && sudo make install
+
+
 Problems:
 
 If you don't have the GD library, please remove the "-DGDGUI" and "-lgd"
-statements in the file called Makefile.
+statements in the file called Makefile. 
+
+Note: There is no possibility to use GD with "configure".
