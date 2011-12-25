@@ -849,9 +849,11 @@ gboolean key_press_cb (GtkWidget * widget, GdkEventKey * event, GtkWindow * wind
       return TRUE;
 
     case GDK_Return:
+					button_click_action(widget, NULL, NULL); 
       return TRUE ;
 
     case GDK_Escape: 
+					button2_click_action(widget, NULL, NULL); 
       return TRUE;
   }
 
