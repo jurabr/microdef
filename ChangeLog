@@ -1,3 +1,10 @@
+### Sun Dec 25 22:37:39 CET 2011
+  + version 0.1.0
+  + full keyboard control
+  + small screen compatibility
+  + runs on NAnoNote under JLime (X11)
+
+
 ### Sun May 23 17:49:16 CEST 2010
   + version 0.0.11
   + "Solve" function removed (space saving on PDA)

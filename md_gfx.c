@@ -93,6 +93,7 @@ int   gfxAction= 0 ; /* 0=nothing,
                         33=change element to o--o
                         41=snow node numbers
                         42=snow element numbers
+                        43=keyboard or mouse  control
                         60=plot deformations + reactions
                         61=plot N
                         62=plot M
@@ -2066,6 +2067,13 @@ void md_from_user_action(void)
              if (elemNumbers == 1) { elemNumbers = 0 ; }
              else                  { elemNumbers = 1 ; }
              break ;
+
+    case 43 : /* show element numbers */
+             if (mdText == 1)      { mdText = 0 ; }
+             else                  { mdText = 1 ; }
+             break ;
+
+
 
 
 

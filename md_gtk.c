@@ -235,7 +235,9 @@ int mdgfx_set_input(char *framestr, char *l1, double val1, char *l2, double val2
       break ;
     case 2 : 
       gtk_widget_show(button) ; 
+#ifndef _NANONOTE_
       gtk_widget_show(button2) ; 
+#endif
       break ;
     default:
       gtk_widget_hide(button) ; 
@@ -815,7 +817,8 @@ void make_menus(void)
     { "/Properties/_Grid Size", "<CTRL>G", menu_ops, 27, "<Item>"},
     { "/Properties/_Underlined Elements", "<CTRL>U", menu_ops, 28, "<Item>"}, 
     { "/Properties/_Node Numbers", NULL, menu_ops, 41, "<Item>"}, 
-    { "/Properties/_Elements Numbers", NULL, menu_ops, 42, "<Item>"} 
+    { "/Properties/_Elements Numbers", NULL, menu_ops, 42, "<Item>"},
+    { "/Properties/_Keyboard or Mouse", "<CTRL>K", menu_ops, 43, "<Item>"} 
   };
   static gint nmenu_items = sizeof (menu_items) / sizeof (menu_items[0]);
 
@@ -891,7 +894,7 @@ int gui_main(int argc, char *argv[])
 	/* main window: */
 	windowMain = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(windowMain),
-      "MicroDef 0.0.12");
+      "MicroDef 0.1.0");
   gtk_container_set_border_width (GTK_CONTAINER (windowMain), 1);
 
 	vbox = gtk_vbox_new(homogenous, spacing);
@@ -966,7 +969,9 @@ int gui_main(int argc, char *argv[])
 
 	button2 = gtk_button_new_with_label("Stop") ;
 	gtk_box_pack_start(GTK_BOX(hbox),button2, TRUE, TRUE, padding);
+#ifndef _NANONOTE_
 	gtk_widget_show(button2);
+#endif
 
 	g_signal_connect (G_OBJECT (area), "expose_event", G_CALLBACK (expose_event), NULL);
   g_signal_connect(G_OBJECT(area), "button_press_event", G_CALLBACK(area_button_press), NULL);
@@ -1022,7 +1027,7 @@ char *mdgui_set_title(char *fname)
   static char str[2049];
 
   for (i=0; i<2049; i++) { str[i] = '\0' ; }
-  snprintf(str,2048,"MicroDef 0.0.12: %s", fname);
+  snprintf(str,2048,"MicroDef 0.1.0: %s", fname);
 
   return(str);
 }
