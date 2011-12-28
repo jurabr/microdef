@@ -330,17 +330,72 @@ int mdgfx_set_input(char *framestr, char *l1, double val1, char *l2, double val2
   return(OK);
 }
 
+void mdgui_translate_nums(char *str)
+{
+#ifdef _NANONOTE_
+  int i, j ;
+	char my_numbers[] = {"0123456789"};
+	char my_letters[] = {"/nm=jkluio"};
+
+  if (str == NULL) { return; } 
+  if (strlen(str) < 1 ) { return; } 
+
+	for (i=0; i<strlen(str); i++)
+	{
+		for (j=0; j<strlen(my_numbers); j++)
+		{
+		  if (str[i] == my_letters[j]) {str[i] = my_numbers[j] ; break;}
+		}
+	}
+#endif
+}
+
 void mdgui_scan_data(double *val1, double *val2, double *val3, double *val4)
 {
+#ifdef _NANONOTE_
+	char muf[1024];
+	int i;
+#endif
   *val1 = 0 ;
   *val2 = 0 ;
   *val3 = 0 ;
   *val4 = 0 ;
 
+#ifndef _NANONOTE_
   if (label1_active == 1) { *val1 = atof(gtk_entry_get_text(GTK_ENTRY(text1))); }
   if (label2_active == 1) { *val2 = atof(gtk_entry_get_text(GTK_ENTRY(text2))); }
   if (label3_active == 1) { *val3 = atof(gtk_entry_get_text(GTK_ENTRY(text3))); }
   if (label4_active == 1) { *val4 = atof(gtk_entry_get_text(GTK_ENTRY(text4))); }
+#else
+  if (label1_active == 1) 
+	{
+		for (i=0; i<1023; i++) { muf[i]='\0'; }
+		strncpy(muf,gtk_entry_get_text(GTK_ENTRY(text1)),1023);
+    mdgui_translate_nums(muf);
+		*val1 = atof(muf); 
+	}
+  if (label2_active == 1) 
+	{ 
+		for (i=0; i<1023; i++) { muf[i]='\0'; }
+		strncpy(muf,gtk_entry_get_text(GTK_ENTRY(text2)),1023);
+    mdgui_translate_nums(muf);
+		*val2 = atof(muf); 
+	}
+  if (label3_active == 1) 
+	{ 
+		for (i=0; i<1023; i++) { muf[i]='\0'; }
+		strncpy(muf,gtk_entry_get_text(GTK_ENTRY(text3)),1023);
+    mdgui_translate_nums(muf);
+		*val3 = atof(muf); 
+	}
+  if (label4_active == 1) 
+	{ 
+		for (i=0; i<1023; i++) { muf[i]='\0'; }
+		strncpy(muf,gtk_entry_get_text(GTK_ENTRY(text4)),1023);
+    mdgui_translate_nums(muf);
+		*val4 = atof(muf); 
+	}
+#endif
 }
 /* end of GFX cooperation --------------------------- */
 
