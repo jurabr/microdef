@@ -22,8 +22,8 @@
 */
 
 #ifdef _NANONOTE_
-#define CNV_SIZE_X 320
-#define CNV_SIZE_Y 220
+#define CNV_SIZE_X 200
+#define CNV_SIZE_Y 166
 #else
 #define CNV_SIZE_X 800
 #define CNV_SIZE_Y 600
@@ -810,6 +810,14 @@ void make_menus(void)
 #endif
 
 
+#ifdef _NANONOTE_
+    { "/_Props",         NULL,      NULL,         0, "<Branch>" },
+    { "/Props/_Grid Size", "<CTRL>G", menu_ops, 27, "<Item>"},
+    { "/Props/_Underlined Elements", "<CTRL>U", menu_ops, 28, "<Item>"}, 
+    { "/Props/_Node Numbers", NULL, menu_ops, 41, "<Item>"}, 
+    { "/Props/_Elements Numbers", NULL, menu_ops, 42, "<Item>"},
+    { "/Props/_Keyboard or Mouse", "<CTRL>K", menu_ops, 43, "<Item>"} 
+#else
     { "/_Properties",         NULL,      NULL,         0, "<Branch>" },
 #ifndef _OMAKO_
     { "/Properties/tear10",    NULL,      NULL,         0, "<Tearoff>" },
@@ -819,6 +827,7 @@ void make_menus(void)
     { "/Properties/_Node Numbers", NULL, menu_ops, 41, "<Item>"}, 
     { "/Properties/_Elements Numbers", NULL, menu_ops, 42, "<Item>"},
     { "/Properties/_Keyboard or Mouse", "<CTRL>K", menu_ops, 43, "<Item>"} 
+#endif
   };
   static gint nmenu_items = sizeof (menu_items) / sizeof (menu_items[0]);
 
