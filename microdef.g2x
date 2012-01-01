@@ -1,3 +1,4 @@
 title=microdef
 icon=skin:icons/generic.png
+workdir=/root
 exec=/usr/bin/microdef
