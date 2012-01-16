@@ -225,17 +225,25 @@ extern void mdgtk_draw_big_point(int x, int y);
 extern void mdgtk_draw_line(int x1, int y1, int x2, int y2, int width);
 extern void mdgtk_draw_line_red(int x1, int y1, int x2, int y2, int width);
 extern void mdgtk_draw_line_blue(int x1, int y1, int x2, int y2, int width);
+extern void mdgtk_draw_line_green(int x1, int y1, int x2, int y2, int width);
 extern void get_draw_size(int *x0, int *y0, int *width, int *height);
 extern void mdgtk_draw_string(int x, int y, char *str);
 extern void mdgtk_draw_string_red(int x, int y, char *str);
 extern void mdgtk_draw_string_blue(int x, int y, char *str);
+extern void mdgtk_draw_string_green(int x, int y, char *str);
 #endif
 
 #ifdef GDGUI /* GD library*/
 extern void get_draw_size_gd(int *x0,int *y0,int *width,int *height);
 extern void mdgd_draw_point(int x,int  y);
 extern void mdgd_draw_line(int x1,int  y1,int  x2,int  y2,int  width);
+extern void mdgd_draw_line_red(int x1,int  y1,int  x2,int  y2,int  width);
+extern void mdgd_draw_line_blue(int x1,int  y1,int  x2,int  y2,int  width);
+extern void mdgd_draw_line_green(int x1,int  y1,int  x2,int  y2,int  width);
 extern void mdgd_draw_string(int x,int  y, char *str);
+extern void mdgd_draw_string_red(int x,int  y, char *str);
+extern void mdgd_draw_string_blue(int x,int  y, char *str);
+extern void mdgd_draw_string_green(int x,int  y, char *str);
 extern int mdgd_draw(int width, int height, char *fname);
 
 extern int mdgd_draw_struct(int width, int height, char *fname);

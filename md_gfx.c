@@ -485,7 +485,7 @@ void md_draw_line_red(int x1, int y1, int x2, int y2, int width)
     case MDTERM_GTK: mdgtk_draw_line_red(x1, y1, x2, y2, width); break;
 #endif
 #ifdef GDGUI
-    case MDTERM_GD: mdgd_draw_line(x1, y1, x2, y2, width); break;
+    case MDTERM_GD: mdgd_draw_line_red(x1, y1, x2, y2, width); break;
 #endif
 #ifdef PSGUI
     case MDTERM_PS: mdps_draw_line(x1, y1, x2, y2, width); break;
@@ -501,7 +501,7 @@ void md_draw_line_blue(int x1, int y1, int x2, int y2, int width)
     case MDTERM_GTK: mdgtk_draw_line_blue(x1, y1, x2, y2, width); break;
 #endif
 #ifdef GDGUI
-    case MDTERM_GD: mdgd_draw_line(x1, y1, x2, y2, width); break;
+    case MDTERM_GD: mdgd_draw_line_blue(x1, y1, x2, y2, width); break;
 #endif
 #ifdef PSGUI
     case MDTERM_PS: mdps_draw_line(x1, y1, x2, y2, width); break;
@@ -509,6 +509,21 @@ void md_draw_line_blue(int x1, int y1, int x2, int y2, int width)
   }
 }
 
+void md_draw_line_green(int x1, int y1, int x2, int y2, int width)
+{
+  switch (get_mdterm())
+  {
+#ifdef GTKGUI
+    case MDTERM_GTK: mdgtk_draw_line_green(x1, y1, x2, y2, width); break;
+#endif
+#ifdef GDGUI
+    case MDTERM_GD: mdgd_draw_line_green(x1, y1, x2, y2, width); break;
+#endif
+#ifdef PSGUI
+    case MDTERM_PS: mdps_draw_line(x1, y1, x2, y2, width); break;
+#endif
+  }
+}
 
 
 void md_draw_string(int x, int y, char *str)
@@ -535,7 +550,7 @@ void md_draw_string_red(int x, int y, char *str)
     case MDTERM_GTK: mdgtk_draw_string_red(x, y, str); break;
 #endif
 #ifdef GDGUI
-    case MDTERM_GD: mdgd_draw_string(x, y, str); break;
+    case MDTERM_GD: mdgd_draw_string_red(x, y, str); break;
 #endif
 #ifdef PSGUI
     case MDTERM_PS: mdps_draw_string(x, y, str); break;
@@ -551,7 +566,23 @@ void md_draw_string_blue(int x, int y, char *str)
     case MDTERM_GTK: mdgtk_draw_string_blue(x, y, str); break;
 #endif
 #ifdef GDGUI
-    case MDTERM_GD: mdgd_draw_string(x, y, str); break;
+    case MDTERM_GD: mdgd_draw_string_blue(x, y, str); break;
+#endif
+#ifdef PSGUI
+    case MDTERM_PS: mdps_draw_string(x, y, str); break;
+#endif
+  }
+}
+
+void md_draw_string_green(int x, int y, char *str)
+{
+  switch (get_mdterm())
+  {
+#ifdef GTKGUI
+    case MDTERM_GTK: mdgtk_draw_string_green(x, y, str); break;
+#endif
+#ifdef GDGUI
+    case MDTERM_GD: mdgd_draw_string_green(x, y, str); break;
 #endif
 #ifdef PSGUI
     case MDTERM_PS: mdps_draw_string(x, y, str); break;
@@ -678,23 +709,25 @@ void md_plot_grid(void)
 
 void plot_active_point(int x, int y)
 {
+#if 0 /* it's too visible */
   md_draw_line_red(x,y, x-MDGFX_LEN, y-MDGFX_LEN,1) ;
   md_draw_line_red(x,y, x-MDGFX_LEN, y+MDGFX_LEN,1) ;
   md_draw_line_red(x,y, x+MDGFX_LEN, y-MDGFX_LEN,1) ;
   md_draw_line_red(x,y, x+MDGFX_LEN, y+MDGFX_LEN,1) ;
+#endif
 
-  md_draw_line_red(x-MDGFX_LEN,y-MDGFX_LEN, x-MDGFX_LEN, y+MDGFX_LEN,2) ;
-  md_draw_line_red(x-MDGFX_LEN,y+MDGFX_LEN, x+MDGFX_LEN, y+MDGFX_LEN,2) ;
-  md_draw_line_red(x+MDGFX_LEN,y+MDGFX_LEN, x+MDGFX_LEN, y-MDGFX_LEN,2) ;
-  md_draw_line_red(x+MDGFX_LEN,y-MDGFX_LEN, x-MDGFX_LEN, y-MDGFX_LEN,2) ;
+  md_draw_line_red(x-MDGFX_LEN,y-MDGFX_LEN, x-MDGFX_LEN, y+MDGFX_LEN,1) ;
+  md_draw_line_red(x-MDGFX_LEN,y+MDGFX_LEN, x+MDGFX_LEN, y+MDGFX_LEN,1) ;
+  md_draw_line_red(x+MDGFX_LEN,y+MDGFX_LEN, x+MDGFX_LEN, y-MDGFX_LEN,1) ;
+  md_draw_line_red(x+MDGFX_LEN,y-MDGFX_LEN, x-MDGFX_LEN, y-MDGFX_LEN,1) ;
 }
 
 void plot_node(int x, int y)
 {
-  md_draw_line(x,y, x-MDGFX_SLEN, y,2) ;
-  md_draw_line(x,y, x+MDGFX_SLEN, y,2) ;
-  md_draw_line(x,y, x, y-MDGFX_SLEN,2) ;
-  md_draw_line(x,y, x, y+MDGFX_SLEN,2) ;
+  md_draw_line_red(x,y, x-MDGFX_SLEN, y,2) ;
+  md_draw_line_red(x,y, x+MDGFX_SLEN, y,2) ;
+  md_draw_line_red(x,y, x, y-MDGFX_SLEN,2) ;
+  md_draw_line_red(x,y, x, y+MDGFX_SLEN,2) ;
 }
 
 /* plots all nodes */
@@ -712,7 +745,7 @@ void plot_nodes(int active)
 
       if (nodeNumbers == 1)
       {
-        md_draw_string(  
+        md_draw_string_green(  
           gfx_pos_x(GET_NODE_X(i)),
           gfx_pos_y(GET_NODE_Y(i)),
           md_intstring(GET_NODE_ID(i)) ) ;
@@ -904,7 +937,7 @@ void plot_elems(int active)
                active) ;
     if (elemNumbers == 1)
     {
-      md_draw_string(
+      md_draw_string_green(
           (int) ((gfx_pos_x(GET_NODE_X(GET_ELEM_N1(i)))+gfx_pos_x(GET_NODE_X(GET_ELEM_N2(i))))/2), 
           (int) ((gfx_pos_y(GET_NODE_Y(GET_ELEM_N1(i)))+gfx_pos_y(GET_NODE_Y(GET_ELEM_N2(i))))/2), 
           md_intstring(GET_ELEM_ID(i)) ) ;
@@ -1003,7 +1036,7 @@ void plot_fy(int x, int y, double size)
 
     md_draw_line_red(x,y, x, y+maxFMi, 3) ;
 
-    md_draw_string(x+MDGFX_LEN,y+maxFMi, md_double2string01(fabs(size)) ) ;
+    md_draw_string_red(x+MDGFX_LEN,y+maxFMi, md_double2string01(fabs(size)) ) ;
   }
   else
   {

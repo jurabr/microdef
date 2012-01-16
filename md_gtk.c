@@ -92,6 +92,7 @@ GdkColor     color_white;
 GdkColor     color_black;
 GdkColor     color_red;
 GdkColor     color_blue;
+GdkColor     color_green;
 GdkColormap *cmap = NULL ;
 
 int label1_active = 0 ;
@@ -170,6 +171,15 @@ void mdgtk_draw_line_blue(int x1, int y1, int x2, int y2, int width)
   gdk_gc_set_foreground(area->style->black_gc, &color_black);
 }
 
+void mdgtk_draw_line_green(int x1, int y1, int x2, int y2, int width)
+{
+  gdk_gc_set_foreground(area->style->black_gc, &color_green);
+  gdk_gc_set_line_attributes(area->style->black_gc, width, GDK_LINE_SOLID,GDK_CAP_BUTT,GDK_JOIN_MITER);
+  gdk_draw_line(pixmap, area->style->black_gc,x1,y1,x2,y2);
+  gdk_gc_set_foreground(area->style->black_gc, &color_black);
+}
+
+
 
 void mdgtk_draw_string(int x, int y, char *str)
 {
@@ -195,6 +205,14 @@ void mdgtk_draw_string_blue(int x, int y, char *str)
   gdk_gc_set_foreground(area->style->black_gc, &color_black);
 }
 
+void mdgtk_draw_string_green(int x, int y, char *str)
+{
+  if (font == NULL) { font = gdk_font_load ("fixed"); }
+  if (font == NULL) { return; }
+  gdk_gc_set_foreground(area->style->black_gc, &color_green);
+  gdk_draw_string(pixmap, font, area->style->black_gc, x,y, str);
+  gdk_gc_set_foreground(area->style->black_gc, &color_black);
+}
 
 
 void get_draw_size(int *x0, int *y0, int *width, int *height)
@@ -856,9 +874,13 @@ void make_menus(void)
 #ifdef PSGUI
     { "/Results/Write PS Files", NULL, menu_ops, 59, "<Item>"},
 #endif
-    { "/Results/Write Report", NULL, menu_ops, 64, "<Item>"},
+    { "/Results/Write Report (plain text)", NULL, menu_ops, 64, "<Item>"},
+#ifdef GDGUI
     { "/Results/Write Report (HTML)", NULL, menu_ops, 65, "<Item>"},
+#endif
+#ifdef PSGUI
     { "/Results/Write Report (LaTeX)", NULL, menu_ops, 66, "<Item>"},
+#endif
     { "/Results/sep3a",     NULL,      NULL,         0, "<Separator>" },
 #ifndef _OMAKO_
     { "/Results/Write data for Maxwell-Mohr", NULL, menu_ops, 67, "<Item>"},
@@ -1450,7 +1472,7 @@ void mdgui_select_file_save(char *title)
 /* main program loop */
 int main(int argc, char *argv[]) 
 { 
-#ifndef _OMAKO_
+#if 1
   int rv, i, len ;
 #endif
 
@@ -1458,7 +1480,7 @@ int main(int argc, char *argv[])
 
 	setlocale(LC_NUMERIC,"C") ;
 
-#ifndef _OMAKO_
+#if 1
   if (argc >= 2)
   {
     if ((rv=read_test(argv[1])) == OK)
@@ -1513,6 +1535,10 @@ int main(int argc, char *argv[])
 
   gdk_color_parse("Blue", &color_blue);
   gdk_colormap_alloc_color(cmap, &color_blue, FALSE, TRUE);
+
+  gdk_color_parse("Green", &color_green);
+  gdk_colormap_alloc_color(cmap, &color_green, FALSE, TRUE);
+	
 	
 	gui_main(argc, argv);
 

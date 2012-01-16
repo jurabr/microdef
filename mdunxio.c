@@ -878,8 +878,6 @@ char *md_set_file_ext(char *str, char *lab, char *ext)
     }
   }
 
-printf("dotpos = %i\n", dotpos);
-
   if (dotpos == -1)
   {
     if (strlen(str) >= 1) /* name.ext */
@@ -935,7 +933,6 @@ printf("dotpos = %i\n", dotpos);
   }
   else
   {
-    printf(">>%s<<[%s|%s|%s]",tmp,str,lab,ext);
     return(tmp);
   }
 }

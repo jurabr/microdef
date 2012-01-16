@@ -40,6 +40,8 @@ gdImagePtr im;
 int        black;
 int        white;
 int        red;
+int        blue;
+int        green;
 
 int        mdgd_x0 = 0 ;
 int        mdgd_y0 = 0 ;
@@ -71,9 +73,44 @@ void mdgd_draw_line(int x1,int  y1,int  x2,int  y2,int  width)
   gdImageLine(im, x1, y1, x2, y2, black);
 }
 
+void mdgd_draw_line_red(int x1,int  y1,int  x2,int  y2,int  width)
+{
+#if 0
+  gdImageSetThickness(im,width); /* can be used from GD-2.0 */
+#endif
+  gdImageLine(im, x1, y1, x2, y2, red);
+}
+void mdgd_draw_line_blue(int x1,int  y1,int  x2,int  y2,int  width)
+{
+#if 0
+  gdImageSetThickness(im,width); /* can be used from GD-2.0 */
+#endif
+  gdImageLine(im, x1, y1, x2, y2, blue);
+}
+void mdgd_draw_line_green(int x1,int  y1,int  x2,int  y2,int  width)
+{
+#if 0
+  gdImageSetThickness(im,width); /* can be used from GD-2.0 */
+#endif
+  gdImageLine(im, x1, y1, x2, y2, green);
+}
+
 void mdgd_draw_string(int x,int  y, char *str)
 {
+  gdImageString(im, gdFontSmall, x, y, (unsigned char *)str, black) ;
+}
+
+void mdgd_draw_string_red(int x,int  y, char *str)
+{
   gdImageString(im, gdFontSmall, x, y, (unsigned char *)str, red) ;
+}
+void mdgd_draw_string_green(int x,int  y, char *str)
+{
+  gdImageString(im, gdFontSmall, x, y, (unsigned char *)str, green) ;
+}
+void mdgd_draw_string_blue(int x,int  y, char *str)
+{
+  gdImageString(im, gdFontSmall, x, y, (unsigned char *)str, blue) ;
 }
 
 /* end of "universal drawing functions" */
@@ -99,20 +136,14 @@ int mdgd_draw(int width, int height, char *fname)
   black = gdImageColorAllocate(im, 0, 0, 0);
   white = gdImageColorAllocate(im, 255, 255, 255);
   red   = gdImageColorAllocate(im, 255, 0, 0);
+  blue  = gdImageColorAllocate(im, 0, 0, 255);
+  green = gdImageColorAllocate(im, 0, 255, 0);
 
   gdImageFill(im, 0, 0, white) ;
 
- printf("\nmdterm [1] = %i\n",get_mdterm() );
-  
   md_draw();
 
- printf("mdterm [2] = %i\n",get_mdterm() );
-
   set_mdterm(mdterm_old) ;
-
-#if 0
-  gdImageLine(im, 0, 0, mdgd_width, mdgd_height, black);
-#endif
 
   if ((mdgdFile = fopen(fname, "wb")) == NULL)
   {
