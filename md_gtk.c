@@ -1512,6 +1512,11 @@ int main(int argc, char *argv[])
       }
     }
   }
+  else
+  {
+    data_file = NULL ;
+    md_alloc_empty() ;
+  }
 #else
   data_file = NULL ;
   md_alloc_empty() ;
