@@ -24,6 +24,7 @@
 #ifdef _NANONOTE_
 #define CNV_SIZE_X 200
 #define CNV_SIZE_Y 166
+#define MD_PANGO   1
 #else
 #define CNV_SIZE_X 800
 #define CNV_SIZE_Y 600
@@ -39,6 +40,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
+
+#ifdef MD_PANGO
+#include<pango/pango.h>
+#endif
 
 extern int pickMode ;
 extern int gfxAction;
@@ -93,7 +98,14 @@ GdkColor     color_black;
 GdkColor     color_red;
 GdkColor     color_blue;
 GdkColor     color_green;
+GdkColor     color_gray;
 GdkColormap *cmap = NULL ;
+
+#ifdef MD_PANGO
+PangoFontDescription * pfont;
+PangoContext *context;
+PangoLayout  *layout;
+#endif
 
 int label1_active = 0 ;
 int label2_active = 0 ;
@@ -110,7 +122,11 @@ void mdgtk_draw_point(int x, int y)
 
   gdk_draw_points(pixmap, area->style->black_gc, &point, 1);
 #else
-  point.x = x-1 ; point.y = y ;
+#ifdef _NANONOTE_
+  gdk_gc_set_foreground(area->style->black_gc, &color_gray);
+#endif
+  
+	point.x = x-1 ; point.y = y ;
   gdk_draw_points(pixmap, area->style->black_gc, &point, 1);
   point.x = x+1 ; point.y = y ;
   gdk_draw_points(pixmap, area->style->black_gc, &point, 1);
@@ -119,6 +135,10 @@ void mdgtk_draw_point(int x, int y)
   gdk_draw_points(pixmap, area->style->black_gc, &point, 1);
   point.x = x ; point.y = y+1 ;
   gdk_draw_points(pixmap, area->style->black_gc, &point, 1);
+
+#ifdef _NANONOTE_
+  gdk_gc_set_foreground(area->style->black_gc, &color_black);
+#endif
 #endif
 }
 
@@ -126,6 +146,10 @@ void mdgtk_draw_big_point(int x, int y)
 {
   point.x = x ; point.y = y ;
   gdk_draw_points(pixmap, area->style->black_gc, &point, 1);
+
+#ifdef _NANONOTE_
+  gdk_gc_set_foreground(area->style->black_gc, &color_gray);
+#endif
 
   point.x = x-1 ; point.y = y ;
   gdk_draw_points(pixmap, area->style->black_gc, &point, 1);
@@ -146,6 +170,10 @@ void mdgtk_draw_big_point(int x, int y)
   gdk_draw_points(pixmap, area->style->black_gc, &point, 1);
   point.x = x ; point.y = y+2 ;
   gdk_draw_points(pixmap, area->style->black_gc, &point, 1);
+
+#ifdef _NANONOTE_
+  gdk_gc_set_foreground(area->style->black_gc, &color_black);
+#endif
 }
 
 void mdgtk_draw_line(int x1, int y1, int x2, int y2, int width)
@@ -179,29 +207,57 @@ void mdgtk_draw_line_green(int x1, int y1, int x2, int y2, int width)
   gdk_gc_set_foreground(area->style->black_gc, &color_black);
 }
 
+void mdgtk_draw_line_gray(int x1, int y1, int x2, int y2, int width)
+{
+  gdk_gc_set_foreground(area->style->black_gc, &color_gray);
+  gdk_gc_set_line_attributes(area->style->black_gc, width, GDK_LINE_SOLID,GDK_CAP_BUTT,GDK_JOIN_MITER);
+  gdk_draw_line(pixmap, area->style->black_gc,x1,y1,x2,y2);
+  gdk_gc_set_foreground(area->style->black_gc, &color_black);
+}
 
 
 void mdgtk_draw_string(int x, int y, char *str)
 {
   if (font == NULL) { font = gdk_font_load ("fixed"); }
   if (font == NULL) { return; }
+#ifndef MD_PANGO
   gdk_draw_string(pixmap, font, area->style->black_gc, x,y, str);
+#else
+	pango_layout_set_font_description (layout, pfont);
+  pango_layout_set_text (layout, str, -1);
+  gdk_gc_set_foreground(area->style->black_gc, &color_black);
+  gdk_draw_layout (pixmap, area->style->black_gc, x, y, layout);
+#endif
 }
 
 void mdgtk_draw_string_red(int x, int y, char *str)
 {
   if (font == NULL) { font = gdk_font_load ("fixed"); }
   if (font == NULL) { return; }
+#ifndef MD_PANGO
   gdk_gc_set_foreground(area->style->black_gc, &color_red);
   gdk_draw_string(pixmap, font, area->style->black_gc, x,y, str);
+#else
+	pango_layout_set_font_description (layout, pfont);
+  pango_layout_set_text (layout, str, -1);
+  gdk_gc_set_foreground(area->style->black_gc, &color_red);
+  gdk_draw_layout (pixmap, area->style->black_gc, x, y, layout);
+#endif
   gdk_gc_set_foreground(area->style->black_gc, &color_black);
 }
 void mdgtk_draw_string_blue(int x, int y, char *str)
 {
   if (font == NULL) { font = gdk_font_load ("fixed"); }
   if (font == NULL) { return; }
+#ifndef MD_PANGO
   gdk_gc_set_foreground(area->style->black_gc, &color_blue);
   gdk_draw_string(pixmap, font, area->style->black_gc, x,y, str);
+#else
+	pango_layout_set_font_description (layout, pfont);
+  pango_layout_set_text (layout, str, -1);
+  gdk_gc_set_foreground(area->style->black_gc, &color_blue);
+  gdk_draw_layout (pixmap, area->style->black_gc, x, y, layout);
+#endif
   gdk_gc_set_foreground(area->style->black_gc, &color_black);
 }
 
@@ -209,8 +265,15 @@ void mdgtk_draw_string_green(int x, int y, char *str)
 {
   if (font == NULL) { font = gdk_font_load ("fixed"); }
   if (font == NULL) { return; }
+#ifndef MD_PANGO
   gdk_gc_set_foreground(area->style->black_gc, &color_green);
   gdk_draw_string(pixmap, font, area->style->black_gc, x,y, str);
+#else
+	pango_layout_set_font_description (layout, pfont);
+  pango_layout_set_text (layout, str, -1);
+  gdk_gc_set_foreground(area->style->black_gc, &color_green);
+  gdk_draw_layout (pixmap, area->style->black_gc, x, y, layout);
+#endif
   gdk_gc_set_foreground(area->style->black_gc, &color_black);
 }
 
@@ -981,8 +1044,7 @@ int gui_main(int argc, char *argv[])
 
 	/* main window: */
 	windowMain = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(windowMain),
-      "MicroDef 0.1.0");
+	gtk_window_set_title(GTK_WINDOW(windowMain), "MicroDef 0.1.1");
   gtk_container_set_border_width (GTK_CONTAINER (windowMain), 1);
 
 	vbox = gtk_vbox_new(homogenous, spacing);
@@ -1103,6 +1165,18 @@ int gui_main(int argc, char *argv[])
   mdgui_set_title("untitled");
 #endif /* ndef _OMAKO_ */
 
+	/* PANGO font stuff here: */
+#ifdef MD_PANGO
+#ifndef _NANONOTE_
+	pfont =  pango_font_description_from_string ("Courier,Bold 11");
+#else
+	pfont =  pango_font_description_from_string ("Courier,Medium 8");
+#endif /* end of _NANONOTE_ */
+	context = gtk_widget_create_pango_context (area);
+  layout  = pango_layout_new (context);
+  g_object_unref (context);
+#endif /* end of MD_PANGO*/
+
   gtk_main();
 
   return(rv);
@@ -1115,7 +1189,7 @@ char *mdgui_set_title(char *fname)
   static char str[2049];
 
   for (i=0; i<2049; i++) { str[i] = '\0' ; }
-  snprintf(str,2048,"MicroDef 0.1.0: %s", fname);
+  snprintf(str,2048,"MicroDef 0.1.1: %s", fname);
 
   return(str);
 }
@@ -1543,6 +1617,9 @@ int main(int argc, char *argv[])
 
   gdk_color_parse("Green", &color_green);
   gdk_colormap_alloc_color(cmap, &color_green, FALSE, TRUE);
+
+  gdk_color_parse("Gray", &color_gray);
+  gdk_colormap_alloc_color(cmap, &color_gray, FALSE, TRUE);
 	
 	
 	gui_main(argc, argv);

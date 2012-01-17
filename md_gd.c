@@ -42,6 +42,7 @@ int        white;
 int        red;
 int        blue;
 int        green;
+int        gray;
 
 int        mdgd_x0 = 0 ;
 int        mdgd_y0 = 0 ;
@@ -95,6 +96,14 @@ void mdgd_draw_line_green(int x1,int  y1,int  x2,int  y2,int  width)
   gdImageLine(im, x1, y1, x2, y2, green);
 }
 
+void mdgd_draw_line_gray(int x1,int  y1,int  x2,int  y2,int  width)
+{
+#if 0
+  gdImageSetThickness(im,width); /* can be used from GD-2.0 */
+#endif
+  gdImageLine(im, x1, y1, x2, y2, gray);
+}
+
 void mdgd_draw_string(int x,int  y, char *str)
 {
   gdImageString(im, gdFontSmall, x, y, (unsigned char *)str, black) ;
@@ -138,6 +147,7 @@ int mdgd_draw(int width, int height, char *fname)
   red   = gdImageColorAllocate(im, 255, 0, 0);
   blue  = gdImageColorAllocate(im, 0, 0, 255);
   green = gdImageColorAllocate(im, 0, 255, 0);
+  gray  = gdImageColorAllocate(im, 100, 100, 100);
 
   gdImageFill(im, 0, 0, white) ;
 

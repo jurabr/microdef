@@ -525,6 +525,22 @@ void md_draw_line_green(int x1, int y1, int x2, int y2, int width)
   }
 }
 
+void md_draw_line_gray(int x1, int y1, int x2, int y2, int width)
+{
+  switch (get_mdterm())
+  {
+#ifdef GTKGUI
+    case MDTERM_GTK: mdgtk_draw_line_gray(x1, y1, x2, y2, width); break;
+#endif
+#ifdef GDGUI
+    case MDTERM_GD: mdgd_draw_line_gray(x1, y1, x2, y2, width); break;
+#endif
+#ifdef PSGUI
+    case MDTERM_PS: mdps_draw_line(x1, y1, x2, y2, width); break;
+#endif
+  }
+}
+
 
 void md_draw_string(int x, int y, char *str)
 {
@@ -1412,7 +1428,7 @@ void plot_elem_def(int e_num, double mult)
   L = sqrt ((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)); 
 
   /* first we have to plot the undeformed structure: */
-  md_draw_line(
+  md_draw_line_gray(
       gfx_pos_x(x1),
       gfx_pos_y(y1),
       gfx_pos_x(x2),
