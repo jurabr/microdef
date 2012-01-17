@@ -530,13 +530,19 @@ void md_draw_line_gray(int x1, int y1, int x2, int y2, int width)
   switch (get_mdterm())
   {
 #ifdef GTKGUI
-    case MDTERM_GTK: mdgtk_draw_line_gray(x1, y1, x2, y2, width); break;
+    case MDTERM_GTK:
+				mdgtk_draw_line_gray(x1, y1, x2, y2, width); 
+				break;
 #endif
 #ifdef GDGUI
-    case MDTERM_GD: mdgd_draw_line_gray(x1, y1, x2, y2, width); break;
+    case MDTERM_GD:
+				mdgd_draw_line_gray(x1, y1, x2, y2, width);
+			  break;
 #endif
 #ifdef PSGUI
-    case MDTERM_PS: mdps_draw_line(x1, y1, x2, y2, width); break;
+    case MDTERM_PS: 
+				mdps_draw_line(x1, y1, x2, y2, width); 
+				break;
 #endif
   }
 }
@@ -599,6 +605,22 @@ void md_draw_string_green(int x, int y, char *str)
 #endif
 #ifdef GDGUI
     case MDTERM_GD: mdgd_draw_string_green(x, y, str); break;
+#endif
+#ifdef PSGUI
+    case MDTERM_PS: mdps_draw_string(x, y, str); break;
+#endif
+  }
+}
+
+void md_draw_string_gray(int x, int y, char *str)
+{
+  switch (get_mdterm())
+  {
+#ifdef GTKGUI
+    case MDTERM_GTK: mdgtk_draw_string_gray(x, y, str); break;
+#endif
+#ifdef GDGUI
+    case MDTERM_GD: mdgd_draw_string_gray(x, y, str); break;
 #endif
 #ifdef PSGUI
     case MDTERM_PS: mdps_draw_string(x, y, str); break;
@@ -680,9 +702,50 @@ int md_check_odd(int i, int j)
 }
 #endif
 
+void md_plot_cross(void)
+{
+  md_draw_line_gray(
+			gfx_pos_x(0),
+			gfx_pos_y(0),
+			gfx_pos_x(2*gridReal), 
+			gfx_pos_y(0),
+			1);
+ md_draw_line_gray(
+			gfx_pos_x(0),
+			gfx_pos_y(gridReal/3),
+			gfx_pos_x(2*gridReal), 
+			gfx_pos_y(0),
+			1);
+    md_draw_string_gray(
+			gfx_pos_x(2*gridReal)+MDGFX_LEN, 
+			gfx_pos_y(0)-MDGFX_BLEN2,
+            "X" ) ;
+
+  md_draw_line_gray(
+			gfx_pos_x(0),
+			gfx_pos_y(0),
+			gfx_pos_x(0),
+			gfx_pos_y(2*gridReal), 
+			1);
+ md_draw_line_gray(
+			gfx_pos_x(0),
+			gfx_pos_y(2*gridReal),
+			gfx_pos_x(gridReal/3), 
+			gfx_pos_y(0),
+			1);
+    md_draw_string_gray(
+			gfx_pos_x(0)+MDGFX_LEN, 
+			gfx_pos_y(2*gridReal)-MDGFX_BLEN2,
+            "Y" ) ;
+
+
+}
+
 void md_plot_grid(void)
 {
   int i,j;
+
+  md_plot_cross();
 
   for (i=0; i<=(int)((mdWidth-8-mdX0)/gridSpace); i++)
   {

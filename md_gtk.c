@@ -232,9 +232,9 @@ void mdgtk_draw_string(int x, int y, char *str)
 
 void mdgtk_draw_string_red(int x, int y, char *str)
 {
+#ifndef MD_PANGO
   if (font == NULL) { font = gdk_font_load ("fixed"); }
   if (font == NULL) { return; }
-#ifndef MD_PANGO
   gdk_gc_set_foreground(area->style->black_gc, &color_red);
   gdk_draw_string(pixmap, font, area->style->black_gc, x,y, str);
 #else
@@ -247,9 +247,9 @@ void mdgtk_draw_string_red(int x, int y, char *str)
 }
 void mdgtk_draw_string_blue(int x, int y, char *str)
 {
+#ifndef MD_PANGO
   if (font == NULL) { font = gdk_font_load ("fixed"); }
   if (font == NULL) { return; }
-#ifndef MD_PANGO
   gdk_gc_set_foreground(area->style->black_gc, &color_blue);
   gdk_draw_string(pixmap, font, area->style->black_gc, x,y, str);
 #else
@@ -263,15 +263,31 @@ void mdgtk_draw_string_blue(int x, int y, char *str)
 
 void mdgtk_draw_string_green(int x, int y, char *str)
 {
+#ifndef MD_PANGO
   if (font == NULL) { font = gdk_font_load ("fixed"); }
   if (font == NULL) { return; }
-#ifndef MD_PANGO
   gdk_gc_set_foreground(area->style->black_gc, &color_green);
   gdk_draw_string(pixmap, font, area->style->black_gc, x,y, str);
 #else
 	pango_layout_set_font_description (layout, pfont);
   pango_layout_set_text (layout, str, -1);
   gdk_gc_set_foreground(area->style->black_gc, &color_green);
+  gdk_draw_layout (pixmap, area->style->black_gc, x, y, layout);
+#endif
+  gdk_gc_set_foreground(area->style->black_gc, &color_black);
+}
+
+void mdgtk_draw_string_gray(int x, int y, char *str)
+{
+#ifndef MD_PANGO
+  if (font == NULL) { font = gdk_font_load ("fixed"); }
+  if (font == NULL) { return; }
+  gdk_gc_set_foreground(area->style->black_gc, &color_gray);
+  gdk_draw_string(pixmap, font, area->style->black_gc, x,y, str);
+#else
+	pango_layout_set_font_description (layout, pfont);
+  pango_layout_set_text (layout, str, -1);
+  gdk_gc_set_foreground(area->style->black_gc, &color_gray);
   gdk_draw_layout (pixmap, area->style->black_gc, x, y, layout);
 #endif
   gdk_gc_set_foreground(area->style->black_gc, &color_black);

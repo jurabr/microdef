@@ -121,6 +121,10 @@ void mdgd_draw_string_blue(int x,int  y, char *str)
 {
   gdImageString(im, gdFontSmall, x, y, (unsigned char *)str, blue) ;
 }
+void mdgd_draw_string_gray(int x,int  y, char *str)
+{
+  gdImageString(im, gdFontSmall, x, y, (unsigned char *)str, gray) ;
+}
 
 /* end of "universal drawing functions" */
 
