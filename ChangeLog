@@ -1,6 +1,11 @@
-### Tue Jan 17 10:53:17 CET 2012
+### Thu Jan 19 18:28:43 CET 2012
+  + more readable text output of deformations
+  + Ctrl+K accelerator for element o--o
+  + different color for element numbers
+  - unnecessary menu divider (in Results) removed
 
-features:
+
+### Tue Jan 17 10:53:17 CET 2012
   + version 0.1.1
   + Pango drawing of fonts
   + more colors (including texts)

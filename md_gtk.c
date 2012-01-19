@@ -879,7 +879,7 @@ void make_menus(void)
     { "/Create/Element: o--|", NULL, menu_ops,    3, "<Item>" },
 #endif
     { "/Create/Element: |--o", NULL, menu_ops,    4, "<Item>" },
-    { "/Create/Element: o--o", NULL, menu_ops,    29, "<Item>" },
+    { "/Create/Element: o--o", "<CTRL>K", menu_ops,    29, "<Item>" },
     { "/Create/sep2",     NULL,      NULL,         0, "<Separator>" },
     { "/Create/Support: UX", "<Ctrl>X", menu_ops, 5, "<Item>" },
     { "/Create/Support: UY", "<Ctrl>Y", menu_ops, 6, "<Item>" },
@@ -960,8 +960,8 @@ void make_menus(void)
 #ifdef PSGUI
     { "/Results/Write Report (LaTeX)", NULL, menu_ops, 66, "<Item>"},
 #endif
-    { "/Results/sep3a",     NULL,      NULL,         0, "<Separator>" },
 #ifndef _OMAKO_
+    { "/Results/sep3a",     NULL,      NULL,         0, "<Separator>" },
     { "/Results/Write data for Maxwell-Mohr", NULL, menu_ops, 67, "<Item>"},
 #endif
 

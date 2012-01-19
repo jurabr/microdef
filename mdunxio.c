@@ -1598,13 +1598,13 @@ int md_write_report(
               fprintf(fw,"%i", n_id[i]);
               md_table_td_end(fw,term);
               md_table_td_beg(fw,term);
-              fprintf(fw,"%8.3f", nr_posx[i]);
+              fprintf(fw,"%2.8f", nr_posx[i]);
               md_table_td_end(fw,term);
               md_table_td_beg(fw,term);
-              fprintf(fw,"%8.3f", nr_posy[i]);
+              fprintf(fw,"%2.8f", nr_posy[i]);
               md_table_td_end(fw,term);
               md_table_td_beg(fw,term);
-              fprintf(fw,"%8.3f", nr_rotz[i]);
+              fprintf(fw,"%2.8f", nr_rotz[i]);
             md_table_tr_end(fw,term);
           }
 

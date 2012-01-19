@@ -1016,7 +1016,7 @@ void plot_elems(int active)
                active) ;
     if (elemNumbers == 1)
     {
-      md_draw_string_green(
+      md_draw_string_gray(
           (int) ((gfx_pos_x(GET_NODE_X(GET_ELEM_N1(i)))+gfx_pos_x(GET_NODE_X(GET_ELEM_N2(i))))/2), 
           (int) ((gfx_pos_y(GET_NODE_Y(GET_ELEM_N1(i)))+gfx_pos_y(GET_NODE_Y(GET_ELEM_N2(i))))/2), 
           md_intstring(GET_ELEM_ID(i)) ) ;
