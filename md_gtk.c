@@ -1320,6 +1320,10 @@ void mdgui_select_file_io(char *title, int open)
     gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
   }
 
+#ifdef _NANONOTE_
+	gtk_widget_set_size_request (dialog, 320, 240);
+#endif
+
   if (lakmus != NULL)
   {
     gtk_file_chooser_add_filter((GtkFileChooser *)dialog, lakmus) ;
@@ -1465,6 +1469,10 @@ void mdgui_select_file(char *title)
 
   file_selector = gtk_file_selection_new (title);
 
+#ifdef _NANONOTE_
+	gtk_widget_set_size_request (file_selector, 320, 240);
+#endif
+
   g_signal_connect (GTK_OBJECT(GTK_FILE_SELECTION(file_selector)->ok_button),
     "clicked", G_CALLBACK (mdgui_get_fname), file_selector);
 
@@ -1537,6 +1545,10 @@ void mdgui_select_file_save(char *title)
   GtkWidget *fslelector_save;
 
   fslelector_save = gtk_file_selection_new (title);
+
+#ifdef _NANONOTE_
+	gtk_widget_set_size_request (fslelector_save, 320, 240);
+#endif
 
   g_signal_connect (GTK_OBJECT(GTK_FILE_SELECTION(fslelector_save)->ok_button),
     "clicked", G_CALLBACK (mdgui_get_fname_save), fslelector_save);
