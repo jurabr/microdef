@@ -40,6 +40,11 @@ int mdY0       =    0 ;
 int mdWidth    =    0 ;
 int mdHeight   =    0 ;
 
+/* Extra zoom data: */
+double gf_zoom =    1.0 ;
+int    gf_movx =    0 ;
+int    gf_movy =    0 ;
+
 #ifdef _NANONOTE_
 int mdText     =    1 ;
 #else
@@ -145,12 +150,12 @@ int get_mdterm(void) { return(mdTerm); }
 /* translates real size to screen coordinates */
 int gfx_pos_x(double x)
 {
-  return( (int) ((gridSpace * ( x / gridReal )) + 2 +mdX0) ) ;
+  return( (int) ((gf_zoom * gridSpace * ( x / gridReal )) + 2 +mdX0)+ gf_movx  ) ;
 }
 
 int gfx_pos_y(double x)
 {
-  return( (int) ((mdHeight - 3 - gridSpace * ( x / gridReal )) + mdY0) ) ;
+  return( (int) ((mdHeight - 3 - gf_zoom * gridSpace * ( x / gridReal )) + mdY0)+ gf_movy  ) ;
 }
 
 /* returns [x,y] of active point of line */

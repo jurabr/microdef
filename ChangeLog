@@ -1,3 +1,9 @@
+### Wed Jan 25 19:50:27 CET 2012
+  + version 0.1.2
+  + image can be moved with arrows and zoomed with PgUp, PgDown
+  - editing field's arrow ignorance fixed
+  
+
 ### Thu Jan 19 18:28:43 CET 2012
   + more readable text output of deformations
   + Ctrl+K accelerator for element o--o

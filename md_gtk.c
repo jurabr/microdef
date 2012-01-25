@@ -58,6 +58,10 @@ extern int get_mdterm(void);
 extern int md_write_report( char *fname, int term, int print_input, int print_ke, int  print_k, int print_res, int print_rlist);
 extern int md_write_maxwell( char *fname ) ;
 
+extern double gf_zoom ;
+extern int gf_movx ;
+extern int gf_movy ;
+
 /* prototypes: */
 int mdgfx_set_input(char *framestr, char *l1, double val1, char *l2, double val2, char *l3, double val3, char *l4, double val4, int butt);
 void mdgui_scan_data(double *val1, double *val2, double *val3, double *val4);
@@ -1002,22 +1006,92 @@ gboolean key_press_cb (GtkWidget * widget, GdkEventKey * event, GtkWindow * wind
   switch (event->keyval)
   {
     case GDK_Up:
-      return TRUE;
+      if  (gfxAction == 0)
+      {
+        gf_movy-=10 ;
+        md_from_user_action() ;
+        gtk_widget_draw (area, NULL);
+        return TRUE ;
+      }
+      return FALSE;
 
     case GDK_Down:
-      return TRUE;
+      if  (gfxAction == 0)
+      {
+        gf_movy+=10 ;
+        md_from_user_action() ;
+        gtk_widget_draw (area, NULL);
+        return TRUE ;
+      }
+      return FALSE;
 
     case GDK_Left:
-      return TRUE;
+      if  (gfxAction == 0)
+      {
+        gf_movx-=10 ;
+        md_from_user_action() ;
+        gtk_widget_draw (area, NULL);
+        return TRUE ;
+      }
+      return FALSE;
 
     case GDK_Right:
+      if  (gfxAction == 0)
+      {
+        gf_movx+=10 ;
+        md_from_user_action() ;
+        gtk_widget_draw (area, NULL);
+        return TRUE ;
+      }
+      return FALSE;
+
+    case GDK_Page_Up:
+      if  (gfxAction == 0)
+      {
+        gf_zoom*=1.1 ;
+        md_from_user_action() ;
+        gtk_widget_draw (area, NULL);
+        return TRUE ;
+      }
+      return FALSE;
+
+    case GDK_Page_Down:
+      if  (gfxAction == 0)
+      {
+        gf_zoom*=0.9 ;
+        md_from_user_action() ;
+        gtk_widget_draw (area, NULL);
+        return TRUE ;
+      }
       return TRUE;
+
+    case GDK_Home: 
+    case GDK_End: 
+    case GDK_BackSpace: 
+    case GDK_Delete: 
+          if  (gfxAction == 0)
+          {
+            gf_movx = 0 ;
+            gf_movy = 0 ;
+            gf_zoom = 1.0 ;
+            md_from_user_action() ;
+            gtk_widget_draw (area, NULL);
+        return TRUE ;
+          }
+      return FALSE;
 
     case GDK_Return:
 					button_click_action(widget, NULL, NULL); 
       return TRUE ;
 
     case GDK_Escape: 
+          if  (gfxAction == 0)
+          {
+            gf_movx = 0 ;
+            gf_movy = 0 ;
+            md_from_user_action() ;
+            gtk_widget_draw (area, NULL);
+          }
 					button2_click_action(widget, NULL, NULL); 
       return TRUE;
   }
@@ -1030,7 +1104,6 @@ gboolean window_state_cb (GtkWidget * widget, GdkEventWindowState * event,
 {
   return FALSE;
 }
-
 
 void error_dialog(char *string)
 {
@@ -1060,7 +1133,7 @@ int gui_main(int argc, char *argv[])
 
 	/* main window: */
 	windowMain = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(windowMain), "MicroDef 0.1.1");
+	gtk_window_set_title(GTK_WINDOW(windowMain), "MicroDef 0.1.2");
   gtk_container_set_border_width (GTK_CONTAINER (windowMain), 1);
 
 	vbox = gtk_vbox_new(homogenous, spacing);
@@ -1154,7 +1227,7 @@ int gui_main(int argc, char *argv[])
 	/* key presses: */
 	g_signal_connect(G_OBJECT(windowMain), 
 			        "key_press_event", G_CALLBACK(key_press_cb), windowMain);
-	
+
   gtk_widget_show (windowMain);
 	gtk_widget_hide(frame);
 
@@ -1205,7 +1278,7 @@ char *mdgui_set_title(char *fname)
   static char str[2049];
 
   for (i=0; i<2049; i++) { str[i] = '\0' ; }
-  snprintf(str,2048,"MicroDef 0.1.1: %s", fname);
+  snprintf(str,2048,"MicroDef: %s", fname);
 
   return(str);
 }
