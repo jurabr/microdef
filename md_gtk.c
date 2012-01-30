@@ -906,9 +906,7 @@ void make_menus(void)
 #ifndef _OMAKO_
     { "/Edit/tear6",    NULL,      NULL,         0, "<Tearoff>" },
 #endif
-#ifndef _NANONOTE_
     { "/Edit/Node",     NULL, menu_ops,     15, "<Item>" },
-#endif
     { "/Edit/Element", NULL, menu_ops,    16, "<Item>" },
 
     { "/Edit/sep1",     NULL,      NULL,         0, "<Separator>" },
@@ -1046,6 +1044,7 @@ gboolean key_press_cb (GtkWidget * widget, GdkEventKey * event, GtkWindow * wind
       return FALSE;
 
     case GDK_Page_Up:
+    case GDK_F8:
       if  (gfxAction == 0)
       {
         gf_zoom*=1.1 ;
@@ -1056,6 +1055,7 @@ gboolean key_press_cb (GtkWidget * widget, GdkEventKey * event, GtkWindow * wind
       return FALSE;
 
     case GDK_Page_Down:
+    case GDK_F7:
       if  (gfxAction == 0)
       {
         gf_zoom*=0.9 ;

@@ -2253,10 +2253,20 @@ void md_from_user_action(void)
 
     /* Editing functions: ----------------- */
     case 15: /* edit node */
+             if (mdText == 0)
+             {
              pickMode = 2 ;
              nodeEdit = -1 ;
              mdgfx_set_input(" Pick a Node! ",
              0, 0, 0, 0, 0, 0, 0, 0, 0);
+             }
+             else
+             {
+             pickMode = 2 ;
+             nodeEdit = -1 ;
+             mdgfx_set_input(" Node to edit ",
+             0, 0, 0, 0, 0, 0, "Node: ", 1, 2);
+             }
              break ;
     case 16: /* edit element */
              if (mdText == 0)
@@ -2684,6 +2694,8 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
 
     /* Editing functions: ----------------- */
     case 15: /* edit nodes */
+             if (mdText == 0)
+             {
              if (nodeEdit == -1)
              {
                if ((nodeEdit=gfx_node_find_clicked(x,y)) >= 0)
@@ -2718,6 +2730,44 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
                0, 0, 0, 0, 0, 0, 0,0,0);
 
                nodeEdit = -1 ;
+             }
+             }
+             else /* text-only: */
+             {
+             if (nodeEdit == -1)
+             {
+               if ((nodeEdit=md_node_find_by_number((int)val4)) >= 0)
+               {
+                 pickMode = 0 ;
+                 mdgfx_set_input(" Node position ",
+                 " X = ", GET_NODE_X(nodeEdit),
+                 " Y = ", GET_NODE_Y(nodeEdit),
+                 0, 0,0,0,
+                 1);
+                 nodeOK = 1 ;
+               }
+               else
+               {
+                 nodeOK = 0 ;
+               }
+             }
+             else
+             {
+               if (nodeOK == 1)
+               {
+                SET_NODE_X(nodeEdit, val1) ;
+                SET_NODE_Y(nodeEdit, val2) ;
+               }
+
+               nodeOK = 0 ;
+
+               /* another node */
+               pickMode = 1 ;
+               nodeEdit = -1 ;
+
+               mdgfx_set_input(" Node to edit ",
+               0, 0, 0, 0, 0, 0, "Node: ", 1, 2);
+             }
              }
              break ;
     case 16: /* edit element */
