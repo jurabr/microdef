@@ -1133,7 +1133,7 @@ int gui_main(int argc, char *argv[])
 
 	/* main window: */
 	windowMain = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(windowMain), "MicroDef 0.1.2");
+	gtk_window_set_title(GTK_WINDOW(windowMain), "MicroDef 0.1.3");
   gtk_container_set_border_width (GTK_CONTAINER (windowMain), 1);
 
 	vbox = gtk_vbox_new(homogenous, spacing);
