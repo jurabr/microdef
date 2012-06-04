@@ -27,7 +27,10 @@
 
 #define PI 3.141592653589793238462643383279502884
 
+#ifdef GTKGUI
 extern int mdgfx_set_input(char *framestr, char *l1, double val1, char *l2, double val2, char *l3, double val3, char *l4, double val4, int butt);
+#define GGUI
+#endif
 extern char *md_intstring(int number);
 extern char *md_double2string01(double number);
 extern char *md_double2string04(double number);
@@ -1926,6 +1929,7 @@ int md_draw(void)
 /* action from user (menu etc.) */
 void md_from_user_action(void)
 {
+#ifdef GGUI	
   mdgfx_set_input(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
   switch (gfxAction)
@@ -2300,11 +2304,13 @@ void md_from_user_action(void)
   elemEdit = -1 ;
   nodeOK   =  0 ;
   elemOK   =  0 ;
+#endif
 }
 
 /* action on input (mouse click, button press,...): */
 void md_input_action(int x, int y, double val1, double val2, double val3, double val4)
 {
+#ifdef GGUI
   static int enode = 0 ;
   static int nnum  = 0 ;
   int   pos ;
@@ -2872,6 +2878,7 @@ void md_input_action(int x, int y, double val1, double val2, double val3, double
                    break;
 
   }
+#endif
 }
 
 /* end of md_gfx.c */

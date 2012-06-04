@@ -1220,7 +1220,11 @@ int md_write_report(
   double max, min, xmax, xmin, beg, end, L ;
   int    ixmax, ixmin ;
 
+#ifdef MDDOS
+  if ((fw=fopen(md_set_file_ext(fname,"-r",md_rep_ext(term)),"w")) == NULL)
+#else
   if ((fw=fopen(md_set_file_ext(fname,"-report",md_rep_ext(term)),"w")) == NULL)
+#endif
      { return(ERR_IO) ; }
 
 
