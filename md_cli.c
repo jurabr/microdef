@@ -45,7 +45,11 @@ int main(int argc, char *argv[])
   int rv, i, len ;
 
   data_file       = NULL ;
+
+	fprintf(stdout,"\nMicroDef: statics of 2D frames (batch mode)\n\n");
 	setlocale(LC_NUMERIC,"C") ;
+
+	fprintf(stdout,"Data reading.. ");
 
   if (argc >= 2)
   {
@@ -70,9 +74,11 @@ int main(int argc, char *argv[])
 	  fprintf(stderr,"Data file must be specified!\n");
 		return(-1);
   }
+	fprintf(stdout,"done!\n");
 
 	setlocale(LC_NUMERIC,"C") ;
 
+	fprintf(stdout,"Solution.. ");
   /* run solver here */
 	if (solve()!= OK)
 	{
@@ -80,14 +86,19 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
+	  fprintf(stdout,"done!\n");
     if (data_file != NULL) 
     {
+	    fprintf(stdout,"Saving of results.. ");
 		  write_data(data_file) ;
+	    fprintf(stdout,"done!\n");
+	    fprintf(stdout,"Writing of report.. ");
       md_write_report( data_file, MDOUT_TEXT, 1, 0, 0, 1, 0);
+	    fprintf(stdout,"done!\n");
     }
   }
 
-	fprintf(stdout,"All work done!\n");
+	fprintf(stdout,"\nAll work done!\n");
 
   return(OK); 
 }
