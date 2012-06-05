@@ -251,7 +251,7 @@ memFree:
 /* tests if file exists (OK|ERR_EMP) or is valid (OK|ERR_IO,ERR_VAL) */
 int read_test(char *ifname)
 {
-  int a ;
+  long a ;
   int rv = OK ;
 
   errno = 0 ;
@@ -259,7 +259,7 @@ int read_test(char *ifname)
 
 	if ((ifile=fopen(ifname,"r"))==NULL){return(ERR_EMP);}
 
-	fscanf(ifile,"%i\n", &a);
+	fscanf(ifile,"%li\n", &a);
   if (a != 666777890) {rv = ERR_VAL; goto memFree;} 
 
   fscanf(ifile, "%i", &a) ;
@@ -282,7 +282,7 @@ memFree:
 int read_data(char *ifname)
 {
 	int i ;
-  int id ;
+  long id ;
 
   ifile = NULL ;
   errno = 0 ;
@@ -291,7 +291,7 @@ int read_data(char *ifname)
 
 	if ((ifile=fopen(ifname,"r"))==NULL){return(ERR_IO);}
 
-	fscanf(ifile,"%i\n", &id);
+	fscanf(ifile,"%li\n", &id);
 
   if (id != 666777890) { fclose(ifile); return(ERR_VAL);} /* invalid file */
 
