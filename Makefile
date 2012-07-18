@@ -21,7 +21,7 @@ LIBS_CLI=`pkg-config --libs gtk+-2.0` -lm -L/usr/freeware/lib32 -lgd #-lefence
 
 MMLIBS=-lm
 
-OBJECTS=mdunxio.o mdkernel.o md_gfx.o md_gtk.o md_gd.o md_ps.o
+OBJECTS=mdunxio.o mdkernel.o md_gfx.o md_gtk.o md_gd.o md_ps.o md_plt.o
 OBJECTS_CLI=mdunxio.c mdkernel.c md_gfx.c md_cli.c md_ps.c
 
 all: microdef mmint
@@ -50,6 +50,9 @@ md_gd.o: md_gd.c microdef.h
 
 md_ps.o: md_ps.c microdef.h
 	$(CC) -c $(CFLAGS) md_ps.c
+
+md_plt.o: md_plt.c microdef.h
+	$(CC) -c $(CFLAGS) md_plt.c
 
 mmint: mmint.c
 	$(CC) -o $(@)  $(CFLAGS) mmint.c $(MMLIBS)
