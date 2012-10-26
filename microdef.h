@@ -39,6 +39,7 @@
 #define MDTERM_GTK  1
 #define MDTERM_GD   2
 #define MDTERM_PS   3
+#define MDTERM_PLT  4
 
 #define MDOUT_TEXT  0
 #define MDOUT_HTML  1
@@ -270,6 +271,22 @@ extern int mdps_draw_N(int width, int height, char *fname);
 extern int mdps_draw_V(int width, int height, char *fname);
 extern int mdps_draw_M(int width, int height, char *fname);
 #endif /* PS */
+
+#ifdef PLTGUI /* raw PLT output */
+extern void get_draw_size_plt(int *x0,int *y0,int *width,int *height);
+extern void mdps_draw_point(int x,int  y);
+extern void mdps_draw_line(int x1,int  y1,int  x2,int  y2,int  width);
+extern void mdps_draw_string(int x,int  y, char *str);
+extern int mdps_draw(int width, int height, char *fname);
+
+extern int mdps_draw_struct(int width, int height, char *fname);
+extern int mdps_draw_def(int width, int height, char *fname);
+extern int mdps_draw_N(int width, int height, char *fname);
+extern int mdps_draw_V(int width, int height, char *fname);
+extern int mdps_draw_M(int width, int height, char *fname);
+#endif /* PLT */
+
+
 
 /* catastrophic scenario (http://www.ibiblio.org/apollo/WinGtkHowto.html): */
 #ifdef WIN32 

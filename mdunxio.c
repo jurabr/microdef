@@ -262,15 +262,15 @@ int read_test(char *ifname)
 	fscanf(ifile,"%li\n", &a);
   if (a != 666777890) {rv = ERR_VAL; goto memFree;} 
 
-  fscanf(ifile, "%i", &a) ;
+  fscanf(ifile, "%li", &a) ;
   if (errno != 0) {rv = ERR_IO ; goto memFree;}
   if (a <= 0) {rv = ERR_VAL ; goto memFree;}
 
-  fscanf(ifile, "%i", &a) ;
+  fscanf(ifile, "%li", &a) ;
   if (errno != 0) {rv = ERR_IO ; goto memFree;}
   if (a <= 0) {rv = ERR_VAL ; goto memFree;}
 
-  fscanf(ifile, "%i", &a) ;
+  fscanf(ifile, "%li", &a) ;
   if (errno != 0) {rv = ERR_IO ; goto memFree;}
   if (a <= 0) {rv = ERR_VAL ; goto memFree;}
 
