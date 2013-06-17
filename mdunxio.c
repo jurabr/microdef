@@ -1179,13 +1179,13 @@ void md_get_num_loads(int *disps, int *forces, int *eloads)
 
   for (i=0; i<n_len; i++)
   {
-    if (n_dtype[i] > 0) { *disps++; }
-    if ((n_fx[i] != 0.0)||(n_fy[i] != 0.0)||(n_mz[i] != 0.0)) { *forces++; }
+    if (n_dtype[i] > 0) { *disps += 1; }
+    if ((n_fx[i] != 0.0)||(n_fy[i] != 0.0)||(n_mz[i] != 0.0)) { *forces += 1; }
   }
   
   for (i=0; i<e_len; i++)
   {
-    if ((e_na[i] != 0.0)||(e_nb[i] != 0.0)||(e_va[i] != 0.0)||(e_vb[i] != 0.0)) { *eloads++; }
+    if ((e_na[i] != 0.0)||(e_nb[i] != 0.0)||(e_va[i] != 0.0)||(e_vb[i] != 0.0)) { *eloads += 1; }
   }
 }
 
@@ -1444,12 +1444,12 @@ int md_write_report(
             md_bold_beg(fw,term);
             fprintf(fw,"va");
             md_bold_end(fw,term);
+          md_table_td_end(fw,term);
  
           md_table_td_beg(fw,term);
             md_bold_beg(fw,term);
             fprintf(fw,"vb");
             md_bold_end(fw,term);
-          md_table_td_end(fw,term);
 
         md_table_tr_end(fw,term);
 
@@ -1512,12 +1512,12 @@ int md_write_report(
             md_bold_beg(fw,term);
             fprintf(fw,"Uy");
             md_bold_end(fw,term);
+          md_table_td_end(fw,term);
  
           md_table_td_beg(fw,term);
             md_bold_beg(fw,term);
             fprintf(fw,"ROTz");
             md_bold_end(fw,term);
-          md_table_td_end(fw,term);
 
         md_table_tr_end(fw,term);
 
