@@ -1289,7 +1289,7 @@ int solve(void)
 double md_compute_e_def_y(int e_type, double L, double q1, double q2, double x)
 {
   double y = 0.0 ;
-  double xx;
+  double xx = 0.0 ;
   double qa, qb ;
 
   if (q1 == q2)
@@ -1346,7 +1346,8 @@ double md_compute_e_def_y(int e_type, double L, double q1, double q2, double x)
 double get_max_def_res(int type, int epos, int div, int *ppos, double *x)
 {
   int i, n1, n2 ;
-  double val, EI, L, xx, x1,y1,x2,y2 ;
+  double val, EI, L, x1,y1,x2,y2 ;
+  double xx = 0.0 ;
   double max = 0.0 ;
   int    pos = -1 ;
 
