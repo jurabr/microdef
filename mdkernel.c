@@ -1342,6 +1342,50 @@ double md_compute_e_def_y(int e_type, double L, double q1, double q2, double x)
   return(y);
 }
 
+/* compute minimal value on a beam */
+double get_max_def_res(int type, int epos, int div, int *ppos, double *x)
+{
+  int i, n1, n2 ;
+  double val, EI, L, xx, x1,y1,x2,y2 ;
+  double max = 0.0 ;
+  int    pos = -1 ;
+
+  n1 = GET_ELEM_N1(epos) ;
+  n2 = GET_ELEM_N2(epos) ;
+
+
+  x1 = (GET_NODE_X(n1));
+  y1 = (GET_NODE_Y(n1));
+  x2 = (GET_NODE_X(n2));
+  y2 = (GET_NODE_Y(n2));
+
+  L = sqrt ((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)); 
+
+  for (i=0; i<=div; i++)
+  {
+    EI = GET_ELEM_E(epos)*GET_ELEM_I(epos);
+    xx = ((double)i/(double)num_div)*L ;
+    val = ((md_compute_e_def_y(
+      GET_ELEM_TYPE(epos), 
+      L, 
+      GET_ELEM_VA(epos), 
+      GET_ELEM_VB(epos), 
+      xx) / EI )) ;
+
+    if (fabs(val) > max)
+    {
+      max = val ;
+      pos = i ;
+    }
+  }
+
+  *ppos = pos ;
+  *x    = xx ;
+  return(max);
+}
+
+
+
 /** Moves lowest left point of structure to (0,0) */
 void md_reduce_coords(void)
 {

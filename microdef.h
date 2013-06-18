@@ -82,6 +82,8 @@ extern void md_reduce_coords(void);
 extern int md_node_find_by_number(int id);
 extern int md_elem_find_by_number(int id);
 
+extern double get_max_def_res(int type, int epos, int div, int *ppos, double *x);
+
 #ifdef POSIX
 
 #include <math.h>

@@ -1217,8 +1217,8 @@ int md_write_report(
   FILE *fw  = NULL ;
   int   i ;
   int disps, forces, eloads ;
-  double max, min, xmax, xmin, beg, end, L ;
-  int    ixmax, ixmin ;
+  double max, min, xmax, xmin, beg, end, L, defmax, defx ;
+  int    ixmax, ixmin, idmaz ;
 
 #ifdef MDDOS
   if ((fw=fopen(md_set_file_ext(fname,"-r",md_rep_ext(term)),"w")) == NULL)
@@ -1834,10 +1834,57 @@ int md_write_report(
               md_table_td_beg(fw,term);
               fprintf(fw,"%8.3f", end);
             md_table_tr_end(fw,term);
-
     }
     
     md_table_foot(fw, term);
+
+    /* Maximum local deformations */
+    md_header_2(fw, term, "Local deformations");
+
+      md_table_header(fw, term, 3);
+        md_table_tr_beg(fw,term);
+
+          md_table_td_beg(fw,term);
+            md_bold_beg(fw,term);
+            fprintf(fw,"Element");
+            md_bold_end(fw,term);
+          md_table_td_end(fw,term);
+
+          md_table_td_beg(fw,term);
+            md_bold_beg(fw,term);
+            fprintf(fw,"Deformation");
+            md_bold_end(fw,term);
+          md_table_td_end(fw,term);
+
+
+          md_table_td_beg(fw,term);
+            md_bold_beg(fw,term);
+            fprintf(fw,"x");
+            md_bold_end(fw,term);
+
+          md_table_tr_end(fw,term);
+
+    for (i=0; i<e_len; i++)
+    {
+      defmax =  get_max_def_res(1, i, 100, &idmaz, &defx) ;
+
+      md_table_tr_beg(fw,term);
+        md_table_td_beg(fw,term);
+        fprintf(fw,"%i", e_id[i]);
+        md_table_td_end(fw,term);
+
+        md_table_td_beg(fw,term);
+        fprintf(fw,"%8.6f", defmax);
+        md_table_td_end(fw,term);
+
+        md_table_td_beg(fw,term);
+        fprintf(fw,"%8.3f", defx);
+
+      md_table_tr_end(fw,term);
+
+    }
+    md_table_foot(fw, term);
+    /* ------------------- */
 
     md_header_3(fw, term, "N Forces");
     md_img(fw, term, fname, "N", "N forces");
