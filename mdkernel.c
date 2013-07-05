@@ -1365,7 +1365,7 @@ double get_max_def_res(int type, int epos, int div, int *ppos, double *x)
   for (i=0; i<=div; i++)
   {
     EI = GET_ELEM_E(epos)*GET_ELEM_I(epos);
-    xx = ((double)i/(double)num_div)*L ;
+    xx = ((double)i/(double)div)*L ;
     val = ((md_compute_e_def_y(
       GET_ELEM_TYPE(epos), 
       L, 
@@ -1381,7 +1381,7 @@ double get_max_def_res(int type, int epos, int div, int *ppos, double *x)
   }
 
   *ppos = pos ;
-  *x    = xx ;
+  *x    = ((double)pos/(double)div)*L ;
   return(max);
 }
 

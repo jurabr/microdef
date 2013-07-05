@@ -1522,7 +1522,7 @@ void plot_elem_loads(void)
 void plot_elem_def(int e_num, double mult)
 {
   int n1,n2,i;
-  double y,y0 ;
+  double yy,y,y0, x0,xx ;
   double x1,y1,x2,y2, L, dL, x, EI, pho, dx1,dy1,dx2, dy2 ;
 
   EI = GET_ELEM_E(e_num)*GET_ELEM_I(e_num);
@@ -1553,30 +1553,48 @@ void plot_elem_def(int e_num, double mult)
  /* plot a deformed structure: */
  pho = md_get_pho(dx1, dy1, dx2, dy2);
  dL = sqrt ((dx2-dx1)*(dx2-dx1) + (dy2-dy1)*(dy2-dy1)); 
+ x0 = 0.0 ;
+ y0 = 0.0 ;
 
- for (i=0; i<=num_div; i++)
+ for (i=0; i<=(num_div); i++)
  {
-   x = ((double)i/(double)num_div)*L ;
+   x  = ((double)(i)/((double)(num_div)))*L ;
+   xx = ((double)(i)/((double)(num_div)))*dL ;
 
-   y=  -(mult*(md_compute_e_def_y(
+   yy= -(mult*(md_compute_e_def_y(
       GET_ELEM_TYPE(e_num), 
       L, 
       GET_ELEM_VA(e_num), 
       GET_ELEM_VB(e_num), 
       x) / EI )) ;
 
-   y0 = y ;
+   y = yy * 0.05 * ( gf_zoom * gridSpace * ( x / gridReal ) ) ;
 
     if (i > 0)
     {
       md_draw_line_blue(
-        md_rot_x(dx1, pho,dL*(i-1)/num_div,y0),
-        md_rot_y(dy1, pho,dL*(i-1)/num_div,y0),
-        md_rot_x(dx1, pho,dL*i/num_div,y),
-        md_rot_y(dy1, pho,dL*i/num_div,y),
-        2) ;
-    }
+        md_rot_x(dx1, pho,x0,y0),
+        md_rot_y(dy1, pho,x0,y0),
+        md_rot_x(dx1, pho,xx,y),
+        md_rot_y(dy1, pho,xx,y),
+        1) ;
+printf("[%i] x = %e (%e ... %e_%e |%e), yy = %e \n",i,x,dx1,x0,xx,dL,yy);
 
+
+      md_draw_line_gray(
+        md_rot_x(dx1, pho,xx,0),
+        md_rot_y(dy1, pho,xx,0),
+        md_rot_x(dx1, pho,xx,y),
+        md_rot_y(dy1, pho,xx,y),
+        1) ;
+    }
+        md_draw_string(
+        md_rot_x(dx1, pho,xx,y),
+        md_rot_y(dy1, pho,xx,y),
+        md_double2string01(yy));
+
+
+    x0 = xx ;
     y0 = y ;
   }
 
