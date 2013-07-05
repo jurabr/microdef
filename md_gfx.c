@@ -1568,7 +1568,7 @@ void plot_elem_def(int e_num, double mult)
       GET_ELEM_VB(e_num), 
       x) / EI )) ;
 
-   y = yy * 0.05 * ( gf_zoom * gridSpace * ( x / gridReal ) ) ;
+   y = yy * ( gf_zoom * gridSpace * ( gridReal ) ) ;
 
     if (i > 0)
     {
@@ -1577,27 +1577,11 @@ void plot_elem_def(int e_num, double mult)
         md_rot_y(dy1, pho,x0,y0),
         md_rot_x(dx1, pho,xx,y),
         md_rot_y(dy1, pho,xx,y),
-        1) ;
-printf("[%i] x = %e (%e ... %e_%e |%e), yy = %e \n",i,x,dx1,x0,xx,dL,yy);
-
-
-      md_draw_line_gray(
-        md_rot_x(dx1, pho,xx,0),
-        md_rot_y(dy1, pho,xx,0),
-        md_rot_x(dx1, pho,xx,y),
-        md_rot_y(dy1, pho,xx,y),
-        1) ;
+        2) ;
     }
-        md_draw_string(
-        md_rot_x(dx1, pho,xx,y),
-        md_rot_y(dy1, pho,xx,y),
-        md_double2string01(yy));
-
-
     x0 = xx ;
     y0 = y ;
   }
-
 }
 
 
