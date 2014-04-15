@@ -1128,14 +1128,14 @@ void md_img(FILE *fw, int term, char *img, char *id, char *comment)
     case MDOUT_TEXT: break ;
     case MDOUT_HTML: 
 #ifdef GDGUI
-                      fprintf(fw,"<img src=\"%s\" width=\"90%%\" alt=\"%s\">\n",
+                      fprintf(fw,"<img src=\"%s\" width=\"100%%\" alt=\"%s\">\n",
                          md_set_file_ext(img,id,"png"),
                          comment);
 #endif
                      break ;
     case MDOUT_LATEX:
 #ifdef PSGUI
-                     fprintf(fw,"\n\n\\includegraphics[width=120mm]{%s}\n\n", 
+                     fprintf(fw,"\n\\begin{center}\n\\includegraphics[width=120mm]{%s}\n\\end{center}\n", 
                          md_set_file_ext(img,id,"ps")
                          );
 #if 0
@@ -1897,14 +1897,14 @@ int md_write_report(
     /* ------------------- */
     }
 
-    md_header_3(fw, term, "N Forces");
-    md_img(fw, term, fname, "N", "N forces");
+    md_header_3(fw, term, "Axial Forces");
+    md_img(fw, term, fname, "N", "Axial forces");
 
-    md_header_3(fw, term, "V Forces");
-    md_img(fw, term, fname, "V", "V forces");
+    md_header_3(fw, term, "Shear Forces");
+    md_img(fw, term, fname, "V", "Shear forces");
 
-    md_header_3(fw, term, "Moments");
-    md_img(fw, term, fname, "M", "Moments");
+    md_header_3(fw, term, "Bending Moments");
+    md_img(fw, term, fname, "M", "Bending Moments");
 
   md_file_end(fw, term);
   fclose(fw);
