@@ -37,7 +37,7 @@ extern int gfxAction ;
 int        mdps_x0 = 0 ;
 int        mdps_y0 = 0 ;
 int        mdps_width  = 800 ;
-int        mdps_height = 600 ;
+int        mdps_height = 450 ;
 
 FILE      *mdpsFile = NULL ;
 

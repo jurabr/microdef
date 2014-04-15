@@ -27,7 +27,7 @@
 #define MD_PANGO   1
 #else
 #define CNV_SIZE_X 800
-#define CNV_SIZE_Y 600
+#define CNV_SIZE_Y 500
 #endif
 
 
@@ -55,7 +55,7 @@ extern int solve(void);
 
 extern void set_mdterm(int term);
 extern int get_mdterm(void);
-extern int md_write_report( char *fname, int term, int print_input, int print_ke, int  print_k, int print_res, int print_rlist);
+extern int md_write_report( char *fname, int term, int print_input, int print_ke, int  print_k, int print_res, int print_rlist, int print_simple);
 extern int md_write_maxwell( char *fname ) ;
 
 extern double gf_zoom ;
@@ -786,7 +786,7 @@ void menu_ops(gpointer    data,
 
   if (action == 64)
   {
-    md_write_report( data_file, MDOUT_TEXT, 1, 0, 0, 1, 0);
+    md_write_report( data_file, MDOUT_TEXT, 1, 0, 0, 1, 0, 0);
     gfxAction = 0 ;
   }
 
@@ -811,7 +811,7 @@ void menu_ops(gpointer    data,
     set_mdterm( MDTERM_GTK) ;
 #endif
 
-    md_write_report( data_file, MDOUT_HTML, 1, 0, 0, 1, 0);
+    md_write_report( data_file, MDOUT_HTML, 1, 0, 0, 1, 0, 0);
     gfxAction = 0 ;
   }
 
@@ -836,7 +836,32 @@ void menu_ops(gpointer    data,
     set_mdterm( MDTERM_GTK) ;
 #endif
 
-    md_write_report( data_file, MDOUT_LATEX, 1, 0, 0, 1, 0);
+    md_write_report( data_file, MDOUT_LATEX, 1, 0, 0, 1, 0, 0);
+    gfxAction = 0 ;
+  }
+
+  if (action == 68)
+  {
+#ifdef PSGUI
+    if (data_file == NULL)
+    {
+      mdgui_msg("Please save your data first!\n",2);
+      gfxAction = 602 ;
+      return ;
+    }
+
+    set_mdterm( MDTERM_PS) ;
+    
+    mdps_draw_struct(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+    mdps_draw_def(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+    mdps_draw_N(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+    mdps_draw_V(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+    mdps_draw_M(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+
+    set_mdterm( MDTERM_GTK) ;
+#endif
+
+    md_write_report( data_file, MDOUT_LATEX, 1, 0, 0, 1, 0, 1);
     gfxAction = 0 ;
   }
 
@@ -961,6 +986,7 @@ void make_menus(void)
 #endif
 #ifdef PSGUI
     { "/Results/Write Report (LaTeX)", NULL, menu_ops, 66, "<Item>"},
+    { "/Results/Write Short Report (LaTeX)", NULL, menu_ops, 68, "<Item>"},
 #endif
 #ifndef _OMAKO_
     { "/Results/sep3a",     NULL,      NULL,         0, "<Separator>" },

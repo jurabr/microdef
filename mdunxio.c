@@ -950,10 +950,10 @@ void md_file_begin(FILE *fw, int term)
     case MDOUT_LATEX: fprintf(fw, "\\documentclass{report}\n");
                      fprintf(fw, "\\usepackage{graphicx}\n");
 
-                     fprintf(fw, "\\voffset = -20 mm\n");
-                     fprintf(fw, "\\textheight = 240 mm\n");
-                     fprintf(fw, "\\hoffset = -8 mm\n");
-                     fprintf(fw, "\\textwidth = 152 mm\n");
+                     fprintf(fw, "\\voffset = -37 mm\n");
+                     fprintf(fw, "\\textheight = 264 mm\n");
+                     fprintf(fw, "\\hoffset = -18 mm\n");
+                     fprintf(fw, "\\textwidth = 172 mm\n");
                      fprintf(fw, "\\footskip = 18 mm\n");
 
                      fprintf(fw, "\\begin{document}\n");
@@ -1211,7 +1211,8 @@ int md_write_report(
                       int print_ke, 
                       int  print_k, 
                       int print_res, 
-                      int print_rlist
+                      int print_rlist,
+                      int print_simple
                       )
 {
   FILE *fw  = NULL ;
@@ -1277,6 +1278,8 @@ int md_write_report(
 
       md_table_foot(fw, term);
 
+    if (print_simple != 1)
+    {
     md_header_2(fw, term, "Elements");
       md_table_header(fw, term, 7);
         md_table_tr_beg(fw,term);
@@ -1550,7 +1553,10 @@ int md_write_report(
       md_table_foot(fw, term);
     }
   }
-  
+  }
+
+  if (print_simple != 1)
+  {
   if (print_ke == 1)
   {
     md_header_1(fw, term, "Element Stiffness Matrices And Load Vectors");
@@ -1560,6 +1566,7 @@ int md_write_report(
   {
     md_header_1(fw, term, "Element Stiffness Matrices And Load Vectors");
   }
+
 
   if (print_res == 1)
   {
@@ -1613,10 +1620,13 @@ int md_write_report(
           }
 
       md_table_foot(fw, term);
-
+    }
+    }
     md_header_3(fw, term, "Reactions and deformations");
     md_img(fw, term, fname, "RD", "Reactions and deformations");
 
+    if (print_simple != 1)
+    {
     md_header_2(fw, term, "Reactions");
       md_table_header(fw, term, 4);
         md_table_tr_beg(fw,term);
@@ -1885,6 +1895,7 @@ int md_write_report(
     }
     md_table_foot(fw, term);
     /* ------------------- */
+    }
 
     md_header_3(fw, term, "N Forces");
     md_img(fw, term, fname, "N", "N forces");
@@ -1894,8 +1905,6 @@ int md_write_report(
 
     md_header_3(fw, term, "Moments");
     md_img(fw, term, fname, "M", "Moments");
-
-  }
 
   md_file_end(fw, term);
   fclose(fw);
