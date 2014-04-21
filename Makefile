@@ -17,7 +17,7 @@ CFLAGS_CLI=$(DEBUG) -DPOSIX -DPSGUI
 #CFLAGS=$(DEBUG) -DPOSIX -DGTKGUI -DPSGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
 
 LIBS=`pkg-config --libs gtk+-2.0` -lm -L/usr/freeware/lib32 -lgd #-lefence
-LIBS_CLI=`pkg-config --libs gtk+-2.0` -lm -L/usr/freeware/lib32 -lgd #-lefence
+LIBS_CLI=-lm #-lefence
 
 MMLIBS=-lm
 
