@@ -40,6 +40,7 @@
 #define MDTERM_GD   2
 #define MDTERM_PS   3
 #define MDTERM_PLT  4
+#define MDTERM_FIG  5
 
 #define MDOUT_TEXT  0
 #define MDOUT_HTML  1
@@ -287,6 +288,25 @@ extern int mdps_draw_N(int width, int height, char *fname);
 extern int mdps_draw_V(int width, int height, char *fname);
 extern int mdps_draw_M(int width, int height, char *fname);
 #endif /* PLT */
+
+#ifdef FIGGUI /* raw FIG output */
+extern void get_draw_size_fig(int *x0,int *y0,int *width,int *height);
+extern void mdfig_draw_point(int x,int  y);
+extern void mdfig_draw_line(int x1,int  y1,int  x2,int  y2,int  width);
+extern void mdfig_draw_line_red(int x1,int  y1,int  x2,int  y2,int  width);
+extern void mdfig_draw_line_blue(int x1,int  y1,int  x2,int  y2,int  width);
+extern void mdfig_draw_string(int x,int  y, char *str);
+extern void mdfig_draw_string_red(int x,int  y, char *str);
+extern void mdfig_draw_string_blue(int x,int  y, char *str);
+extern int mdfig_draw(int width, int height, char *fname);
+
+extern int mdfig_draw_struct(int width, int height, char *fname);
+extern int mdfig_draw_def(int width, int height, char *fname);
+extern int mdfig_draw_N(int width, int height, char *fname);
+extern int mdfig_draw_V(int width, int height, char *fname);
+extern int mdfig_draw_M(int width, int height, char *fname);
+#endif /* FIG */
+
 
 
 

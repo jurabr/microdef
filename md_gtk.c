@@ -784,6 +784,29 @@ void menu_ops(gpointer    data,
     gfxAction = 0 ;
   }
 
+  if (action == 57)
+  {
+#ifdef FIGGUI
+    if (data_file == NULL)
+    {
+      mdgui_msg("Please save your data first!\n",2);
+      gfxAction = 602 ;
+      return ;
+    }
+
+    set_mdterm( MDTERM_FIG) ;
+    
+    mdfig_draw_struct(12000,12000,data_file);
+    mdfig_draw_def(12000,12000,data_file);
+    mdfig_draw_N(12000,12000,data_file);
+    mdfig_draw_V(12000,12000,data_file);
+    mdfig_draw_M(12000,12000,data_file);
+
+    set_mdterm( MDTERM_GTK) ;
+#endif
+    gfxAction = 0 ;
+  }
+
   if (action == 64)
   {
     md_write_report( data_file, MDOUT_TEXT, 1, 0, 0, 1, 0, 0);
@@ -980,6 +1003,9 @@ void make_menus(void)
 #ifdef PSGUI
     { "/Results/Write PS Files", NULL, menu_ops, 59, "<Item>"},
 #endif
+#ifdef FIGGUI
+    { "/Results/Write FIG Files", NULL, menu_ops, 57, "<Item>"},
+#endif
     { "/Results/Write Report (plain text)", NULL, menu_ops, 64, "<Item>"},
 #ifdef GDGUI
     { "/Results/Write Report (HTML)", NULL, menu_ops, 65, "<Item>"},
@@ -1159,7 +1185,7 @@ int gui_main(int argc, char *argv[])
 
 	/* main window: */
 	windowMain = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(windowMain), "MicroDef 0.1.3");
+	gtk_window_set_title(GTK_WINDOW(windowMain), "MicroDef 0.1.4");
   gtk_container_set_border_width (GTK_CONTAINER (windowMain), 1);
 
 	vbox = gtk_vbox_new(homogenous, spacing);

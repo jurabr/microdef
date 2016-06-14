@@ -9,6 +9,7 @@ TO DO:
   deformed structure
   load is sometimes auto-deleted
   indication of type of shown results
+  FIG format arrow sizes (MDGFX_BLEN doesnt work here - it's too small)
 
 - terminals:
   wxWidgets?
