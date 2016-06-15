@@ -7,7 +7,7 @@ DEBUG=-O3 -Wall -pedantic -ansi
 ifeq ($(SYS_TYPE),IRIX)
 CFLAGS=$(DEBUG) -D_OMAKO_ -DPOSIX -DGTKGUI -DPSGUI -DGDGUI -DFIGGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
 else
-CFLAGS=$(DEBUG) -D_OMAKO_ -DMD_PANGO -DPOSIX -DGTKGUI -DPSGUI -DGDGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
+CFLAGS=$(DEBUG) -D_OMAKO_ -DMD_PANGO -DPOSIX -DGTKGUI -DPSGUI -DGDGUI -DFIGGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
 endif
 CFLAGS_CLI=$(DEBUG) -DPOSIX -DPSGUI -DFIGGUI
 
