@@ -933,9 +933,9 @@ void make_menus(void)
     { "/Create/Element: |--o", NULL, menu_ops,    4, "<Item>" },
     { "/Create/Element: o--o", "<CTRL>K", menu_ops,    29, "<Item>" },
     { "/Create/sep2",     NULL,      NULL,         0, "<Separator>" },
-    { "/Create/Support: UX", "<Ctrl>X", menu_ops, 5, "<Item>" },
-    { "/Create/Support: UY", "<Ctrl>Y", menu_ops, 6, "<Item>" },
-    { "/Create/Support: UX+UY", "<Ctrl>Z", menu_ops, 7, "<Item>" },
+    { "/Create/Support: UX", "<CTRL>X", menu_ops, 5, "<Item>" },
+    { "/Create/Support: UY", "<CTRL>Y", menu_ops, 6, "<Item>" },
+    { "/Create/Support: UX+UY", "<CTRL>Z", menu_ops, 7, "<Item>" },
 #ifndef _OMAKO_
     { "/Create/Support: UX+ROTZ", NULL, menu_ops, 8, "<Item>" },
     { "/Create/Support: UY+ROTZ", NULL, menu_ops, 9, "<Item>" },
@@ -1026,7 +1026,7 @@ void make_menus(void)
     { "/Props/_Underlined Elements", "<CTRL>U", menu_ops, 28, "<Item>"}, 
     { "/Props/_Node Numbers", NULL, menu_ops, 41, "<Item>"}, 
     { "/Props/_Elements Numbers", NULL, menu_ops, 42, "<Item>"},
-    { "/Props/_Keyboard or Mouse", "<CTRL>K", menu_ops, 43, "<Item>"} 
+    { "/Props/_Keyboard or Mouse", "<CTRL>P", menu_ops, 43, "<Item>"} 
 #else
     { "/_Properties",         NULL,      NULL,         0, "<Branch>" },
 #ifndef _OMAKO_
@@ -1036,7 +1036,7 @@ void make_menus(void)
     { "/Properties/_Underlined Elements", "<CTRL>U", menu_ops, 28, "<Item>"}, 
     { "/Properties/_Node Numbers", NULL, menu_ops, 41, "<Item>"}, 
     { "/Properties/_Elements Numbers", NULL, menu_ops, 42, "<Item>"},
-    { "/Properties/_Keyboard or Mouse", "<CTRL>K", menu_ops, 43, "<Item>"} 
+    { "/Properties/_Keyboard or Mouse", "<CTRL>P", menu_ops, 43, "<Item>"} 
 #endif
   };
   static gint nmenu_items = sizeof (menu_items) / sizeof (menu_items[0]);
@@ -1185,7 +1185,7 @@ int gui_main(int argc, char *argv[])
 
 	/* main window: */
 	windowMain = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(windowMain), "MicroDef 0.1.4");
+	gtk_window_set_title(GTK_WINDOW(windowMain), "MicroDef 0.1.5");
   gtk_container_set_border_width (GTK_CONTAINER (windowMain), 1);
 
 	vbox = gtk_vbox_new(homogenous, spacing);
