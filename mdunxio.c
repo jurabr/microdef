@@ -1947,6 +1947,57 @@ int md_write_maxwell( char *fname )
 }
 
 
+/** Write input (macro) file for the uFEM */
+int md_write_ufem( char *fname )
+{
+  FILE *fw  = NULL ;
+  int i ;
+
+  if ((fw=fopen(md_set_file_ext(fname,"-u","mac"),"w")) == NULL)
+     { return(ERR_IO) ; }
+  /* TODO: count number of different E, A, I.. => et, mat, rs, */
+
+  fprintf(fw,"et,1,1\n"); /* o--o */
+  fprintf(fw,"et,2,4\n"); /* |--| */
+
+  fprintf(fw,"rs,1,1\n"); /* o--o */
+  fprintf(fw,"rs,2,4\n"); /* |--| */
+
+  fprintf(fw,"mat,1,1\n"); /* material */
+
+  for (i=0; i<n_len; i++)
+  {
+    fprintf(fw,"n,%i,%e,%e,0\n",n_id[i],n_x[i],n_y[i]);
+  }
+
+  for (i=0; i<e_len; i++)
+  {
+    if (e_type[i] == 3) 
+    {
+      fprintf(fw,"ep, %i, 1,1,1\n",e_id[i]);
+    }
+    else
+    {
+      fprintf(fw,"ep, %i, 2,2,1\n",e_id[i]);
+    }
+    fprintf(fw,"e,%i,%i,%i\n",e_id[i],e_n1[i],e_n2[i]);
+  }
+
+  for (i=0; i<n_len; i++)
+  {
+    if (n_dtype[i] != 0)
+    {
+      fprintf(fw,"d,%i,%i\n",n_id[i],n_dtype[i]);
+    }
+    /* TODO: fix this! */
+  }
+
+  /* TODO: forces, continuous loads,.. */
+
+  fclose(fw);
+  return(OK);
+}
+
 
 
 
