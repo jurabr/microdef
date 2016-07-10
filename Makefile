@@ -32,6 +32,7 @@ microdef: $(OBJECTS)
 mdcli: $(OBJECTS_CLI)
 	$(CC) $(CFLAGS_CLI) $(OBJECTS_CLI) $(LIBS_CLI) -o $(@)
 
+microdef.h: md_ver.h
 
 mdunxio.o: mdunxio.c microdef.h
 	$(CC) -c $(CFLAGS) mdunxio.c
@@ -42,7 +43,7 @@ mdkernel.o: mdkernel.c microdef.h
 md_gfx.o: md_gfx.c microdef.h
 	$(CC) -c $(CFLAGS) md_gfx.c
 
-md_gtk.o: md_gtk.c microdef.h
+md_gtk.o: md_gtk.c microdef.h 
 	$(CC) -c $(CFLAGS) md_gtk.c
 
 md_gd.o: md_gd.c microdef.h

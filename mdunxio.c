@@ -1948,57 +1948,113 @@ int md_write_maxwell( char *fname )
 
 
 /** Write input (macro) file for the uFEM */
-int md_write_ufem( char *fname )
+int md_write_ufem(char *fname)
 {
   FILE *fw  = NULL ;
+  double L,dx,dy ;
   int i ;
 
   if ((fw=fopen(md_set_file_ext(fname,"-u","mac"),"w")) == NULL)
      { return(ERR_IO) ; }
-  /* TODO: count number of different E, A, I.. => et, mat, rs, */
 
-  fprintf(fw,"et,1,1\n"); /* o--o */
-  fprintf(fw,"et,2,4\n"); /* |--| */
-
-  fprintf(fw,"rs,1,1\n"); /* o--o */
-  fprintf(fw,"rs,2,4\n"); /* |--| */
-
-  fprintf(fw,"mat,1,1\n"); /* material */
-
+  /* nodes */
   for (i=0; i<n_len; i++)
   {
     fprintf(fw,"n,%i,%e,%e,0\n",n_id[i],n_x[i],n_y[i]);
   }
 
+  /* elements with accompanying material and elem. types: */
   for (i=0; i<e_len; i++)
   {
-    if (e_type[i] == 3) 
+    fprintf(fw,"mat,%i,1\n",i+1); /* material */
+    fprintf(fw,"mp,ex,%i,%e\n",i+1,e_E[i]); 
+    fprintf(fw,"mp,prxy,%i,0.2\n",i+1); 
+
+    if (e_type[i] == 3)
     {
-      fprintf(fw,"ep, %i, 1,1,1\n",e_id[i]);
+      fprintf(fw,"et,%i,1\n", i+1); /* o--| */
+      fprintf(fw,"rs,%i,1\n", i+1); 
     }
     else
     {
-      fprintf(fw,"ep, %i, 2,2,1\n",e_id[i]);
+      fprintf(fw,"et,%i,3\n", i+1); /* |--| */
+      fprintf(fw,"rs,%i,3\n", i+1);   
+      fprintf(fw,"r,iy,%i,%e\n", i+1,e_I[i]); 
+      fprintf(fw,"r,hinge_a,%i,1\n", i+1); 
+      fprintf(fw,"r,hinge_b,%i,1\n", i+1); 
+      if (e_type[i] == 1) fprintf(fw,"r,hinge_a,%i,0\n", i+1); 
+      if (e_type[i] == 2) fprintf(fw,"r,hinge_b,%i,0\n", i+1); 
     }
-    fprintf(fw,"e,%i,%i,%i\n",e_id[i],e_n1[i],e_n2[i]);
+
+    fprintf(fw,"r,area,%i,%e\n", i+1,e_A[i]); 
+    fprintf(fw,"ep, %i, %i,%i,%i\n",e_id[i],i+1,i+1,i+1);
+    fprintf(fw,"e,%i,%i,%i\n",e_id[i],e_n1[i]+1,e_n2[i]+1);
   }
 
+  /* supports in nodes: */
   for (i=0; i<n_len; i++)
   {
     if (n_dtype[i] != 0)
     {
-      fprintf(fw,"d,%i,%i\n",n_id[i],n_dtype[i]);
+      switch(n_dtype[i])
+      {
+        case 1: fprintf(fw,"d,%i,ux,%e\n",n_id[i],n_posx[i]);
+                break;
+        case 2: fprintf(fw,"d,%i,uy,%e\n",n_id[i],n_posy[i]);
+                break;
+        case 3: fprintf(fw,"d,%i,ux,%e\n",n_id[i],n_posx[i]);
+                fprintf(fw,"d,%i,uy,%e\n",n_id[i],n_posy[i]);
+                break;
+        case 4: fprintf(fw,"d,%i,ux,%e\n",n_id[i],n_posx[i]);
+                fprintf(fw,"d,%i,uy,%e\n",n_id[i],n_posy[i]);
+                fprintf(fw,"d,%i,rotz,%e\n",n_id[i],n_rotz[i]);
+                break;
+      
+      }
     }
-    /* TODO: fix this! */
+  }
+  
+  /* forces in nodes: */
+  for (i=0; i<n_len; i++)
+  {
+    if (fabs(n_fx[i]) >= 1e-6) fprintf(fw,"f,%i,fx,%e\n",n_id[i],n_fx[i]);
+    if (fabs(n_fy[i]) >= 1e-6) fprintf(fw,"f,%i,fy,%e\n",n_id[i],n_fy[i]);
+    if (fabs(n_mz[i]) >= 1e-6) fprintf(fw,"f,%i,mz,%e\n",n_id[i],n_mz[i]);
   }
 
-  /* TODO: forces, continuous loads,.. */
+  /* TODO: continuous loads (uFEM doesn't accept it for 1D elements),..
+   *  in any case, this code doesn't provide 100% compatible inputs
+   *  (MicroDef work with local coordinates but uFEM with global ones)
+   * */
+  for (i=0; i<e_len; i++)
+  {
+    dx = n_x[e_n2[i]] -   n_x[e_n1[i]] ;
+    dy = n_y[e_n2[i]] -   n_y[e_n1[i]] ;
+    L = sqrt(dy*dy + dx*dx) ;
+
+    if ((fabs(e_va[i]) >= 1e-6)||(fabs(e_va[i]) >= 1e-6))
+    {
+#if 0
+      fprintf(fw,"el,%i,fy,%e,%e\n",e_id[i],e_va[i],e_vb[i]);
+#else /* a pretty dirty workaround: */
+     fprintf(fw,"f,%i,fy,%e,%i\n",e_n1[i]+1,e_va[i]*L/2.0,i+1);
+     fprintf(fw,"f,%i,fy,%e,%i\n",e_n2[i]+1,e_vb[i]*L/2.0,i+1);
+#endif
+    }
+    if ((fabs(e_na[i]) >= 1e-6)||(fabs(e_na[i]) >= 1e-6))
+    {
+#if 0
+      fprintf(fw,"el,%i,fy,%e,%e\n",e_id[i],-e_na[i],-e_nb[i]);
+#else /* a pretty dirty workaround: */
+     fprintf(fw,"f,%i,fy,%e,%i\n",e_n1[i]+1,-e_na[i]*L/2.0,i+1);
+     fprintf(fw,"f,%i,fy,%e,%i\n",e_n2[i]+1,-e_vb[i]*L/2.0,i+1);
+#endif
+    }
+
+  }
 
   fclose(fw);
   return(OK);
 }
-
-
-
 
 /* end of mdunxio.c */

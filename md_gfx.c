@@ -110,6 +110,7 @@ int   gfxAction= 0 ; /* 0=nothing,
                         65=write report (HTML)
                         66=write report (LaTeX)
                         67=write Maxwell-Mohr
+                        68=write uFEM
                         */
 double defaultE    = 10e9 ;
 double defaultA    = 0.01 ;

@@ -57,6 +57,7 @@ extern void set_mdterm(int term);
 extern int get_mdterm(void);
 extern int md_write_report( char *fname, int term, int print_input, int print_ke, int  print_k, int print_res, int print_rlist, int print_simple);
 extern int md_write_maxwell( char *fname ) ;
+extern int md_write_ufem(char *fname) ;
 
 extern double gf_zoom ;
 extern int gf_movx ;
@@ -813,6 +814,13 @@ void menu_ops(gpointer    data,
     gfxAction = 0 ;
   }
 
+  if (action == 69) /* export to uFEM */
+  {
+    md_write_ufem(data_file);
+    gfxAction = 0 ;
+  }
+
+
   if (action == 65)
   {
 #ifdef GDGUI
@@ -916,6 +924,8 @@ void make_menus(void)
     { "/File/_Open..", "<CTRL>O", menu_ops,    600, "<Item>" },
     { "/File/_Save", "<CTRL>S", menu_ops,    601, "<Item>" },
     { "/File/_Save as..", "<CTRL><SHIFT>S", menu_ops,    602, "<Item>" },
+    { "/File/sep3b",     NULL,      NULL,         0, "<Separator>" },
+    { "/File/_Export to uFEM", NULL, menu_ops, 69, "<Item>"},
     { "/File/sep1",     NULL,      NULL,         0, "<Separator>" },
     { "/File/_Quit",    "<CTRL>Q", menu_ops, 666, "<Item>"}, 
 
@@ -1018,7 +1028,6 @@ void make_menus(void)
     { "/Results/sep3a",     NULL,      NULL,         0, "<Separator>" },
     { "/Results/Write data for Maxwell-Mohr", NULL, menu_ops, 67, "<Item>"},
 #endif
-
 
 #ifdef _NANONOTE_
     { "/_Props",         NULL,      NULL,         0, "<Branch>" },
@@ -1185,7 +1194,7 @@ int gui_main(int argc, char *argv[])
 
 	/* main window: */
 	windowMain = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(windowMain), "MicroDef 0.1.5");
+	gtk_window_set_title(GTK_WINDOW(windowMain), MD_VERSION);
   gtk_container_set_border_width (GTK_CONTAINER (windowMain), 1);
 
 	vbox = gtk_vbox_new(homogenous, spacing);

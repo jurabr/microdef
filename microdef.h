@@ -23,6 +23,8 @@
 	 MicroDefor
 */
 
+#include "md_ver.h"
+
 #ifndef __MICRODEF_H__
 #define __MICRODEF_H__
 
