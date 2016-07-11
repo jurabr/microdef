@@ -1,0 +1,9 @@
+_OMAKO_ 		...	reduces menus to fit on a phone screen
+_NANONOTE_		...	adds keyboard (instead of pointer-based) input for everything 
+POSIX					... necessary for file I/O 
+GTKGUI				... GUI (Gtk+2 - based), necessary for actual use
+PSGUI					... adds PostScript output of images (used for LaTeX output)
+GDGUI					... PNG output (for HTML), uses external GD library (libgd.so)
+FIGGUI				...	enables image output in FIG (XFig) format
+MD_PANGO			...	more modern text handling (might be necessary for newer Gtk+)
+DEVEL_VERBOSE	... enables lot of error outputs
