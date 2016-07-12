@@ -1,3 +1,9 @@
+### Mon Jul 11 22:07:31 CEST 2016
+  + version 1.0.7
+  + basic export to uFEM 
+  - invalid default values for I
+
+
 ### Sun Jul  3 13:42:00 CEST 2016
   + version 0.1.5 (md_gtk, line 1188)
   - Double Ctrk+K issuch chaged (Ctrk+K for hinged beam Ctrl+P for mouse/kb)

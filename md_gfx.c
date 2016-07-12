@@ -112,9 +112,9 @@ int   gfxAction= 0 ; /* 0=nothing,
                         67=write Maxwell-Mohr
                         68=write uFEM
                         */
-double defaultE    = 10e9 ;
+double defaultE    = 20e9 ;
 double defaultA    = 0.01 ;
-double defaultI    = 8.333e-4 ;
+double defaultI    = 8.333e-6 ;
 double defaultFx   = 0 ;
 double defaultFy   = 0 ;
 double defaultMz   = 0 ;

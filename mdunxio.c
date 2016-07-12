@@ -47,7 +47,7 @@ int   e_len  = 0 ; /* number of elements */
 int   *n_id    = NULL ;
 double *n_x     = NULL ; /* x coordinate   */
 double *n_y     = NULL ; /* y coordinate   */
-int   *n_dtype = NULL ; /* disp. type 0=none, 1=ux, 2=uy, 3=ux+uy, 4=ux+rotz,
+int   *n_dtype = NULL ; /* disp. type 0=none, 1=ux, 2=uy, 3=ux+uy, 4=ux+uy+rotz,
 													 5=uy+rotz,6=ux+uy+rotz */
 double *n_fx    = NULL ; /* force x        */
 double *n_fy    = NULL ; /* force y        */
@@ -1988,7 +1988,7 @@ int md_write_ufem(char *fname)
 
     fprintf(fw,"r,area,%i,%e\n", i+1,e_A[i]); 
     fprintf(fw,"ep, %i, %i,%i,%i\n",e_id[i],i+1,i+1,i+1);
-    fprintf(fw,"e,%i,%i,%i\n",e_id[i],e_n1[i]+1,e_n2[i]+1);
+    fprintf(fw,"e,%i,%i,%i\n",e_id[i],n_id[e_n1[i]],n_id[e_n2[i]]);
   }
 
   /* supports in nodes: */
