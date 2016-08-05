@@ -1232,6 +1232,7 @@ int md_write_report(
   md_file_begin(fw, term);
 
   md_header_1(fw, term, "MicroDef Report Summary");
+  md_header_3(fw, term, fname);
 
   md_img(fw, term, fname, "S", "Structure");
 
