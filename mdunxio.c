@@ -2038,8 +2038,8 @@ int md_write_ufem(char *fname)
 #if 0
       fprintf(fw,"el,%i,fy,%e,%e\n",e_id[i],e_va[i],e_vb[i]);
 #else /* a pretty dirty workaround: */
-     fprintf(fw,"f,%i,fy,%e,%i\n",e_n1[i]+1,e_va[i]*L/2.0,i+1);
-     fprintf(fw,"f,%i,fy,%e,%i\n",e_n2[i]+1,e_vb[i]*L/2.0,i+1);
+     fprintf(fw,"f,%i,fy,%e,,%i\n",e_n1[i]+1,-e_va[i]*L/2.0,i+1);
+     fprintf(fw,"f,%i,fy,%e,,%i\n",e_n2[i]+1,-e_vb[i]*L/2.0,e_len+i+1);
 #endif
     }
     if ((fabs(e_na[i]) >= 1e-6)||(fabs(e_na[i]) >= 1e-6))
@@ -2047,8 +2047,8 @@ int md_write_ufem(char *fname)
 #if 0
       fprintf(fw,"el,%i,fy,%e,%e\n",e_id[i],-e_na[i],-e_nb[i]);
 #else /* a pretty dirty workaround: */
-     fprintf(fw,"f,%i,fy,%e,%i\n",e_n1[i]+1,-e_na[i]*L/2.0,i+1);
-     fprintf(fw,"f,%i,fy,%e,%i\n",e_n2[i]+1,-e_vb[i]*L/2.0,i+1);
+     fprintf(fw,"f,%i,fy,%e,,%i\n",e_n1[i]+1,-e_na[i]*L/2.0,i+1);
+     fprintf(fw,"f,%i,fy,%e,,%i\n",e_n2[i]+1,-e_vb[i]*L/2.0,e_len+i+1);
 #endif
     }
 
