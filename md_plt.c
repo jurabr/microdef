@@ -54,18 +54,18 @@ void get_draw_size_plt(int *x0,int *y0,int *width,int *height)
 
 void mdplt_draw_point(int x,int  y)
 {
-  point(x,mdps_height-y,);
+  pl_point(x,mdplt_height-y);
 }
 
 void mdplt_draw_line(int x1,int  y1,int  x2,int  y2,int  width)
 {
-  line(x1,mdplt_height-y1,x2,mdplt_height-y2);
+  pl_line(x1,mdplt_height-y1,x2,mdplt_height-y2);
 }
 
 void mdplt_draw_string(int x,int  y, char *str)
 {
-  move(x,mdplt_height-y);
-  label(str);
+  pl_move(x,mdplt_height-y);
+  pl_label(str);
 }
 
 /* end of "universal drawing functions" */
@@ -85,7 +85,7 @@ int mdplt_draw(int width, int height, char *fname)
     return(ERR_IO) ;
   }
 
-  openpl();
+  pl_openpl();
 
 #if 0
   fprintf(mdpltFile,"space(%i %i %i %i)\n",
@@ -100,7 +100,7 @@ int mdplt_draw(int width, int height, char *fname)
 
   set_mdterm(mdterm_old) ;
 
-  closepl();
+  pl_closepl();
 
   fclose(mdpltFile);
 

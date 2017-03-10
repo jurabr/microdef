@@ -43,6 +43,7 @@
 #define MDTERM_PS   3
 #define MDTERM_PLT  4
 #define MDTERM_FIG  5
+#define MDTERM_BAS  6
 
 #define MDOUT_TEXT  0
 #define MDOUT_HTML  1
@@ -279,16 +280,16 @@ extern int mdps_draw_M(int width, int height, char *fname);
 
 #ifdef PLTGUI /* raw PLT output */
 extern void get_draw_size_plt(int *x0,int *y0,int *width,int *height);
-extern void mdps_draw_point(int x,int  y);
-extern void mdps_draw_line(int x1,int  y1,int  x2,int  y2,int  width);
-extern void mdps_draw_string(int x,int  y, char *str);
-extern int mdps_draw(int width, int height, char *fname);
+extern void mdplt_draw_point(int x,int  y);
+extern void mdplt_draw_line(int x1,int  y1,int  x2,int  y2,int  width);
+extern void mdplt_draw_string(int x,int  y, char *str);
+extern int mdplt_draw(int width, int height, char *fname);
 
-extern int mdps_draw_struct(int width, int height, char *fname);
-extern int mdps_draw_def(int width, int height, char *fname);
-extern int mdps_draw_N(int width, int height, char *fname);
-extern int mdps_draw_V(int width, int height, char *fname);
-extern int mdps_draw_M(int width, int height, char *fname);
+extern int mdplt_draw_struct(int width, int height, char *fname);
+extern int mdplt_draw_def(int width, int height, char *fname);
+extern int mdplt_draw_N(int width, int height, char *fname);
+extern int mdplt_draw_V(int width, int height, char *fname);
+extern int mdplt_draw_M(int width, int height, char *fname);
 #endif /* PLT */
 
 #ifdef FIGGUI /* raw FIG output */
@@ -309,6 +310,19 @@ extern int mdfig_draw_V(int width, int height, char *fname);
 extern int mdfig_draw_M(int width, int height, char *fname);
 #endif /* FIG */
 
+#ifdef BASGUI /* SmallBASIC output */
+extern void get_draw_size_bas(int *x0,int *y0,int *width,int *height);
+extern void mdbas_draw_point(int x,int  y);
+extern void mdbas_draw_line(int x1,int  y1,int  x2,int  y2,int  width);
+extern void mdbas_draw_string(int x,int  y, char *str);
+extern int mdbas_draw(int width, int height, char *fname);
+
+extern int mdbas_draw_struct(int width, int height, char *fname);
+extern int mdbas_draw_def(int width, int height, char *fname);
+extern int mdbas_draw_N(int width, int height, char *fname);
+extern int mdbas_draw_V(int width, int height, char *fname);
+extern int mdbas_draw_M(int width, int height, char *fname);
+#endif /* BAS */
 
 
 

@@ -440,6 +440,9 @@ void md_get_size(int *x0, int *y0, int *width, int *height)
 #ifdef FIGGUI
     case MDTERM_FIG:  get_draw_size_fig(x0,y0,width,height); break ;
 #endif
+#ifdef BASGUI
+    case MDTERM_BAS:  get_draw_size_bas(x0,y0,width,height); break ;
+#endif
   }
 }
 
@@ -462,6 +465,9 @@ void md_draw_point(int x, int y)
 #ifdef FIGGUI
     case MDTERM_FIG: mdfig_draw_point(x, y); break ;
 #endif
+#ifdef BASGUI
+    case MDTERM_BAS: mdbas_draw_point(x, y); break ;
+#endif
   }
 }
 
@@ -483,6 +489,9 @@ void md_draw_big_point(int x, int y)
 #endif
 #ifdef FIGGUI
     case MDTERM_FIG: mdfig_draw_point(x, y); break ;
+#endif
+#ifdef BASGUI
+    case MDTERM_BAS: mdbas_draw_point(x, y); break ;
 #endif
   }
 }
@@ -507,6 +516,9 @@ void md_draw_line(int x1, int y1, int x2, int y2, int width)
 #ifdef FIGGUI
     case MDTERM_FIG: mdfig_draw_line(x1, y1, x2, y2, width); break;
 #endif
+#ifdef BASGUI
+    case MDTERM_BAS: mdbas_draw_line(x1, y1, x2, y2, width); break;
+#endif
   }
 }
 
@@ -528,6 +540,9 @@ void md_draw_line_red(int x1, int y1, int x2, int y2, int width)
 #endif
 #ifdef FIGGUI
     case MDTERM_FIG: mdfig_draw_line_red(x1, y1, x2, y2, width); break;
+#endif
+#ifdef BASGUI
+    case MDTERM_BAS: mdbas_draw_line(x1, y1, x2, y2, width); break;
 #endif
   }
 }
@@ -551,6 +566,9 @@ void md_draw_line_blue(int x1, int y1, int x2, int y2, int width)
 #ifdef FIGGUI
     case MDTERM_FIG: mdfig_draw_line_blue(x1, y1, x2, y2, width); break;
 #endif
+#ifdef BASGUI
+    case MDTERM_BAS: mdbas_draw_line(x1, y1, x2, y2, width); break;
+#endif
   }
 }
 
@@ -572,6 +590,9 @@ void md_draw_line_green(int x1, int y1, int x2, int y2, int width)
 #endif
 #ifdef FIGGUI
     case MDTERM_FIG: mdfig_draw_line(x1, y1, x2, y2, width); break;
+#endif
+#ifdef BASGUI
+    case MDTERM_BAS: mdbas_draw_line(x1, y1, x2, y2, width); break;
 #endif
   }
 }
@@ -601,6 +622,9 @@ void md_draw_line_gray(int x1, int y1, int x2, int y2, int width)
 #ifdef FIGGUI
     case MDTERM_FIG: mdfig_draw_line(x1, y1, x2, y2, width); break;
 #endif
+#ifdef BASGUI
+    case MDTERM_BAS: mdbas_draw_line(x1, y1, x2, y2, width); break;
+#endif
   }
 }
 
@@ -624,6 +648,9 @@ void md_draw_string(int x, int y, char *str)
 #ifdef FIGGUI
     case MDTERM_FIG: mdfig_draw_string(x, y, str); break;
 #endif
+#ifdef BASGUI
+    case MDTERM_BAS: mdbas_draw_string(x, y, str); break;
+#endif
   }
 }
 
@@ -645,6 +672,9 @@ void md_draw_string_red(int x, int y, char *str)
 #endif
 #ifdef FIGGUI
     case MDTERM_FIG: mdfig_draw_string_red(x, y, str); break;
+#endif
+#ifdef BASGUI
+    case MDTERM_BAS: mdbas_draw_string(x, y, str); break;
 #endif
   }
 }
@@ -668,6 +698,9 @@ void md_draw_string_blue(int x, int y, char *str)
 #ifdef FIGGUI
     case MDTERM_FIG: mdfig_draw_string_blue(x, y, str); break;
 #endif
+#ifdef BASGUI
+    case MDTERM_BAS: mdbas_draw_string(x, y, str); break;
+#endif
   }
 }
 
@@ -690,6 +723,9 @@ void md_draw_string_green(int x, int y, char *str)
 #ifdef FIGGUI
     case MDTERM_FIG: mdfig_draw_string(x, y, str); break;
 #endif
+#ifdef BASGUI
+    case MDTERM_BAS: mdbas_draw_string(x, y, str); break;
+#endif
   }
 }
 
@@ -711,6 +747,9 @@ void md_draw_string_gray(int x, int y, char *str)
 #endif
 #ifdef FIGGUI
     case MDTERM_FIG: mdfig_draw_string(x, y, str); break;
+#endif
+#ifdef BASGUI
+    case MDTERM_BAS: mdbas_draw_string(x, y, str); break;
 #endif
   }
 }

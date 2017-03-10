@@ -807,6 +807,30 @@ void menu_ops(gpointer    data,
 #endif
     gfxAction = 0 ;
   }
+  if (action == 157)
+  {
+#ifdef BASGUI
+    if (data_file == NULL)
+    {
+      mdgui_msg("Please save your data first!\n",2);
+      gfxAction = 602 ;
+      return ;
+    }
+
+    set_mdterm( MDTERM_FIG) ;
+    
+    mdbas_draw_struct(160,160,data_file);
+    mdbas_draw_def(160,160,data_file);
+    mdbas_draw_N(160,160,data_file);
+    mdbas_draw_V(160,160,data_file);
+    mdbas_draw_M(160,160,data_file);
+
+    set_mdterm( MDTERM_GTK) ;
+#endif
+    gfxAction = 0 ;
+  }
+
+
 
   if (action == 64)
   {
@@ -1016,6 +1040,10 @@ void make_menus(void)
 #ifdef FIGGUI
     { "/Results/Write FIG Files", NULL, menu_ops, 57, "<Item>"},
 #endif
+#ifdef FIGGUI
+    { "/Results/Write BASIC Files", NULL, menu_ops, 157, "<Item>"},
+#endif
+
     { "/Results/Write Report (plain text)", NULL, menu_ops, 64, "<Item>"},
 #ifdef GDGUI
     { "/Results/Write Report (HTML)", NULL, menu_ops, 65, "<Item>"},

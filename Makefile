@@ -5,7 +5,7 @@ DEBUG=-O3 -Wall -pedantic -ansi
 
 # desktop system (Gtk+):
 ifeq ($(SYS_TYPE),IRIX)
-CFLAGS=$(DEBUG) -D_OMAKO_ -DPOSIX -DGTKGUI -DPSGUI -DGDGUI -DFIGGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
+CFLAGS=$(DEBUG) -D_OMAKO_ -DPOSIX -DGTKGUI -DPSGUI -DGDGUI -DFIGGUI -DPLTGUI -DBASGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
 else
 CFLAGS=$(DEBUG) -D_OMAKO_ -DMD_PANGO -DPOSIX -DGTKGUI -DPSGUI -DGDGUI -DFIGGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
 endif
@@ -16,13 +16,13 @@ CFLAGS_CLI=$(DEBUG) -DPOSIX -DPSGUI -DFIGGUI
 #CFLAGS=$(DEBUG) -D_NANONOTE_ -D_OMAKO_ -DPOSIX -DGTKGUI -DPSGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
 #CFLAGS=$(DEBUG) -DPOSIX -DGTKGUI -DPSGUI `pkg-config --cflags gtk+-2.0`  -DGDGUI -I/usr/include/gd #-I/usr/freeware/include/ #-I/sw/include
 
-LIBS=`pkg-config --libs gtk+-2.0` -lm -L/usr/freeware/lib32 -lgd #-lefence
+LIBS=`pkg-config --libs gtk+-2.0` -lm -L/usr/freeware/lib32 -lgd -lplot #-lefence
 LIBS_CLI=-lm #-lefence
 
 MMLIBS=-lm
 
-OBJECTS=mdunxio.o mdkernel.o md_gfx.o md_gtk.o md_gd.o md_ps.o md_plt.o md_fig.o
-OBJECTS_CLI=mdunxio.c mdkernel.c md_gfx.c md_cli.c md_ps.c
+OBJECTS=mdunxio.o mdkernel.o md_gfx.o md_gtk.o md_gd.o md_ps.o md_plt.o md_fig.o md_bas.o
+OBJECTS_CLI=mdunxio.c mdkernel.c md_gfx.c md_cli.c md_ps.c md_bas.o
 
 all: microdef mmint
 
@@ -57,6 +57,9 @@ md_plt.o: md_plt.c microdef.h
 
 md_fig.o: md_fig.c microdef.h
 	$(CC) -c $(CFLAGS) md_fig.c
+
+md_bas.o: md_bas.c microdef.h
+	$(CC) -c $(CFLAGS) md_bas.c
 
 mmint: mmint.c
 	$(CC) -o $(@)  $(CFLAGS) mmint.c $(MMLIBS)
