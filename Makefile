@@ -22,7 +22,7 @@ LIBS_CLI=-lm #-lefence
 MMLIBS=-lm
 
 OBJECTS=mdunxio.o mdkernel.o md_gfx.o md_gtk.o md_gd.o md_ps.o md_plt.o md_fig.o md_bas.o
-OBJECTS_CLI=mdunxio.c mdkernel.c md_gfx.c md_cli.c md_ps.c md_bas.o
+OBJECTS_CLI=mdunxio.c mdkernel.c md_gfx.c md_cli.c md_ps.c md_bas.o md_fig.o
 
 all: microdef mmint
 
