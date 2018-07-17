@@ -1,1 +1,1 @@
-#define MD_VERSION "MicroDef 0.1.7"
+#define MD_VERSION "MicroDef 0.1.8"

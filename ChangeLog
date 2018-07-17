@@ -1,3 +1,9 @@
+### Tue Jul 17 22:02:46 CEST 2018
+  + version 1.0.8
+  + mdcli now produces Postscript images and LaTeX report
+  - mdcli produced report file without results
+
+
 ### Mon Jul 11 22:07:31 CEST 2016
   + version 1.0.7
   + basic export to uFEM 

@@ -35,7 +35,7 @@ extern int solve(void);
 
 extern void set_mdterm(int term);
 extern int get_mdterm(void);
-extern int md_write_report( char *fname, int term, int print_input, int print_ke, int  print_k, int print_res, int print_rlist);
+extern int md_write_report( char *fname, int term, int print_input, int print_ke, int  print_k, int print_res, int print_rlist, int print_simple);
 
 char *data_file = NULL ;
 
@@ -93,7 +93,30 @@ int main(int argc, char *argv[])
 		  write_data(data_file) ;
 	    fprintf(stdout,"done!\n");
 	    fprintf(stdout,"Writing of report.. ");
-      md_write_report( data_file, MDOUT_TEXT, 1, 0, 0, 1, 0);
+      md_write_report( data_file, MDOUT_TEXT, 1, 0, 0, 1, 0, 1);
+#ifdef PSGUI
+      md_write_report( data_file, MDOUT_LATEX, 1, 0, 0, 1, 0, 0);
+      
+      set_mdterm( MDTERM_PS) ;
+    
+      mdps_draw_struct(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+      mdps_draw_def(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+      mdps_draw_N(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+      mdps_draw_V(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+      mdps_draw_M(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+#endif
+#ifdef GDGUI
+      md_write_report( data_file, MDOUT_HTML, 1, 0, 1, 1, 0);
+      
+      set_mdterm( MDTERM_GD) ;
+    
+      mdgd_draw_struct(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+      mdgd_draw_def(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+      mdgd_draw_N(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+      mdgd_draw_V(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+      mdgd_draw_M(CNV_SIZE_X,CNV_SIZE_Y,data_file);
+#endif
+
 	    fprintf(stdout,"done!\n");
     }
   }
