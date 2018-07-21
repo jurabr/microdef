@@ -269,7 +269,11 @@ int main(int argc, char *argv[])
   }
   else
   {
-    cli_read_data();
+    if ((rv=cli_read_data())!=OK)
+    {
+	    fprintf(stdout,"Invalid data, sorry!\n");
+		  return(-1);
+    }
 
 	  for (i=0; i<16; i++){name[i] = '\0';}
 	  fprintf(stderr,"\nName of file to save input (required, must have extension \".dfr\"):\n");
