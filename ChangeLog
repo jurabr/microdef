@@ -1,3 +1,9 @@
+### Sat Jul 21 21:29:01 CEST 2018
+  + version 1.0.9
+  + mdcli - simple "interactive" input
+  - mdcli cannot be compiled on IRIX (due to PLOT dependence)
+
+
 ### Tue Jul 17 22:02:46 CEST 2018
   + version 1.0.8
   + mdcli now produces Postscript images and LaTeX report
